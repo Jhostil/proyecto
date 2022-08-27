@@ -7,7 +7,10 @@ import org.springframework.dao.DataAccessException;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -31,10 +34,10 @@ public class Persona implements Serializable {
     @NotBlank(message = "El campo está vacío, debe ingresar un nombre")
     private String nombre;
 
-    //Atributo nombre de la persona
+    //Atributo apellido de la persona
     @Column(nullable = false,length = 150)
-    @Length(min = 2, max = 150, message = "El nombre debe tener mínimo 2 caracteres y máximo 150")
-    @NotBlank(message = "El campo está vacío, debe ingresar un nombre")
+    @Length(min = 2, max = 150, message = "El apellido debe tener mínimo 2 caracteres y máximo 150")
+    @NotBlank(message = "El campo está vacío, debe ingresar un apellido")
     private String apellido;
 
     //Atributo email de la persona
@@ -50,7 +53,8 @@ public class Persona implements Serializable {
     //@JsonIgnore
     private String password;
 
-    @Column(nullable = false)
-    @NotBlank(message = "Ingrese la fecha de nacimiento")
-    private Date fechaNacimiento;
+    //Atributo que representa la fecha de nacimiento de la persona
+    @NotNull(message = "Ingrese la fecha de nacimiento")
+    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDate fechaNacimiento;
 }
