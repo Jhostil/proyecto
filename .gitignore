@@ -45,3 +45,4 @@ build/
 #Ignora archis del sistema Mac
 .DS_store
 /persistencia/target/
+/negocio1
