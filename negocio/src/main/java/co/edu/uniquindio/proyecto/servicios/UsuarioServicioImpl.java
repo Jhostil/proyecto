@@ -1,10 +1,12 @@
 package co.edu.uniquindio.proyecto.servicios;
 
+import co.edu.uniquindio.proyecto.entidades.Test;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
 import co.edu.uniquindio.proyecto.repositorios.UsuarioRepo;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,27 +24,45 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
 
         Optional<Usuario> buscado = usuarioRepo.findById(u.getId());
 
-        if (buscado.isPresent()){
+        if (buscado.isPresent()) {
             throw new Exception("El id del usuario ya existe.");
         }
 
-        buscado = buscarPorEmail(u.getEmail());
+        if (u.getEmail() != null) {
+            buscado = buscarPorEmail(u.getEmail());
 
-        if (buscado.isPresent()){
-            throw new Exception("El email del usuario ya existe.");
+            if (buscado.isPresent()) {
+                throw new Exception("El email del usuario ya existe.");
+            }
+
         }
-
 
         buscado = usuarioRepo.findByUsername(u.getUsername());
 
-        if (buscado.isPresent()){
+        if (buscado.isPresent()) {
             throw new Exception("El username del usuario ya existe.");
         }
 
         StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
         u.setPassword(passwordEncryptor.encryptPassword(u.getPassword()));
 
-        return usuarioRepo.save(u);
+        LocalDate fechaN = u.getFechaNacimiento();
+
+
+        if (LocalDate.now().compareTo(fechaN) < 5)
+        {
+            throw new Exception("Debe tener más de 5 años de edad");
+        }
+
+        Usuario us = new Usuario();
+        try {
+          us=  usuarioRepo.save(u);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return us;
+
     }
 
     @Override
@@ -112,14 +132,19 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
     }
 
     @Override
-    public Usuario iniciarSesion(String email, String password) throws Exception {
-        Usuario usuarioEmail = usuarioRepo.findByEmail(email).orElseThrow(() -> new Exception("Los datos de autenticación son incorrectos"));
+    public Usuario iniciarSesion(String username, String password) throws Exception {
+        Usuario usuarioEmail = usuarioRepo.findByUsername(username).orElseThrow(() -> new Exception("Los datos de autenticación son incorrectos"));
         StrongPasswordEncryptor strongPasswordEncryptor = new StrongPasswordEncryptor();
         if (strongPasswordEncryptor.checkPassword(password, usuarioEmail.getPassword())){
             return usuarioEmail;
         } else {
             throw new Exception("La contraseña es incorrecta");
         }
+    }
+
+    @Override
+    public List<Test> listarTestRealizados(String id) {
+        return usuarioRepo.listarTestRealizados(id);
     }
 
     private Optional<Usuario> buscarPorEmail (String email)

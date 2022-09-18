@@ -36,7 +36,7 @@ public class DetalleTest implements Serializable {
     private Pregunta pregunta;
 
     //Atributo que representa la calificacion de la pregunta contestada
-    @Column(name = "calificacion", nullable = false)
+    @Column(name = "calificacion")
     private int calificacion;
 
 }

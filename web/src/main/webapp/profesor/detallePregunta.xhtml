@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="../WEB-INF/template1.xhtml">
+
+    <ui:define name="title">Test</ui:define>
+    <ui:define name="content">
+        <div class="row">
+            <div class="col-lg-7 col-md-1">
+                <div class="box box-stretched">
+
+                    <p:galleria panelHeight="425">
+                        <p:graphicImage url="../uploads/#{detallePreguntaBean.pregunta.pregunta}" alt="Image Description for #{pregunta.pregunta}"
+                                        title="#{imagen}" styleClass="rounded shadow"/>
+                    </p:galleria>
+                    <!--                    <p:graphicImage rendered="#{detalleProductoBean.producto.rutaImagen.size() == 0}" url="/uploads/#{detalleProductoBean.producto.imagenPrincipal}" alt="Image Description for #{detalleProductoBean.producto.imagenPrincipal}" title="#{detalleProductoBean.producto.imagenPrincipal}" styleClass="imagen-default rounded" />-->
+                </div>
+            </div>
+            <p>#{detallePreguntaBean.pregunta.tipo.descripcion}</p>
+        </div>
+        <div class="col-lg-5 col-md-1">
+        <div class="p-grid">
+            <div class="box">
+                <h:form class="mt-4">
+                    <p:commandButton value="Añadir al test" icon="pi pi-plus" update="@form"
+                                     action="#{seguridadBean.agregarAlTest(detallePreguntaBean.pregunta.id, detallePreguntaBean.pregunta.pregunta, detallePreguntaBean.pregunta.descripcion)}"/>
+                    <p:growl for="add-cart" showDetail="true"/>
+                </h:form>
+            </div>
+        </div>
+        </div>
+
+        <p:panel header="Descripción" styleClass="mt-3">
+            <h:outputText value="#{detallePreguntaBean.pregunta.descripcion}" escape="false"/>
+        </p:panel>
+    </ui:define>
+</ui:composition>
+</html>

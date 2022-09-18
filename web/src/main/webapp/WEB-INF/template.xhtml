@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <h:outputStylesheet library="css" name="styles.css"/>
+    <title>Uniquindio</title>
+</h:head>
+<h:body  class = "fondo" >
+    <div id="info-sesion" >
+    <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small" style="text-align: center">
+        <li>
+            <a href="/" class="nav-link text-white">
+                <i class="pi pi-home d-block mx-auto mb-1 icon-menu"/>
+                Inicio
+            </a>
+        </li>
+    </ul>
+    </div>
+
+    <div>
+        <div id="content">
+            <div class="container">
+                <ui:insert name="content">Contenido del documento</ui:insert>
+            </div>
+
+        </div>
+
+    </div>
+</h:body>
+</html>

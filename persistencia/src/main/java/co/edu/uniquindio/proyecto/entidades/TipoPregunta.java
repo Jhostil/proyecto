@@ -22,7 +22,7 @@ public class TipoPregunta implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private int id;
+    private Integer id;
 
     //Atributo que representa el nombre del tipo de pregunta
     @Column(nullable = false)

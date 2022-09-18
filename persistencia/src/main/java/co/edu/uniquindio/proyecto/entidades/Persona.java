@@ -41,9 +41,8 @@ public class Persona implements Serializable {
     private String apellido;
 
     //Atributo email de la persona
-    @Column(nullable = false, unique = true)
+    @Column(nullable = true, unique = true)
     @Email(message = "Ingrese un email válido")
-    @NotBlank(message = "El campo email no sebe estar vacío")
     private String email;
 
     //Atributo contrasena de la persona

@@ -1,5 +1,6 @@
 package co.edu.uniquindio.proyecto.servicios;
 
+import co.edu.uniquindio.proyecto.entidades.Test;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
 
 import java.util.List;
@@ -13,5 +14,7 @@ public interface UsuarioServicio {
 
     Usuario obtenerUsuario (String codigo ) throws Exception;
 
-    Usuario iniciarSesion(String email, String password) throws Exception;
+    Usuario iniciarSesion(String username, String password) throws Exception;
+
+    List<Test> listarTestRealizados(String id);
 }
