@@ -599,3 +599,6 @@ body .ui-panel .ui-panel-titlebar {
     color: #fd922d!important;
 }
 
+.ui-panel-title {
+    margin: 0;
+color: black}

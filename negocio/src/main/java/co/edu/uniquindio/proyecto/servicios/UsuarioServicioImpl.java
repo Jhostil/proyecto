@@ -1,5 +1,7 @@
 package co.edu.uniquindio.proyecto.servicios;
 
+import co.edu.uniquindio.proyecto.entidades.DetalleTest;
+import co.edu.uniquindio.proyecto.entidades.Pregunta;
 import co.edu.uniquindio.proyecto.entidades.Test;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
 import co.edu.uniquindio.proyecto.repositorios.UsuarioRepo;
@@ -151,4 +153,5 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
     {
         return  usuarioRepo.findByEmail(email);
     }
+
 }

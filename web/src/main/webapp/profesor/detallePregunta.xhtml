@@ -20,10 +20,8 @@
                         <p:graphicImage url="../uploads/#{detallePreguntaBean.pregunta.pregunta}" alt="Image Description for #{pregunta.pregunta}"
                                         title="#{imagen}" styleClass="rounded shadow"/>
                     </p:galleria>
-                    <!--                    <p:graphicImage rendered="#{detalleProductoBean.producto.rutaImagen.size() == 0}" url="/uploads/#{detalleProductoBean.producto.imagenPrincipal}" alt="Image Description for #{detalleProductoBean.producto.imagenPrincipal}" title="#{detalleProductoBean.producto.imagenPrincipal}" styleClass="imagen-default rounded" />-->
                 </div>
             </div>
-            <p>#{detallePreguntaBean.pregunta.tipo.descripcion}</p>
         </div>
         <div class="col-lg-5 col-md-1">
         <div class="p-grid">
@@ -36,10 +34,11 @@
             </div>
         </div>
         </div>
-
-        <p:panel header="Descripción" styleClass="mt-3">
-            <h:outputText value="#{detallePreguntaBean.pregunta.descripcion}" escape="false"/>
+        <h2 > Tipo: <h:outputText value="#{detallePreguntaBean.pregunta.tipo.descripcion}" escape="false"/></h2>
+         <p:panel header="Descripción" styleClass="mt-3" style="color:black" >
+            <h:outputText value="#{detallePreguntaBean.pregunta.descripcion}" escape="false" style="color:black!important"/>
         </p:panel>
+
     </ui:define>
 </ui:composition>
 </html>

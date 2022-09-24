@@ -57,7 +57,6 @@ public class PreguntaServicioImpl implements PreguntaServicio{
     @Override
     public Test generarTest(Profesor profesor, ArrayList<PreguntaTest> preguntaTests) throws Exception{
 
-
         try {
             Test test = new Test();
             test.setProfesor(profesor);
@@ -73,7 +72,6 @@ public class PreguntaServicioImpl implements PreguntaServicio{
 
             test.setId(idTest);
             Test testGuardado = testRepo.save(test);
-
 
             DetalleTest dt;
             for (PreguntaTest p : preguntaTests){

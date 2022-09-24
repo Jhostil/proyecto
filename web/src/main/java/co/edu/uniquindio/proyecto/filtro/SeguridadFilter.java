@@ -20,48 +20,40 @@ public class SeguridadFilter implements Filter {
             final HttpServletResponse response = (HttpServletResponse) servletResponse;
             final String requestURI = request.getRequestURI();
 //Aplicar el filtro a esta carpeta
-            if (requestURI.startsWith("/usuario/") ) {
+            if (requestURI.startsWith("/usuario/") || requestURI.startsWith("/profesor/") ) {
+
 //Obtenemos el objeto seguridadBean de la sesión actual
-                SeguridadBean userManager = (SeguridadBean)request.getSession().getAttribute("seguridadBean");
+                SeguridadBean userManager = (SeguridadBean) request.getSession().getAttribute("seguridadBean");
 
                 if (userManager != null) {
-                    if (userManager.isAutenticado()) {
+                    if (requestURI.startsWith("/profesor/"))
+                    {
+                        if (userManager.isProfesor()) {
 //El usuario está logueado entonces si puede ver la página solicitada
 
-                        filterChain.doFilter(servletRequest, servletResponse);
-                    } else {
+                            filterChain.doFilter(servletRequest, servletResponse);
+                        } else {
 //El usuario no está logueado, entonces se redirecciona al inicio
 
-                        response.sendRedirect(request.getContextPath() + PAGINA_INICIO);
+                            response.sendRedirect(request.getContextPath() + PAGINA_INICIO);
+                        }
+                    } else {
+                        if (userManager.isAutenticado()) {
+//El usuario está logueado entonces si puede ver la página solicitada
+
+                            filterChain.doFilter(servletRequest, servletResponse);
+                        } else {
+//El usuario no está logueado, entonces se redirecciona al inicio
+
+                            response.sendRedirect(request.getContextPath() + PAGINA_INICIO);
+                        }
                     }
                 } else {
 //El usuario no está logueado, entonces se redirecciona al inicio
                     response.sendRedirect(request.getContextPath() + PAGINA_INICIO);
                 }
 
-            }
-            //Aplicar el filtro a esta carpeta
-            if (requestURI.startsWith("/profesor/") ) {
-//Obtenemos el objeto seguridadBean de la sesión actual
-                SeguridadBean userManager = (SeguridadBean)request.getSession().getAttribute("seguridadBean");
-
-                if (userManager != null) {
-                    if (userManager.isAutenticado()) {
-//El usuario está logueado entonces si puede ver la página solicitada
-
-                        filterChain.doFilter(servletRequest, servletResponse);
-                    } else {
-//El usuario no está logueado, entonces se redirecciona al inicio
-
-                        response.sendRedirect(request.getContextPath() + PAGINA_INICIO);
-                    }
-                } else {
-//El usuario no está logueado, entonces se redirecciona al inicio
-                    response.sendRedirect(request.getContextPath() + PAGINA_INICIO);
-                }
-
-            }
-            else{
+            }else{
 //La página solicitada no está en la carpeta /profesor entonces el filtro no aplica
 
                 filterChain.doFilter(servletRequest, servletResponse);

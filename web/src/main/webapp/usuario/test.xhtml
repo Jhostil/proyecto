@@ -16,11 +16,11 @@
             <div id="codigo">
                 <h:form>
                 <h2>Ingrese el código</h2>
-                <p:inputText id="codigo_test" value="#{testBean.codigo}" required="true" style="margin-left:20px" />
-                <p:message for="codigo_test" /><br></br>
-                <p:commandButton value="Iniciar Test" action="#{testBean.validarCodigo}" styleClass="mt-4" style="margin-top: 20px" update="@form" icon="pi pi-sign-in" iconPos="left" />
+                    <p:inputText id="codigo_test" value="#{testBean.codigo}" required="true" style="margin-left:20px" requiredMessage="Ingrese un código"/>
+                    <p:message for="codigo_test" />
+                    <p:growl for="codigo_test" showDetail="true" /> <br></br>
+                <p:commandButton value="Iniciar Test" action="#{testBean.validarCodigo(seguridadBean.usuarioSesion)}" styleClass="mt-4" style="margin-top: 20px" update="@form" icon="pi pi-sign-in" iconPos="left" />
                 </h:form>
-
             </div>
         </div>
         <div id="test_en_proceso" jsf:rendered="#{testBean.testenproceso}">

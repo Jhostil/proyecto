@@ -135,8 +135,6 @@ public class SeguridadBean implements Serializable {
 
         if(profesorServicio != null && preguntaTests.size() == 6){
             try {
-
-
                 Test test = preguntaServicio.generarTest(profesorSesion, preguntaTests);
                 preguntaTests.clear();
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Test creado con éxito");
@@ -145,11 +143,9 @@ public class SeguridadBean implements Serializable {
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message", "El código de acceso al test es: " + test.getId());
                 PrimeFaces.current().dialog().showMessageDynamic(message);
 
-
             } catch (Exception e) {
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
                 FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
-
             }
         } else {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", "El test debe tener 6 preguntas");
