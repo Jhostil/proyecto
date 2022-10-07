@@ -46,3 +46,4 @@ build/
 .DS_store
 /persistencia/target/
 /negocio1
+web/src/main/webapp/uploads/*
