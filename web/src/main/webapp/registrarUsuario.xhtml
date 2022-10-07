@@ -30,6 +30,14 @@
                     <p:outputLabel value="Apellido:" for="apellido_u"/>
                     <p:inputText id="apellido_u" value="#{usuarioBean.usuario.apellido}" required="true" validatorMessage="El apellido debe tener entre 2 y 150 caracteres"/>
                     <p:message for="apellido_u" />
+
+                    <p:outputLabel value="Username:" for="username_u"/>
+                    <p:inputText id="username_u" value="#{usuarioBean.usuario.username}" required="true"/>
+                    <p:message for="username_u" />
+
+                    <p:outputLabel value="Password:" for="pass_u"/>
+                    <p:password id="pass_u" value="#{usuarioBean.usuario.password}" required="true"/>
+                    <p:message for="pass_u" />
                 </h:panelGrid>
 
                 <h:panelGrid columns="4" cellpadding="5"  styleClass="registro_u" style="margin-block-start: -50px" >
@@ -39,17 +47,6 @@
                         <f:selectItem itemLabel="Estudiante" itemValue="Estudiante" />
                         <f:selectItem itemLabel="Profesor" itemValue="Profesor"/>
                     </p:selectOneRadio>
-                </h:panelGrid>
-
-                <h:panelGrid columns="6" cellpadding="5"  styleClass="registro_u" style="margin-block-start: -50px">
-                    <p:outputLabel value="Username:" for="username_u"/>
-                    <p:inputText id="username_u" value="#{usuarioBean.usuario.username}" required="true"/>
-                    <p:message for="username_u" />
-
-                    <p:outputLabel value="Password:" for="pass_u"/>
-                    <p:password id="pass_u" value="#{usuarioBean.usuario.password}" required="true"/>
-                    <p:message for="pass_u" />
-
                 </h:panelGrid>
 
                 <p:growl showDetail="true" for="msj-bean" />

@@ -23,31 +23,6 @@
                 </h:form>
             </div>
         </div>
-        <div id="test_en_proceso" jsf:rendered="#{testBean.testenproceso}">
-            <div class="row" >
-                <div class="col">
-                    <canvas id="canvas" width="500" height="500">
-                    </canvas>
-                </div>
-                hols
-                <div class="col" style="margin-top: 15px;">
-                    <h4 style="font:bold; ">Instrucciones:</h4>
-                    <h4>Seleccione las direcciones para que el conejo llegue a la zanahoria.</h4>
-
-                    <div id="camino" class="container" style="border:solid; border-color:white;width: 550px; float:left; height: 100px;"> </div>
-                    <br/><br/><br/><br/><br/>
-
-                    <a id="arriba" style="font-size: 40px;" class="btn btn-dark " onclick="seleccion(0)"><i class="fa-solid fa-arrow-up"></i></a>
-                    <a id="abajo" style="font-size: 40px;" class="btn btn-dark " onclick="seleccion(1)"><i class="fa-solid fa-arrow-down"></i></a>
-                    <a id="izquierda" style="font-size: 40px;" class="btn btn-dark " onclick="seleccion(2)"><i class="fa-solid fa-arrow-left"></i></a>
-                    <a id="derecha" style="font-size: 40px;" class="btn btn-dark " onclick="seleccion(3)"><i class="fa-solid fa-arrow-right"></i></a>
-                    <br/><br/><br/>
-                    <button class="btn btn-danger" style="float: left; width: 250px; font: bold; font-size: 30px; border-color:white ;" onclick="location.reload();">Reiniciar nivel</button>
-                    <button class="btn btn-success" style="float: right; width: 250px; font: bold; font-size: 30px; border-color:white ;" onclick="moverse(2,0)">Verificar</button>
-
-                </div>
-            </div>
-        </div>
     </ui:define>
 </ui:composition>
 </html>
