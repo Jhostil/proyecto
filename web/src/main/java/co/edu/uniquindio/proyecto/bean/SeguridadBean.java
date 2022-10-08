@@ -115,7 +115,7 @@ public class SeguridadBean implements Serializable {
 
     public String cerrarSesion(){
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "/index.xhtml=faces-redirect=true";
+        return "/index.xhtml?faces-redirect=true";
     }
 
     public void agregarAlTest(Integer id, String pregunta, String descripcion){

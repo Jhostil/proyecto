@@ -2,6 +2,7 @@ package co.edu.uniquindio.proyecto.servicios;
 
 import co.edu.uniquindio.proyecto.dto.PreguntaTest;
 import co.edu.uniquindio.proyecto.entidades.*;
+import co.edu.uniquindio.proyecto.repositorios.DetalleTestRepo;
 import co.edu.uniquindio.proyecto.repositorios.PreguntaRepo;
 import co.edu.uniquindio.proyecto.repositorios.TestRepo;
 import co.edu.uniquindio.proyecto.repositorios.TipoPreguntaRepo;
@@ -22,11 +23,14 @@ public class PreguntaServicioImpl implements PreguntaServicio{
 
     private final TestRepo testRepo;
 
-    public PreguntaServicioImpl (PreguntaRepo preguntaRepo, TipoPreguntaRepo tipoPreguntaRepo, TestRepo testRepo)
+    private final DetalleTestRepo detalleTestRepo;
+
+    public PreguntaServicioImpl (PreguntaRepo preguntaRepo, TipoPreguntaRepo tipoPreguntaRepo, TestRepo testRepo, DetalleTestRepo detalleTestRepo)
     {
         this.preguntaRepo = preguntaRepo;
         this.tipoPreguntaRepo = tipoPreguntaRepo;
         this.testRepo = testRepo;
+        this.detalleTestRepo = detalleTestRepo;
     }
 
     @Override
@@ -78,7 +82,7 @@ public class PreguntaServicioImpl implements PreguntaServicio{
                 dt = new DetalleTest();
                 dt.setPregunta(preguntaRepo.getById(p.getId()));
                 dt.setTest(testGuardado);
-                System.out.println(p.getId());
+                detalleTestRepo.save(dt);
             }
             return testGuardado;
         }catch (Exception e){

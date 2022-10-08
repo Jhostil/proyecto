@@ -23,12 +23,12 @@ public class TestServicioImpl implements TestServicio {
     public boolean validarCodigo(String codigo) throws Exception {
 
         try {
+            System.out.println(codigo);
             Test test = testRepo.findById(codigo).orElse(null);
             if (test != null) {
                 try {
                     Usuario u = test.getUsuario();
                     if (test.getUsuario() == null) {
-                        System.out.println("verda");
                         return true;
                     }
                 } catch (Exception f) {
@@ -49,7 +49,7 @@ public class TestServicioImpl implements TestServicio {
             Test test = testRepo.getById(codigo);
             test.setUsuario(usuario);
             test.setFechaTest(LocalDate.now());
-            testRepo.save(test);
+            //testRepo.save(test);
             return test;
         }catch (Exception e)
         {

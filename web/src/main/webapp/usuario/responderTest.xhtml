@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="../WEB-INF/template1.xhtml">
+
+    <ui:define name="title">Test</ui:define>
+    <ui:define name="content">
+        <div id="test_en_proceso" jsf:rendered="#{testBean.testenproceso}" style="text-align: center;">
+            <h:form>
+            <h:panelGrid columns="2" cellpadding="30"   style="width: 90vw;  display: inline-flex">
+                <img src="../uploads/#{testBean.detalleTestList.get(0).pregunta.pregunta}" class="pregunta" width="500" height="500"/>
+            <h:panelGrid columns="1" cellpadding="30"  >
+                    <p:selectOneRadio id="customRadio2" value="#{testBean.respSeleccionada}" layout="custom">
+                        <f:selectItem itemLabel="resp1" itemValue="1"/>
+                        <f:selectItem itemLabel="resp2" itemValue="2"/>
+                        <f:selectItem itemLabel="resp3" itemValue="3"/>
+                        <f:selectItem itemLabel="resp4" itemValue="4"/>
+                    </p:selectOneRadio>
+
+                    <h:panelGrid columns="3" cellpadding="5">
+                        <p:radioButton id="ref1" for="customRadio2" itemIndex="0"/>
+                        <img src="../uploads/#{testBean.respuestas.get(0)}" class="img4"/>
+                        <h:outputLabel for="ref1" />
+
+                        <p:radioButton id="ref2" for="customRadio2" itemIndex="1"/>
+                        <img src="../uploads/#{testBean.respuestas.get(1)}" class="img4"/>
+                        <h:outputLabel for="ref2"/>
+
+                        <p:radioButton id="ref3" for="customRadio2" itemIndex="2"/>
+                        <img src="../uploads/#{testBean.respuestas.get(2)}" class="img4"/>
+                        <h:outputLabel for="ref3" value="Blue"/>
+
+                        <p:radioButton id="ref4" for="customRadio2" itemIndex="3"/>
+                        <img src="../uploads/#{testBean.respuestas.get(3)}" class="img4"/>
+                        <h:outputLabel for="ref4" value="Green"/>
+                    </h:panelGrid>
+            </h:panelGrid>
+            </h:panelGrid>
+                <p:growl showDetail="true" for="msj-bean" />
+                <p:commandButton value="Siguiente" style="margin-top: 15px"  action="#{testBean.marcarRespuesta()}" update="@form" icon="pi pi-user-plus"/>
+        </h:form>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>

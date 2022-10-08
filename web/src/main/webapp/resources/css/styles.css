@@ -602,3 +602,41 @@ body .ui-panel .ui-panel-titlebar {
 .ui-panel-title {
     margin: 0;
 color: black}
+
+.img1{
+    height: 200px;
+    width: 300px;
+}
+.img2{
+    height: 200px;
+    width: 300px;
+}
+.img3{
+    height: 200px;
+    width: 300px;
+}
+.img4{
+    height: 200px;
+    width: 300px;
+}
+.resp-img{
+    margin-bottom: 20px;
+    display:flex;
+    align-items: center;
+}
+
+.radioB{
+    transform: scale(1.5);
+    margin-right: 15px;
+}
+
+.grid-radio td {
+    padding: .5rem;
+}
+.legend {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: .25rem;
+    vertical-align: sub;
+}
