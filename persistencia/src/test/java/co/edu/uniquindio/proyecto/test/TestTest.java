@@ -34,7 +34,7 @@ public class TestTest {
 
         co.edu.uniquindio.proyecto.entidades.Test guardado = testRepo.save(test);
 
-        Integer id = guardado.getId();
+        String id = guardado.getId();
 
         testRepo.delete(guardado);
 
