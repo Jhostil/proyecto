@@ -26,4 +26,11 @@ public class DetalleTestServicioImpl implements DetalleTestServicio{
     public void guardarDetalle(DetalleTest detalleTest) throws Exception {
         detalleTestRepo.save(detalleTest);
     }
+
+    @Override
+    public List<DetalleTest> obtenerDetallesTestPresentados(String codigoTest, String idUsuario) throws Exception {
+        return detalleTestRepo.obtenerDetallesTestsPresentados(codigoTest, idUsuario);
+    }
+
+
 }

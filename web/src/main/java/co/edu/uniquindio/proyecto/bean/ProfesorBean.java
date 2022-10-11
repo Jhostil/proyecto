@@ -41,16 +41,4 @@ public class ProfesorBean implements Serializable {
         this.test = new Test();
     }
 
-    /*public void agregarPregunta (){
-
-        if (test.getDetalleTestList().size() <= 6)
-        {
-
-
-        } else {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Alerta", "Solo se pueden configurar 6 preguntas por test");
-            FacesContext.getCurrentInstance().addMessage("msj-bean", msg);
-        }
-    }*/
-
 }

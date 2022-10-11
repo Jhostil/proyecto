@@ -13,9 +13,10 @@
     <ui:define name="title">Test</ui:define>
     <ui:define name="content">
         <h:form>
-        <p:carousel value="#{profesorBean.preguntas}" var="pregunta" numVisible="2" numScroll="2">
+            <div class="card">
+        <p:carousel value="#{profesorBean.preguntas}" var="pregunta" numVisible="3" numScroll="3">
             <f:facet name="header">
-                <h3>Preguntas</h3>
+                <h3>Banco de Preguntas</h3>
             </f:facet>
             <div class="product-item">
                 <div class="product-item-content">
@@ -29,17 +30,18 @@
                         <span class="product-badge status-#{product.inventoryStatus.name().toLowerCase()}">#{product.inventoryStatus.text}</span>
                         <div class="mt-5">
 
-                                <p:growl showDetail="true" for="msj-bean" />
+                            <p:growl showDetail="true" for="msj-bean" />
                             <p:commandButton value="Ver detalle" styleClass="ui-button-raised" icon="pi pi-arrow-right" iconPos="right" action="#{inicioBean.irADetalle(pregunta.id)}" />
                         </div>
                     </div>
                 </div>
             </div>
         </p:carousel>
+            </div>
             <div style="text-align: center">
 
-                <p:growl for="msj-bean" showDetail="true"/>
-                <p:commandButton value="Generar Test" styleClass="ui-button-raised"  update="@form" icon="pi pi-arrow-right" iconPos="right" action="#{seguridadBean.generarTest()}" style="margin-top:20px" />
+                <p:growl for="msj-bean" infostyle="color:green" showDetail="true"/>
+                <p:commandButton value="Generar Test" styleClass="ui-button-raised"  update="@form" icon="pi pi-check" iconPos="right" action="#{seguridadBean.generarTest()}" style="margin-top:20px" />
 
             </div>
     </h:form>

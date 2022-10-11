@@ -25,15 +25,6 @@ public class Test implements Serializable {
     @EqualsAndHashCode.Include
     private String id;
 
-    //Atributo que sirve para guardar la hora y fecha de cuando se hace el test
-    @Column(name = "fechaTest", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDate fechaTest;
-
-    //Relacion de muchos a uno con la entidad Usuario
-    @ToString.Exclude
-    @ManyToOne
-    private Usuario usuario;
-
     //Relacion de muchos a uno con la entidad Usuario
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
@@ -46,11 +37,10 @@ public class Test implements Serializable {
     @ToString.Exclude
     private List<DetalleTest> detalleTestList;
 
-    public Test (Usuario usuario, Profesor profesor, List<DetalleTest> detalleTestList)
+    public Test ( Profesor profesor, List<DetalleTest> detalleTestList)
     {
         this.profesor = profesor;
         this.detalleTestList = detalleTestList;
-        this.usuario = usuario;
     }
 
     public Test (String id, Profesor profesor)

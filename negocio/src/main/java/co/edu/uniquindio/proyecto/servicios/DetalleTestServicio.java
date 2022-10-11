@@ -11,4 +11,5 @@ public interface DetalleTestServicio {
 
     void guardarDetalle (DetalleTest detalleTest) throws Exception;
 
+    List<DetalleTest> obtenerDetallesTestPresentados(String codigoTest, String idUsuario) throws Exception;
 }

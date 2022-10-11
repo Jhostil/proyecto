@@ -20,7 +20,7 @@
         <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small" style="text-align: center">
         <li>
             <a href="/" class="nav-link text-white">
-                <i class="pi pi-home d-block mx-auto mb-1 icon-menu"/>
+                <i class="pi pi-home d-block mx-auto mb-1 icon-menu" />
                 Inicio
             </a>
         </li>
@@ -50,8 +50,8 @@
 
             </div>
 
-        <div class="btn-inicio" style="top: 250px">
-            <h:form rendered="#{!seguridadBean.autenticado}">
+        <div class="btn-inicio" style="top: 250px" jsf:rendered="#{!seguridadBean.autenticado}">
+            <h:form >
                 <p:commandButton value="Login" styleClass="btn btn-primary me-2" onclick="PF('login').show()" icon="pi pi-sign-in"/>
                 <p:commandButton value="Registrarse" style="margin-left: 10px"  styleClass="btn btn-primary" action="registrarUsuario?faces-redirect=true" icon="pi pi-user-plus"/>
             </h:form>

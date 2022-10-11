@@ -140,7 +140,7 @@ public class SeguridadBean implements Serializable {
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Test creado con éxito");
                 FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
 
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message", "El código de acceso al test es: " + test.getId());
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message", "El código de acceso al test es: \n" + test.getId());
                 PrimeFaces.current().dialog().showMessageDynamic(message);
 
             } catch (Exception e) {

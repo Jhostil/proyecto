@@ -81,7 +81,7 @@ public class PreguntaBean implements Serializable {
                 System.out.println(incorrectas.size());
                 if(!incorrectas.isEmpty() && incorrectas.size() == 3){
 
-                    TipoPregunta tipoPregunta;
+                    TipoPregunta tipoPregunta = tipoPreguntaServicio.obtenerTipoPorNombre("cuestionario");;
                     if (tipo.equals("logica"))
                     {
                          tipoPregunta = tipoPreguntaServicio.obtenerTipoPorNombre("logica");
@@ -89,8 +89,6 @@ public class PreguntaBean implements Serializable {
                     if (tipo.equals("laberinto"))
                     {
                         tipoPregunta = tipoPreguntaServicio.obtenerTipoPorNombre("laberinto");
-                    } else{
-                        tipoPregunta = tipoPreguntaServicio.obtenerTipoPorNombre("cuestionario");
                     }
                     pregunta.setPregunta(preguntaP);
                     pregunta.setCorrecta(correcta);
