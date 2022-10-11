@@ -34,7 +34,11 @@ public class TestTest {
 
         co.edu.uniquindio.proyecto.entidades.Test guardado = testRepo.save(test);
 
+<<<<<<< HEAD
        // Integer id = guardado.getId();
+=======
+        String id = guardado.getId();
+>>>>>>> 7252b66149debe6e050db0d41198f70b7cf4f1a9
 
         testRepo.delete(guardado);
 
