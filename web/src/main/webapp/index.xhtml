@@ -30,6 +30,15 @@
                        <p:commandButton value="Configurar Nuevo Test" styleClass="btn btn-primary" action="/profesor/configurarTest?faces-redirect=true" icon="pi pi-cog"/>
                        <p:commandButton value="Crear preguntas" style="margin-left:10px"  styleClass="btn btn-primary" action="/profesor/crearPreguntas?faces-redirect=true" icon="pi pi-plus"/>
                    </h:form>
+                   <h:form>
+                       <div class="card" style="margin-top:40px">
+                           <p:dataTable var="test" value="#{profesorBean.tests}">
+                               <p:column headerText="Códigos de Tests Disponibles">
+                                   <h:outputText value="#{test.id}" />
+                               </p:column>
+                           </p:dataTable>
+                       </div>
+                   </h:form>
                </div>
            </div>
            </div>

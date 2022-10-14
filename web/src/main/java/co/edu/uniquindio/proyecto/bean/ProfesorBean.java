@@ -4,9 +4,12 @@ import co.edu.uniquindio.proyecto.entidades.Pregunta;
 import co.edu.uniquindio.proyecto.entidades.Profesor;
 import co.edu.uniquindio.proyecto.entidades.Test;
 import co.edu.uniquindio.proyecto.servicios.PreguntaServicio;
+import co.edu.uniquindio.proyecto.servicios.ProfesorServicio;
+import co.edu.uniquindio.proyecto.servicios.TestServicio;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +24,7 @@ import java.util.List;
 public class ProfesorBean implements Serializable {
 
     @Getter @Setter
+    @Value("#{seguridadBean.profesorSesion}")
     private Profesor profesor;
 
     @Autowired
@@ -32,13 +36,28 @@ public class ProfesorBean implements Serializable {
     @Getter @Setter
     private Test test;
 
+    @Getter @Setter
+    private List<Test> tests;
+
+    @Autowired
+    private TestServicio testServicio;
+
+    @Autowired
+    private ProfesorServicio profesorServicio;
+
 
     @PostConstruct
     public void inicializar ()
     {
-        profesor = new Profesor();
-        preguntas = preguntaServicio.listarPreguntas();
-        this.test = new Test();
+
+        try {
+            preguntas = preguntaServicio.listarPreguntas();
+            tests = profesorServicio.obtenerProfesor(profesor.getId()).getTestsConfigurados();
+            this.test = new Test();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }
