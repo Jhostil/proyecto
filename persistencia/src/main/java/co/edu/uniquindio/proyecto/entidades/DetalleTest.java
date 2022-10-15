@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 
 @Getter
@@ -30,6 +31,11 @@ public class DetalleTest implements Serializable {
     @ManyToOne
     private Test test;
 
+    //Relacion de muchos a uno con la entidad Usuario
+    @ToString.Exclude
+    @ManyToOne
+    private Usuario usuario;
+
     //Relacion de muchos a uno con la entidad Pregunta
     @ToString.Exclude
     @ManyToOne
@@ -39,4 +45,7 @@ public class DetalleTest implements Serializable {
     @Column(name = "calificacion")
     private int calificacion;
 
+    //Atributo que sirve para guardar la hora y fecha de cuando se contesta el test
+    @Column(name = "fechaTest", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDate fechaTest;
 }

@@ -41,4 +41,11 @@ public class DetalleTestServicioImpl implements DetalleTestServicio{
         Firestore dbFirestore = FirestoreClient.getFirestore();
         dbFirestore.collection("DetalleTest").document(Integer.toString(detalleTest.getId())).set(detalleTest);
     }
+
+    @Override
+    public List<DetalleTest> obtenerDetallesTestPresentados(String codigoTest, String idUsuario) throws Exception {
+        return detalleTestRepo.obtenerDetallesTestsPresentados(codigoTest, idUsuario);
+    }
+
+
 }

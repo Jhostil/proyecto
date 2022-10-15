@@ -10,6 +10,8 @@ import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TipoPreguntaImpl implements TipoPreguntaServicio {
 
@@ -42,5 +44,20 @@ public class TipoPreguntaImpl implements TipoPreguntaServicio {
             tipoPregunta = aux.toObject(TipoPregunta.class);
         }
         return tipoPregunta;
+    }
+
+    @Override
+    public boolean existenTipos() {
+        boolean resultado = true;
+        List<TipoPregunta> tipos = tipoPreguntaRepo.findAll();
+        if (tipos == null || tipos.size() == 0) {
+            resultado = false;
+        }
+        return resultado;
+    }
+
+    @Override
+    public TipoPregunta registrarTipo(TipoPregunta tipoPregunta) throws Exception {
+        return tipoPreguntaRepo.save(tipoPregunta);
     }
 }

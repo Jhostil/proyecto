@@ -28,7 +28,7 @@ public class Usuario extends Persona implements Serializable {
     @OneToMany(mappedBy = "usuario")
     @JsonIgnore
     @ToString.Exclude
-    private List<Test> testRealizados;
+    private List<DetalleTest> testRealizados;
 
     //Constructor con argumentos
     public Usuario (String id, String nombre, String apellido, String email, String username, String password, String fechaNacimiento)

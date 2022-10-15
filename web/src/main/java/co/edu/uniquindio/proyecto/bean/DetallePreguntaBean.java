@@ -15,6 +15,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @ViewScoped
@@ -36,6 +38,9 @@ public class DetallePreguntaBean implements Serializable {
     @Value("#{seguridadBean.profesorSesion}")
     private Profesor profesorSesion;
 
+    @Getter @Setter
+    private List<String> imagenes;
+
     @PostConstruct
     public void inicializar(){
 
@@ -44,15 +49,22 @@ public class DetallePreguntaBean implements Serializable {
             Integer codigo = Integer.parseInt(codigoPregunta);
             try {
                 pregunta = preguntaServicio.obtenerPregunta(codigo);
+                imagenes = new ArrayList<>();
+                mostrarImagenes();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-
         }
-
-
     }
 
+    public void mostrarImagenes ()
+    {
+        imagenes.add(pregunta.getPregunta());
+        imagenes.add(pregunta.getCorrecta());
 
+        for (String p: pregunta.getIncorrecta()) {
+            imagenes.add(p);
+        }
+    }
 
 }

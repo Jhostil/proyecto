@@ -1,5 +1,6 @@
 .icon-menu{
     font-size: 1.5rem;
+    display: block!important;
 }
 
 .imagen-producto{
@@ -639,4 +640,137 @@ color: black}
     height: 1.5rem;
     border-radius: .25rem;
     vertical-align: sub;
+}
+
+body .ui-carousel .ui-carousel-header {
+    background: #f8f9fa00;
+    color: #000000;
+    padding: 1rem;
+    border: 1px solid #dee2e600;
+    margin: 0;
+    font-weight: 700;
+
+}
+body .ui-carousel .ui-carousel-button.ui-carousel-next-button {
+    font-family: 'primeicons' !important;
+    font-style: normal;
+    font-weight: normal;
+    display: inline-block;
+    background: none;
+    color: black;
+}
+body .ui-carousel .ui-carousel-button.ui-carousel-prev-button {
+    font-family: 'primeicons' !important;
+    font-style: normal;
+    font-weight: normal;
+    display: inline-block;
+    background: none;
+    color: black;
+}
+
+body .ui-carousel .ui-carousel-viewport {
+    border: 1px solid #dee2e600;
+    background: #ffffff00;
+    color: #495057;
+    padding: 0;
+}
+
+.ui-carousel .ui-carousel-viewport .ui-carousel-items .ui-carousel-item {
+    margin: 1px;
+    padding: 0;
+    float: left;
+    border: 1px solid #dee2e600;
+}
+.product-item .product-item-content {
+    border: 1px solid #dee2e600;
+    border-radius: 3px;
+    margin: .3rem;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.product-item .product-item-content {
+    color:black;
+}
+body .ui-galleria .ui-galleria-nav-prev {
+    font-family: 'primeicons' !important;
+    font-style: normal;
+    font-weight: normal;
+    display: inline-block;
+    background: none;
+    font-size: 20px;
+    color: black;
+}
+body .ui-galleria .ui-galleria-nav-next {
+    color: black;
+}
+
+.window-notice {
+    background: rgba(33, 41, 52, .85);
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    display: flex;
+    position: fixed;
+    z-index: 999;
+}
+
+.window-notice .content {
+    background: #d73535;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(33, 41, 52, .75);
+    box-sizing: content-box;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    max-width: 600px;
+    min-width: 320px !important;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    padding: 2rem;
+    font-size: 1.3rem;
+}
+
+body .ui-messages .ui-messages-info {
+    background: #29a51a;
+    border: #29a51a;
+    border-width: 0 0 0 6px;
+    color: #ffffff;
+}
+
+.resp-correcta{
+    height: 50px;
+    background: #29a51a;
+    display: inline-flex;
+    align-items: center;
+    width: 60vw;
+    justify-content: center;
+}
+
+.resp-incorrecta{
+    height: 50px;
+    background: #d73535;
+    display: inline-flex;
+    align-items: center;
+    width: 60vw;
+    justify-content: center;
+}
+
+body .ui-dialog .ui-dialog-footer {
+    border-top: 0 none;
+    background: #fff;
+    color: #495057;
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    margin: 0;
+    text-align: center;
+}
+body .ui-dialog.ui-confirm-dialog .ui-dialog-content {
+    padding: .2rem 1.5rem 2rem 1.5rem;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 19px;
 }

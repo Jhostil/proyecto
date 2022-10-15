@@ -10,6 +10,7 @@ import co.edu.uniquindio.proyecto.servicios.TestServicio;
 import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.DialogFrameworkOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -28,19 +29,15 @@ import java.util.List;
 @Component
 public class TestBean implements Serializable {
 
-    @Getter
-    @Setter
+    @Getter @Setter
     private Test test;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     private List<DetalleTest> detalleTestList;
-    @Getter
-    @Setter
+    @Getter @Setter
     public boolean testenproceso;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     public String codigo;
 
     @Autowired
@@ -52,25 +49,48 @@ public class TestBean implements Serializable {
     @Autowired
     private PreguntaServicio preguntaServicio;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     private String respSeleccionada;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     private int indiceDetalleTestActual;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     private ArrayList<String> respuestas;
 
+    @Getter @Setter
+    private String descripcionPregunta;
+
+    @Getter @Setter
+    private boolean enRevision;
+
+    @Getter @Setter
+    private boolean esCorrecta;
+
+    @Getter @Setter
+    private String respCorrecta;
+
+    @Getter @Setter
+    private int calificacion;
+
+    @Getter @Setter
+    private String calificacionFinal;
+
+    @Getter @Setter
+    private boolean pregFinal;
     @PostConstruct
     public void inicializar() {
         testenproceso = false;
         codigo = "";
         respSeleccionada = "";
         indiceDetalleTestActual = 0;
-        //respuestas = new ArrayList();
+        descripcionPregunta = "";
+        enRevision = false;
+        esCorrecta = false;
+        respCorrecta = "";
+        calificacion = 0;
+        calificacionFinal = "";
+        pregFinal = false;
 
     }
 
@@ -81,16 +101,28 @@ public class TestBean implements Serializable {
             return "";
         }
         try {
-            boolean valido = testServicio.validarCodigo(this.codigo);
+            String valido = "";
+            try {
+                valido = testServicio.validarCodigo(this.codigo, usuario.getId());
+            } catch (Exception e)
+            {
+                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
+                FacesContext.getCurrentInstance().addMessage("codigo_test", fm);
+            }
 
-            if (valido) {
+            if (valido.equals("valido")) {
                 iniciarTest(usuario);
                 return "responderTest.xhtml?faces-redirect=true";
-            } else {
+            }
+            if (valido.equals("invalido")){
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Message", "Código inválido");
                 PrimeFaces.current().dialog().showMessageDynamic(message);
+                return "";
             }
-            return "";
+            {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Message", valido);
+                PrimeFaces.current().dialog().showMessageDynamic(message);
+            }
         } catch (Exception e) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
             FacesContext.getCurrentInstance().addMessage("codigo_test", fm);
@@ -100,8 +132,8 @@ public class TestBean implements Serializable {
     }
 
     public void iniciarTest(Usuario usuario) throws Exception {
-        test = testServicio.iniciarTest(codigo, usuario);
-        detalleTestList = detalleTestServicio.obtenerDetallesTest(test.getId());
+
+        detalleTestList = testServicio.iniciarTest(codigo, usuario);
         obtenerRespuestas();
         this.testenproceso = true;
     }
@@ -111,6 +143,7 @@ public class TestBean implements Serializable {
         Pregunta pregunta = preguntaServicio.obtenerPregunta(detalleTestList.get(indiceDetalleTestActual).getPregunta().getId());
         String respuesta = pregunta.getCorrecta();
         respuestas.add(respuesta);
+        descripcionPregunta = pregunta.getDescripcion();
 
         for (String res : pregunta.getIncorrecta()) {
             respuestas.add(res);
@@ -118,35 +151,56 @@ public class TestBean implements Serializable {
         Collections.shuffle(respuestas); //desordena las respuestas
     }
 
-
-    public String marcarRespuesta() throws Exception {
+    public String marcarRespuesta() {
 
         String respuesta = "";
         try {
             respuesta = respuestas.get(Integer.parseInt(respSeleccionada) - 1);
+            DetalleTest detalleTest = detalleTestList.get(indiceDetalleTestActual);
+
+            detalleTest.setRespuesta(respuesta);
+
+            Pregunta pregunta = detalleTest.getPregunta();
+            respCorrecta = pregunta.getCorrecta();
+
+            if (respCorrecta.equals(respuesta)) {
+                detalleTest.setCalificacion(5);
+                detalleTestServicio.guardarDetalle(detalleTest);
+                esCorrecta = true;
+                calificacion++;
+                if(calificacion == 1)
+                {
+                    calificacionFinal = "Sacaste " + calificacion + " pregunta buena de 6.";
+                } else {
+                    calificacionFinal = "Sacaste " + calificacion + " preguntas buenas de 6";
+                }
+            } else {
+                detalleTest.setCalificacion(0);
+                detalleTestServicio.guardarDetalle(detalleTest);
+
+            }
+            enRevision = true;
+            if(indiceDetalleTestActual == 5){
+                pregFinal = true;
+            }
+            return "responderTest.xhtml?faces-redirect=true";
+
         } catch (Exception e) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", "Debe seleccionar una respuesta");
             FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
         }
+        return "";
+    }
 
-        DetalleTest detalleTest = detalleTestList.get(indiceDetalleTestActual);
+    public String continuarTest() throws Exception{
 
-        detalleTest.setRespuesta(respuesta);
-
-        Pregunta pregunta = detalleTest.getPregunta();
-
-        if (pregunta.getCorrecta().equals(respuesta)) {
-            detalleTest.setCalificacion(5);
-        } else {
-            detalleTest.setCalificacion(0);
-        }
-        detalleTestServicio.guardarDetalle(detalleTest);
         indiceDetalleTestActual++;
+        esCorrecta = false;
+        enRevision = false;
         respSeleccionada = "";
 
         if (indiceDetalleTestActual == 6) {
-            cerrarTest();
-            return "/index.xhtml?faces-redirect=true";
+            return cerrarTest();
         }
         obtenerRespuestas();
         return "responderTest.xhtml?faces-redirect=true";
@@ -156,11 +210,15 @@ public class TestBean implements Serializable {
         this.test = null;
         this.detalleTestList = new ArrayList<>();
         this.testenproceso = false;
+        String aux = codigo;
         this.codigo = "";
         this.respSeleccionada="";
         this.indiceDetalleTestActual = 0;
+        calificacion = 0;
+        calificacionFinal = "";
 
-        return "";//Falta retornar a revisión de respuestas
+        return "/index.xhtml?faces-redirect=true";
+        //return "/usuario/testPresentado.xhtml?faces-redirect=true&amp;test=" + aux;
     }
 }
 

@@ -13,6 +13,7 @@
     <ui:define name="tittle">Inicio</ui:define>
 
     <ui:define name="content">
+
            <div style="width: 50%; height: 10%; left: 25%; position: relative; top: 100px">
            <div class="text-center" >
                <div class="text" style="margin-outside: 1px">
@@ -21,13 +22,22 @@
 
                <div id="iniciar-test" jsf:rendered="#{seguridadBean.autenticado and !seguridadBean.profesor}" style="margin-top: 80px">
                    <h:form>
-                       <p:commandButton value="Iniciar Nuevo Test" styleClass="btn btn-primary" action="/usuario/test?faces-redirect=true" icon="pi pi-sign-in"/>
+                       <p:commandButton value="Iniciar Nuevo Test" styleClass="btn btn-primary" action="/usuario/test?faces-redirect=true" icon="pi pi-plus"/>
                    </h:form>
                </div>
                <div id="configurar-test" jsf:rendered="#{seguridadBean.profesor}" style="margin-top: 80px">
                    <h:form>
-                       <p:commandButton value="Configurar Nuevo Test" styleClass="btn btn-primary" action="/profesor/configurarTest?faces-redirect=true" icon="pi pi-sign-in"/>
-                       <p:commandButton value="Crear preguntas" style="margin-left:10px"  styleClass="btn btn-primary" action="/profesor/crearPreguntas?faces-redirect=true" icon="pi pi-sign-in"/>
+                       <p:commandButton value="Configurar Nuevo Test" styleClass="btn btn-primary" action="/profesor/configurarTest?faces-redirect=true" icon="pi pi-cog"/>
+                       <p:commandButton value="Crear preguntas" style="margin-left:10px"  styleClass="btn btn-primary" action="/profesor/crearPreguntas?faces-redirect=true" icon="pi pi-plus"/>
+                   </h:form>
+                   <h:form>
+                       <div class="card" style="margin-top:40px">
+                           <p:dataTable var="test" value="#{profesorBean.tests}">
+                               <p:column headerText="Códigos de Tests Disponibles">
+                                   <h:outputText value="#{test.id}" />
+                               </p:column>
+                           </p:dataTable>
+                       </div>
                    </h:form>
                </div>
            </div>

@@ -27,7 +27,7 @@ public class Test implements Serializable {
 
     //Atributo que sirve para guardar la hora y fecha de cuando se hace el test
     @Column(name = "fechaTest", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private String fechaTest;
+    private LocalDate fechaTest;
 
     //Relacion de muchos a uno con la entidad Usuario
     @ToString.Exclude
