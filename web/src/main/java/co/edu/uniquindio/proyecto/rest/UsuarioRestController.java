@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("api/usuarios")
@@ -17,7 +18,7 @@ public class UsuarioRestController {
     private UsuarioServicio usuarioServicio;
 
     @GetMapping
-    public List<Usuario> listar(){
+    public List<Usuario> listar() throws ExecutionException, InterruptedException {
         return usuarioServicio.listarUsuarios();
     }
 

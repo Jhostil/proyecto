@@ -1,6 +1,7 @@
 package co.edu.uniquindio.proyecto;
 
 import co.edu.uniquindio.proyecto.entidades.Persona;
+import co.edu.uniquindio.proyecto.entidades.Usuario;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.*;
@@ -14,6 +15,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 

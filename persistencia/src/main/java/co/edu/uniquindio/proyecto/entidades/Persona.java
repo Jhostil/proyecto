@@ -11,7 +11,9 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Getter
@@ -55,5 +57,5 @@ public class Persona implements Serializable {
     //Atributo que representa la fecha de nacimiento de la persona
     @NotNull(message = "Ingrese la fecha de nacimiento")
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDate fechaNacimiento;
+    private String fechaNacimiento;
 }

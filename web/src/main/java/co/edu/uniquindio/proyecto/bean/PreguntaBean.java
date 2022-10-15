@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Scope("session")
 @Component
@@ -64,7 +65,7 @@ public class PreguntaBean implements Serializable {
     private ArrayList<String> incorrectas;
 
     @PostConstruct
-    public void inicializar(){
+    public void inicializar() throws ExecutionException, InterruptedException {
 
         this.pregunta = new Pregunta();
         this.preguntaP = "";

@@ -15,6 +15,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Component
 @ViewScoped
@@ -34,8 +35,7 @@ public class ProfesorBean implements Serializable {
 
 
     @PostConstruct
-    public void inicializar ()
-    {
+    public void inicializar () throws ExecutionException, InterruptedException {
         profesor = new Profesor();
         preguntas = preguntaServicio.listarPreguntas();
         this.test = new Test();

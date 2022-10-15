@@ -31,7 +31,7 @@ public class Profesor extends Persona implements Serializable {
     @NotBlank(message = "El campo está vacío, debe ingresar un username")
     private String username;
 
-    public Profesor (String id, String nombre, String apellido, String email, String username, String password, LocalDate fechaNacimiento)
+    public Profesor (String id, String nombre, String apellido, String email, String username, String password, String fechaNacimiento)
     {
         super(id, nombre, apellido, email, password, fechaNacimiento);
         this.username = username;

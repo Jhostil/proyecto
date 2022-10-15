@@ -14,6 +14,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 @Component
 @ViewScoped
@@ -22,6 +23,10 @@ public class UsuarioBean implements Serializable {
     @Getter
     @Setter
     private Usuario usuario;
+
+    @Getter
+    @Setter
+    private LocalDate localDate;
 
     @Getter @Setter
     private Profesor profesor;
@@ -49,6 +54,7 @@ public class UsuarioBean implements Serializable {
     {
         if (rol.equals("Estudiante")) {
             try {
+                usuario.setFechaNacimiento(localDate.toString());
                 usuarioServicio.registrarUsuario(usuario);
                 usuario = new Usuario();
                 rol = "";
@@ -64,7 +70,7 @@ public class UsuarioBean implements Serializable {
                 profesor.setApellido(usuario.getApellido());
                 profesor.setUsername(usuario.getUsername());
                 profesor.setEmail(usuario.getEmail());
-                profesor.setFechaNacimiento(usuario.getFechaNacimiento());
+                profesor.setFechaNacimiento(localDate.toString());
                 profesor.setId(usuario.getId());
                 profesor.setNombre(usuario.getNombre());
 

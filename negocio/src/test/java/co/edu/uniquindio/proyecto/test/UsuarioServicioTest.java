@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 
 @SpringBootTest(classes = NegocioApplication.class)
@@ -23,7 +24,7 @@ public class UsuarioServicioTest {
 
     @Test
     public void registrarTest (){
-        Usuario usuario = new Usuario("111", "Juan", "Perez ", "juan@email.com", "juaniquilador", "juan123", LocalDate.of(2001, 03, 12));
+        Usuario usuario = new Usuario("111", "Juan", "Perez ", "juan@email.com", "juaniquilador", "juan123", LocalDate.of(2001, 03, 12).toString());
         try {
             Usuario respuesta =  usuarioServicio.registrarUsuario(usuario);
             Assertions.assertNotNull(respuesta);
@@ -35,7 +36,7 @@ public class UsuarioServicioTest {
 
     @Test
     public void eliminarTest(){
-        Usuario usuario = new Usuario("111", "Juan", "Perez ", "juan@email.com", "juaniquilador", "juan123", LocalDate.of(2001, 03, 12));
+        Usuario usuario = new Usuario("111", "Juan", "Perez ", "juan@email.com", "juaniquilador", "juan123", LocalDate.of(2001, 03, 12).toString());
         try {
             usuarioServicio.registrarUsuario(usuario);
             usuarioServicio.eliminarUsuario("111");
@@ -48,8 +49,7 @@ public class UsuarioServicioTest {
     }
 
     @Test
-    public void listarTest()
-    {
+    public void listarTest() throws ExecutionException, InterruptedException {
         List<Usuario> lista = usuarioServicio.listarUsuarios();
         lista.forEach(System.out::println);
     }
@@ -57,7 +57,7 @@ public class UsuarioServicioTest {
     @Test
     public void actualizarTest ()
     {
-        Usuario usuario = new Usuario("111", "Juan", "Perez ", "juan@email.com", "juaniquilador", "juan123", LocalDate.of(2001, 03, 12));
+        Usuario usuario = new Usuario("111", "Juan", "Perez ", "juan@email.com", "juaniquilador", "juan123", LocalDate.of(2001, 03, 12).toString());
         try {
             usuarioServicio.registrarUsuario(usuario);
             usuario = usuarioServicio.obtenerUsuario("111");
@@ -75,7 +75,7 @@ public class UsuarioServicioTest {
     @Test
     public void loginTest()
     {
-        Usuario usuario = new Usuario("111", "Juan", "Perez ", "juan@email.com", "juaniquilador", "juan123", LocalDate.of(2001, 03, 12));
+        Usuario usuario = new Usuario("111", "Juan", "Perez ", "juan@email.com", "juaniquilador", "juan123", LocalDate.of(2001, 03, 12).toString());
         try {
             usuarioServicio.registrarUsuario(usuario);
             usuario = usuarioServicio.iniciarSesion("juan@email.com", "juan123");

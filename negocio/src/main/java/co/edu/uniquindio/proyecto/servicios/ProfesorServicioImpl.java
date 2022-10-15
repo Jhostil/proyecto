@@ -3,11 +3,17 @@ package co.edu.uniquindio.proyecto.servicios;
 import co.edu.uniquindio.proyecto.entidades.Profesor;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
 import co.edu.uniquindio.proyecto.repositorios.ProfesorRepo;
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QuerySnapshot;
+import com.google.firebase.cloud.FirestoreClient;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class ProfesorServicioImpl implements ProfesorServicio{
@@ -21,21 +27,34 @@ public class ProfesorServicioImpl implements ProfesorServicio{
 
     @Override
     public Profesor obtenerProfesor(String codigo) throws Exception {
-        Optional<Profesor> buscado = profesorRepo.findById(codigo);
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Profesor").whereEqualTo("id",codigo).get();
 
-        if (buscado.isEmpty()){
+        if (!querySnapshotApiFuture.get().getDocuments().isEmpty()){
             throw new Exception("El profesor no existe.");
         }
-        return buscado.get();
+        Profesor buscado = null;
+        for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
+            buscado = aux.toObject(Profesor.class);
+        }
+        return buscado;
     }
 
 
     @Override
     public Profesor iniciarSesion(String username, String password) throws Exception {
-        Profesor profesorEmail = profesorRepo.findByUsername(username).orElseThrow(() -> new Exception("Los datos de autenticación son incorrectos"));
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Profesor").whereEqualTo("username",username).get();
+        if (querySnapshotApiFuture.get().getDocuments().isEmpty()){
+            throw new Exception("Los datos de autenticación son incorrectos");
+        }
+        Profesor profesor = null;
+        for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
+            profesor = aux.toObject(Profesor.class);
+        }
         StrongPasswordEncryptor strongPasswordEncryptor = new StrongPasswordEncryptor();
-        if (strongPasswordEncryptor.checkPassword(password, profesorEmail.getPassword())){
-            return profesorEmail;
+        if (strongPasswordEncryptor.checkPassword(password, profesor.getPassword())){
+            return profesor;
         } else {
             throw new Exception("La contraseña es incorrecta");
         }
@@ -43,51 +62,55 @@ public class ProfesorServicioImpl implements ProfesorServicio{
 
     @Override
     public Profesor registrarProfesor(Profesor p) throws Exception {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Profesor").whereEqualTo("id",p.getId()).get();
 
-        Optional<Profesor> buscado = profesorRepo.findById(p.getId());
-
-        if (buscado.isPresent()) {
+        if (!querySnapshotApiFuture.get().getDocuments().isEmpty()) {
             throw new Exception("El id del profesor ya existe.");
         }
 
         if (p.getEmail() != null) {
-            buscado = buscarPorEmail(p.getEmail());
+            querySnapshotApiFuture = dbFirestore.collection("Profesor").whereEqualTo("email",p.getEmail()).get();
 
-            if (buscado.isPresent()) {
+            if (!querySnapshotApiFuture.get().getDocuments().isEmpty()) {
                 throw new Exception("El email del profesor ya existe.");
             }
 
         }
 
-        buscado = profesorRepo.findByUsername(p.getUsername());
+        querySnapshotApiFuture = dbFirestore.collection("Profesor").whereEqualTo("username",p.getUsername()).get();
 
-        if (buscado.isPresent()) {
+        if (!querySnapshotApiFuture.get().getDocuments().isEmpty()) {
             throw new Exception("El username del profesor ya existe.");
         }
 
         StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
         p.setPassword(passwordEncryptor.encryptPassword(p.getPassword()));
 
-        LocalDate fechaN = p.getFechaNacimiento();
+        int fechaAhora = LocalDate.now().getYear();
+        int fechaN = Integer.parseInt(p.getFechaNacimiento().split("-")[0]);
 
-
-        if (LocalDate.now().compareTo(fechaN) < 18)
+        if (fechaAhora - fechaN < 18)
         {
             throw new Exception("Debe tener más de 18 años de edad");
         }
 
-        Profesor pr = new Profesor();
         try {
-            pr = profesorRepo.save(p);
+            dbFirestore.collection("Profesor").document(p.getId()).set(p);
         } catch (Exception e)
         {
             e.printStackTrace();
         }
-        return pr;
+        return p;
     }
 
-    private Optional<Profesor> buscarPorEmail (String email)
-    {
-        return  profesorRepo.findByEmail(email);
+    private Profesor buscarPorEmail (String email) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Profesor").whereEqualTo("email",email).get();
+        Profesor profesor = null;
+        for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
+            profesor = aux.toObject(Profesor.class);
+        }
+        return  profesor;
     }
 }

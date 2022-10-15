@@ -6,6 +6,12 @@ import co.edu.uniquindio.proyecto.repositorios.DetalleTestRepo;
 import co.edu.uniquindio.proyecto.repositorios.PreguntaRepo;
 import co.edu.uniquindio.proyecto.repositorios.TestRepo;
 import co.edu.uniquindio.proyecto.repositorios.TipoPreguntaRepo;
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.WriteResult;
+import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,6 +19,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class PreguntaServicioImpl implements PreguntaServicio{
@@ -34,20 +41,37 @@ public class PreguntaServicioImpl implements PreguntaServicio{
     }
 
     @Override
-    public List<TipoPregunta> listarTiposPregunta() {
-        return tipoPreguntaRepo.findAll();
+    public List<TipoPregunta> listarTiposPregunta() throws ExecutionException, InterruptedException {
+        List<TipoPregunta> list = new ArrayList<>();
+        TipoPregunta tipoPregunta;
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Tipo").get();
+        for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
+            tipoPregunta = aux.toObject(TipoPregunta.class);
+            list.add(tipoPregunta);
+        }
+        return list;
     }
 
     @Override
-    public List<Pregunta> listarPreguntas() {
-        return preguntaRepo.findAll();
+    public List<Pregunta> listarPreguntas() throws ExecutionException, InterruptedException {
+        List<Pregunta> list = new ArrayList<>();
+        Pregunta pregunta;
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Pregunta").get();
+        for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
+            pregunta = aux.toObject(Pregunta.class);
+            list.add(pregunta);
+        }
+        return list;
     }
 
     @Override
     public Pregunta guardarPregunta(Pregunta p) throws Exception {
         try {
-            return preguntaRepo.save(p);
-
+            Firestore dbFirestore = FirestoreClient.getFirestore();
+            dbFirestore.collection("Pregunta").document(Integer.toString(p.getId())).set(p);
+            return p;
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -55,7 +79,16 @@ public class PreguntaServicioImpl implements PreguntaServicio{
 
     @Override
     public Pregunta obtenerPregunta(Integer codigo) throws Exception {
-        return preguntaRepo.findById(codigo).orElseThrow(() -> new Exception("El código del producto no es válido"));
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Pregunta").whereEqualTo("id",codigo).get();
+        if (querySnapshotApiFuture.get().getDocuments().isEmpty()) {
+            throw new Exception("El código de la pregunta no es válido");
+        }
+        Pregunta pregunta = null;
+        for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
+            pregunta = aux.toObject(Pregunta.class);
+        }
+        return pregunta;
     }
 
     @Override
@@ -75,14 +108,16 @@ public class PreguntaServicioImpl implements PreguntaServicio{
             }
 
             test.setId(idTest);
-            Test testGuardado = testRepo.save(test);
+            Firestore dbFirestore = FirestoreClient.getFirestore();
+            dbFirestore.collection("Test").document(test.getId()).set(test);
+            Test testGuardado = test;
 
             DetalleTest dt;
             for (PreguntaTest p : preguntaTests){
                 dt = new DetalleTest();
                 dt.setPregunta(preguntaRepo.getById(p.getId()));
                 dt.setTest(testGuardado);
-                detalleTestRepo.save(dt);
+                dbFirestore.collection("DetalleTest").document().set(dt);
             }
             return testGuardado;
         }catch (Exception e){
@@ -117,12 +152,10 @@ public class PreguntaServicioImpl implements PreguntaServicio{
         return builder.toString();
     }
 
-    public boolean verificarId (String id)
-    {
-        //Test t = testRepo.findById(id).orElseThrow(() -> new Exception("Los datos de autenticación son incorrectos"));
-        Optional<Test> buscado = testRepo.findById(id);
-
-        if (buscado.isEmpty()){
+    public boolean verificarId (String id) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Test").whereEqualTo("id",id).get();
+        if (querySnapshotApiFuture.get().getDocuments().isEmpty()){
             return true; //ID está disponible
         }
         return false; //EL ID ya existe
