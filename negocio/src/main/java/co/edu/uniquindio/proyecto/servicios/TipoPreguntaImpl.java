@@ -10,7 +10,9 @@ import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class TipoPreguntaImpl implements TipoPreguntaServicio {
@@ -47,9 +49,17 @@ public class TipoPreguntaImpl implements TipoPreguntaServicio {
     }
 
     @Override
-    public boolean existenTipos() {
+    public boolean existenTipos() throws ExecutionException, InterruptedException {
         boolean resultado = true;
-        List<TipoPregunta> tipos = tipoPreguntaRepo.findAll();
+        List<TipoPregunta> tipos = new ArrayList<>();
+        TipoPregunta tipoPregunta;
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Tipo").get();
+        for (DocumentSnapshot aux : querySnapshotApiFuture.get().getDocuments()) {
+            tipoPregunta = aux.toObject(TipoPregunta.class);
+            tipos.add(tipoPregunta);
+        }
+
         if (tipos == null || tipos.size() == 0) {
             resultado = false;
         }
@@ -58,6 +68,8 @@ public class TipoPreguntaImpl implements TipoPreguntaServicio {
 
     @Override
     public TipoPregunta registrarTipo(TipoPregunta tipoPregunta) throws Exception {
-        return tipoPreguntaRepo.save(tipoPregunta);
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        dbFirestore.collection("Tipo").document(Integer.toString(tipoPregunta.getId())).set(tipoPregunta);
+        return tipoPregunta;
     }
 }

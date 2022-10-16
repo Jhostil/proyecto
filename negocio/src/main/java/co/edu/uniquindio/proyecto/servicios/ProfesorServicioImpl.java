@@ -30,7 +30,7 @@ public class ProfesorServicioImpl implements ProfesorServicio{
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Profesor").whereEqualTo("id",codigo).get();
 
-        if (!querySnapshotApiFuture.get().getDocuments().isEmpty()){
+        if (querySnapshotApiFuture.get().getDocuments().isEmpty()){
             throw new Exception("El profesor no existe.");
         }
         Profesor buscado = null;

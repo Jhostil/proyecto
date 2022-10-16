@@ -47,5 +47,5 @@ public class DetalleTest implements Serializable {
 
     //Atributo que sirve para guardar la hora y fecha de cuando se contesta el test
     @Column(name = "fechaTest", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDate fechaTest;
+    private String fechaTest;
 }

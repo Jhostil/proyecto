@@ -70,6 +70,7 @@ public class PreguntaServicioImpl implements PreguntaServicio{
     public Pregunta guardarPregunta(Pregunta p) throws Exception {
         try {
             Firestore dbFirestore = FirestoreClient.getFirestore();
+            p.setId(dbFirestore.collection("Pregunta").get().get().getDocuments().size()+1);
             dbFirestore.collection("Pregunta").document(Integer.toString(p.getId())).set(p);
             return p;
         } catch (Exception e) {
@@ -115,8 +116,9 @@ public class PreguntaServicioImpl implements PreguntaServicio{
             DetalleTest dt;
             for (PreguntaTest p : preguntaTests){
                 dt = new DetalleTest();
-                dt.setPregunta(preguntaRepo.getById(p.getId()));
+                dt.setPregunta(obtenerPregunta(p.getId()));
                 dt.setTest(testGuardado);
+                dt.setId(dbFirestore.collection("DetalleTest").get().get().getDocuments().size()+1);
                 dbFirestore.collection("DetalleTest").document().set(dt);
             }
             return testGuardado;

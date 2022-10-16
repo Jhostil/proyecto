@@ -1,56 +1,97 @@
 package co.edu.uniquindio.proyecto.servicios;
 
-import co.edu.uniquindio.proyecto.entidades.Test;
-import co.edu.uniquindio.proyecto.entidades.Usuario;
+import co.edu.uniquindio.proyecto.entidades.*;
+import co.edu.uniquindio.proyecto.repositorios.DetalleTestRepo;
 import co.edu.uniquindio.proyecto.repositorios.TestRepo;
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QuerySnapshot;
+import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TestServicioImpl implements TestServicio {
 
 
     private TestRepo testRepo;
+    private DetalleTestRepo detalleTestRepo;
 
-    public TestServicioImpl(TestRepo testRepo) {
+    public TestServicioImpl(TestRepo testRepo, DetalleTestRepo detalleTestRepo) {
         this.testRepo = testRepo;
+        this.detalleTestRepo = detalleTestRepo;
     }
 
-
     @Override
-    public boolean validarCodigo(String codigo) throws Exception {
+    public String validarCodigo(String codigo, String idUsuario) throws Exception {
 
         try {
-            System.out.println(codigo);
-            Test test = testRepo.findById(codigo).orElse(null);
+            Test test = null;
+            Firestore dbFirestore = FirestoreClient.getFirestore();
+            ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Test").whereEqualTo("id",codigo).get();
+            for (DocumentSnapshot aux : querySnapshotApiFuture.get().getDocuments()) {
+                test = aux.toObject(Test.class);
+            }
             if (test != null) {
-                try {
-                    Usuario u = test.getUsuario();
-                    if (test.getUsuario() == null) {
-                        return true;
+                Usuario u = null;
+                querySnapshotApiFuture = dbFirestore.collection("DetalleTest").get();
+                for (DocumentSnapshot aux : querySnapshotApiFuture.get().getDocuments()) {
+                    DetalleTest dt = aux.toObject(DetalleTest.class);
+                    if (dt.getTest() != null) {
+                        if (dt.getTest().getId().equals(codigo)) {
+                            if (dt.getUsuario() != null) {
+                                if (dt.getUsuario().getId().equals(idUsuario)) {
+                                    u = dt.getUsuario();
+                                }
+                            }
+                        }
                     }
-                } catch (Exception f) {
-                    throw new Exception("El test ya fué presentado");
+                }
+
+                if (u == null)
+                {
+                    return "valido";
+                } else {
+                    return "El test ya fué presentado";
                 }
             }
         } catch (Exception e) {
-            throw new Exception("Código no válido");
+            return "invalido";
         }
-
-        return false;
+        return "invalido";
     }
 
     @Override
-    public Test iniciarTest(String codigo, Usuario usuario) throws Exception {
+    public List<DetalleTest> iniciarTest(String codigo, Usuario usuario) throws Exception {
 
         try {
-            Test test = testRepo.getById(codigo);
-            test.setUsuario(usuario);
-            test.setFechaTest(LocalDate.now());
-            //testRepo.save(test);
-            return test;
+            Test test = null;
+            Firestore dbFirestore = FirestoreClient.getFirestore();
+            ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Test").whereEqualTo("id",codigo).get();
+            for (DocumentSnapshot aux : querySnapshotApiFuture.get().getDocuments()) {
+                test = aux.toObject(Test.class);
+            }
+            List<DetalleTest> detalleTestList = test.getDetalleTestList();
+            List<DetalleTest> nuevoTest = new ArrayList<>();
+
+            for (DetalleTest dt: detalleTestList) {
+
+                Pregunta pregunta = dt.getPregunta();
+                DetalleTest detalleTest = new DetalleTest();
+                detalleTest.setTest(test);
+                detalleTest.setPregunta(pregunta);
+                detalleTest.setUsuario(usuario);
+                detalleTest.setFechaTest(LocalDate.now().toString());
+                detalleTest.setId(dbFirestore.collection("DetalleTest").get().get().getDocuments().size()+1);
+                dbFirestore.collection("DetalleTest").document(Integer.toString(detalleTest.getId())).set(detalleTest);
+                nuevoTest.add(detalleTest);
+            }
+
+            return nuevoTest;
         }catch (Exception e)
         {
             throw new Exception(e.getMessage());

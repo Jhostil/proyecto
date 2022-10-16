@@ -1,6 +1,8 @@
 package co.edu.uniquindio.proyecto;
 
 import co.edu.uniquindio.proyecto.entidades.Persona;
+import co.edu.uniquindio.proyecto.entidades.Test;
+import co.edu.uniquindio.proyecto.entidades.TipoPregunta;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;

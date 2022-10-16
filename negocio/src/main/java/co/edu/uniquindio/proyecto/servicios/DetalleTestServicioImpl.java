@@ -26,12 +26,16 @@ public class DetalleTestServicioImpl implements DetalleTestServicio{
     @Override
     public List<DetalleTest> obtenerDetallesTest(String codigoTest) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("DetalleTest").whereEqualTo("id",codigoTest).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("DetalleTest").get();
         List<DetalleTest> list = new ArrayList<>();
         DetalleTest detalleTest;
         for (DocumentSnapshot aux: querySnapshotApiFuture.get().getDocuments()) {
             detalleTest = aux.toObject(DetalleTest.class);
-            list.add(detalleTest);
+            if (detalleTest.getTest() != null) {
+                if (detalleTest.getTest().getId().equals(codigoTest)){
+                    list.add(detalleTest);
+                }
+            }
         }
         return list;
     }
@@ -44,8 +48,22 @@ public class DetalleTestServicioImpl implements DetalleTestServicio{
 
     @Override
     public List<DetalleTest> obtenerDetallesTestPresentados(String codigoTest, String idUsuario) throws Exception {
-        return detalleTestRepo.obtenerDetallesTestsPresentados(codigoTest, idUsuario);
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("DetalleTest").get();
+        List<DetalleTest> list = new ArrayList<>();
+        DetalleTest detalleTest;
+        for (DocumentSnapshot aux: querySnapshotApiFuture.get().getDocuments()) {
+            detalleTest = aux.toObject(DetalleTest.class);
+            if (detalleTest.getTest() != null) {
+                if (detalleTest.getTest().getId().equals(codigoTest)){
+                    if (detalleTest.getUsuario() != null) {
+                        if (detalleTest.getUsuario().getId().equals(idUsuario)){
+                            list.add(detalleTest);
+                        }
+                    }
+                }
+            }
+        }
+        return list;
     }
-
-
 }
