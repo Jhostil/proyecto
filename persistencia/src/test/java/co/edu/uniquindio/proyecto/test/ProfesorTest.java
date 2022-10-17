@@ -1,9 +1,7 @@
 package co.edu.uniquindio.proyecto.test;
 
 import co.edu.uniquindio.proyecto.entidades.Profesor;
-import co.edu.uniquindio.proyecto.entidades.Usuario;
 import co.edu.uniquindio.proyecto.repositorios.ProfesorRepo;
-import co.edu.uniquindio.proyecto.repositorios.UsuarioRepo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +73,7 @@ public class ProfesorTest {
         profesor.setApellido("Fernandez");
         profesor.setPassword("juanita");
         profesor.setEmail("juana@mail.com");
-        profesor.setFechaNacimiento(LocalDate.of(1989,01,13));
+        profesor.setFechaNacimiento(LocalDate.of(1989,01,13).toString());
 
         profesorRepo.save(profesor);
 
@@ -85,7 +83,7 @@ public class ProfesorTest {
         profesor.setApellido("Gomez");
         profesor.setPassword("pedrito");
         profesor.setEmail("pedro@mail.com");
-        profesor.setFechaNacimiento(LocalDate.of(1990,12,24));
+        profesor.setFechaNacimiento(LocalDate.of(1990,12,24).toString());
 
         profesorRepo.save(profesor);
 

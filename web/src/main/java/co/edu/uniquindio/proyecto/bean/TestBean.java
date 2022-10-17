@@ -109,7 +109,6 @@ public class TestBean implements Serializable {
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
                 FacesContext.getCurrentInstance().addMessage("codigo_test", fm);
             }
-
             if (valido.equals("valido")) {
                 iniciarTest(usuario);
                 return "responderTest.xhtml?faces-redirect=true";

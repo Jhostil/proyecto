@@ -1,8 +1,8 @@
 package co.edu.uniquindio.proyecto.bean;
 
+
 import co.edu.uniquindio.proyecto.entidades.Pregunta;
 import co.edu.uniquindio.proyecto.entidades.Profesor;
-import co.edu.uniquindio.proyecto.entidades.Usuario;
 import co.edu.uniquindio.proyecto.servicios.PreguntaServicio;
 import co.edu.uniquindio.proyecto.servicios.UsuarioServicio;
 import lombok.Getter;
