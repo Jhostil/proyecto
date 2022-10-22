@@ -13,7 +13,6 @@ HELP.md
 ### IntelliJ IDEA ###
 .idea
 *.iws
-*.iml
 *.ipr
 
 ### NetBeans ###
@@ -30,7 +29,6 @@ HELP.md
 *.class
 
 #Archivos de Intellij
-*.iml
 /.idea
 
 #Ignora archis del sistema Mac
