@@ -15,6 +15,7 @@
     <description>Proyecto que contiene la interfaz gráfica de usuario (GUI) web para los clientes</description>
 
     <properties>
+        <start-class>co.edu.uniquindio.proyecto.WebApplication</start-class>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <joinfaces.version>4.6.0</joinfaces.version>
@@ -75,6 +76,12 @@
             <groupId>com.google.firebase</groupId>
             <artifactId>firebase-admin</artifactId>
             <version>8.0.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper -->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <version>9.0.44</version>
         </dependency>
     </dependencies>
         <build>
