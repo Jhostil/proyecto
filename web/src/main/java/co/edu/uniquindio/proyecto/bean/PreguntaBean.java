@@ -56,7 +56,7 @@ public class PreguntaBean implements Serializable {
     @Setter
     private String correcta;
 
-    @Value("target/classes/META-INF/resources/uploads")
+    @Value("src/main/resources/META-INF/resources/uploads")
     private String urlUpload;
 
     @Getter @Setter
