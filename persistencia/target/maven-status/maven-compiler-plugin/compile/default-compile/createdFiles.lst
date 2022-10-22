@@ -1,0 +1,14 @@
+co\edu\uniquindio\proyecto\repositorios\TipoPreguntaRepo.class
+co\edu\uniquindio\proyecto\entidades\Test.class
+co\edu\uniquindio\proyecto\repositorios\DetalleTestRepo.class
+co\edu\uniquindio\proyecto\repositorios\ProfesorRepo.class
+co\edu\uniquindio\proyecto\entidades\Pregunta.class
+co\edu\uniquindio\proyecto\repositorios\PreguntaRepo.class
+co\edu\uniquindio\proyecto\entidades\Persona.class
+co\edu\uniquindio\proyecto\entidades\DetalleTest.class
+co\edu\uniquindio\proyecto\entidades\TipoPregunta.class
+co\edu\uniquindio\proyecto\repositorios\TestRepo.class
+co\edu\uniquindio\proyecto\entidades\Profesor.class
+co\edu\uniquindio\proyecto\dto\PreguntaTest.class
+co\edu\uniquindio\proyecto\repositorios\UsuarioRepo.class
+co\edu\uniquindio\proyecto\entidades\Usuario.class

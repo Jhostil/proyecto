@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="WEB-INF/template.xhtml">
+
+    <ui:define name="title">Registrarse</ui:define>
+    <ui:define name="content">
+        <p:panel header="Registrar usuario">
+            <h:form >
+                <h:panelGrid columns="6" cellpadding="5"  styleClass="registro_u"   >
+
+                    <p:outputLabel value="Identifiación:" for="codigo_u"/>
+                    <p:inputText id="codigo_u" value="#{usuarioBean.usuario.id}" required="true"/>
+                    <p:message for="codigo_u" />
+
+                    <p:outputLabel for="fecha_nacimiento_u" value="Fecha de nacimiento:"/>
+                    <p:datePicker id="fecha_nacimiento_u" value="#{usuarioBean.localDate}" locale="es"  monthNavigator="true" yearNavigator="true" showWeek="true" yearRange="1900:2022"/>
+                    <p:message for="fecha_nacimiento_u" />
+
+                    <p:outputLabel value="Nombre:" for="nombre_u"/>
+                    <p:inputText id="nombre_u" value="#{usuarioBean.usuario.nombre}" required="true" validatorMessage="El nombre debe tener entre 2 y 150 caracteres"/>
+                    <p:message for="nombre_u" />
+
+                    <p:outputLabel value="Apellido:" for="apellido_u"/>
+                    <p:inputText id="apellido_u" value="#{usuarioBean.usuario.apellido}" required="true" validatorMessage="El apellido debe tener entre 2 y 150 caracteres"/>
+                    <p:message for="apellido_u" />
+
+                    <p:outputLabel value="Username:" for="username_u"/>
+                    <p:inputText id="username_u" value="#{usuarioBean.usuario.username}" required="true"/>
+                    <p:message for="username_u" />
+
+                    <p:outputLabel value="Password:" for="pass_u"/>
+                    <p:password id="pass_u" value="#{usuarioBean.usuario.password}" required="true"/>
+                    <p:message for="pass_u" />
+                </h:panelGrid>
+
+                <h:panelGrid columns="4" cellpadding="5"  styleClass="registro_u" style="margin-block-start: -50px" >
+
+                    <h5>Rol</h5>
+                    <p:selectOneRadio id="rol" value="#{usuarioBean.rol}" required="true" validatorMessage="Debe seleccionar un rol">
+                        <f:selectItem itemLabel="Estudiante" itemValue="Estudiante" />
+                        <f:selectItem itemLabel="Profesor" itemValue="Profesor"/>
+                    </p:selectOneRadio>
+                </h:panelGrid>
+
+                <p:growl showDetail="true" for="msj-bean" />
+                <p:commandButton value="Registrarse" style="margin-top: 15px"  action="#{usuarioBean.registrarUsuario}" update="@form" icon="pi pi-user-plus"/>
+
+            </h:form>
+
+        </p:panel>
+    </ui:define>
+</ui:composition>
+</html>

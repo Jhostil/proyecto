@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="../WEB-INF/template1.xhtml">
+
+    <ui:define name="title">Crear Pregunta</ui:define>
+    <ui:define name="content">
+        <div id="test"  jsf:rendered="#{seguridadBean.autenticado}" style="text-align: center">
+            <h:form style="text-align: -webkit-center">
+
+                <h:panelGrid columns="3" cellpadding="5" style="width:600px">
+                <p:outputLabel value="Descripción:" for="descripcion_p"/>
+                <p:textEditor id="descripcion_p" value="#{preguntaBean.pregunta.descripcion}" height="100" widht="100" secure="false"/>
+                <p:message for="descripcion_p"/>
+                </h:panelGrid>
+
+                <h:panelGrid columns="5" cellpadding="5">
+                    <p:outputLabel value="Pregunta:" for="img_pregunta"/>
+                    <p:fileUpload id="img_pregunta" listener="#{preguntaBean.subirImagenPregunta}" mode="advanced" multiple="false" sizeLimit="1000000" fileLimit="1"
+                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="false"/>
+                    <p:message for="img_pregunta"/>
+
+                    <p:outputLabel for="@next" value="Tipo de pregunta"/>
+                    <p:selectOneMenu id="tipo" value="#{preguntaBean.tipo}"
+                                     hideNoSelectionOption="#{not empty selectOneMenuView.hideNoSelectOption}">
+                        <p:ajax update="@this" process="@this"/>
+                        <f:selectItem itemLabel="Secuencia Lógica" itemValue="logica"/>
+                        <f:selectItem itemLabel="Laberinto" itemValue="laberinto"/>
+                        <f:selectItem itemLabel="Cuestionario" itemValue="cuestionario"/>
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                <h:panelGrid columns="6" cellpadding="5">
+                    <p:outputLabel value="Respuesta correcta:" for="img_correcta"/>
+                    <p:fileUpload id="img_correcta" listener="#{preguntaBean.subirImagenCorrecta}" mode="advanced" multiple="false" sizeLimit="1000000" fileLimit="1"
+                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true"/>
+                    <p:message for="img_correcta"/>
+
+                    <p:outputLabel value="Respuestas Incorrectas:" for="img_incorrectas"/>
+                    <p:fileUpload id="img_incorrectas" listener="#{preguntaBean.subirImagenesIncorrectas}" mode="advanced" multiple="true" sizeLimit="1000000" fileLimit="3"
+                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true"/>
+                    <p:message for="img_incorrectas"/>
+
+                </h:panelGrid>
+
+                <p:growl showDetail="true" for="msj-bean" />
+
+                <p:commandButton value="Crear pregunta" action="#{preguntaBean.crearPregunta}" update="@form" icon="pi pi-plus" style="margin-top:50px"/>
+
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>
