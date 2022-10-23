@@ -26,7 +26,6 @@
                     </div>
                     <div>
                         <h4 class="mb-1">#{pregunta.tipo.descripcion}</h4>
-
                         <span class="product-badge status-#{product.inventoryStatus.name().toLowerCase()}">#{product.inventoryStatus.text}</span>
                         <div class="mt-5">
 
@@ -42,9 +41,9 @@
 
                 <p:growl for="msj-bean" infostyle="color:green" showDetail="true"/>
                 <p:commandButton value="Generar Test" styleClass="ui-button-raised"  update="@form" icon="pi pi-check" iconPos="right" action="#{seguridadBean.generarTest()}" style="margin-top:20px" />
-
             </div>
     </h:form>
     </ui:define>
 </ui:composition>
+
 </html>
