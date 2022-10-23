@@ -75,6 +75,18 @@ public class TestServicioImpl implements TestServicio {
             for (DocumentSnapshot aux : querySnapshotApiFuture.get().getDocuments()) {
                 test = aux.toObject(Test.class);
             }
+            querySnapshotApiFuture = dbFirestore.collection("DetalleTest").get();
+            DetalleTest detalle;
+            List<DetalleTest> list = new ArrayList<>();
+            test.setDetalleTestList(list);
+            for (DocumentSnapshot aux : querySnapshotApiFuture.get().getDocuments()) {
+                detalle = aux.toObject(DetalleTest.class);
+                if (detalle.getTest() != null) {
+                    if (detalle.getTest().getId().equals(codigo)){
+                        test.getDetalleTestList().add(detalle);
+                    }
+                }
+            }
             List<DetalleTest> detalleTestList = test.getDetalleTestList();
             List<DetalleTest> nuevoTest = new ArrayList<>();
 

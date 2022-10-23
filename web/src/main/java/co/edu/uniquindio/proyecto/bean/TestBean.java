@@ -109,7 +109,6 @@ public class TestBean implements Serializable {
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
                 FacesContext.getCurrentInstance().addMessage("codigo_test", fm);
             }
-
             if (valido.equals("valido")) {
                 iniciarTest(usuario);
                 return "responderTest.xhtml?faces-redirect=true";
@@ -151,6 +150,10 @@ public class TestBean implements Serializable {
         Collections.shuffle(respuestas); //desordena las respuestas
     }
 
+    /**
+     * Metodo que me permite saber que respuesta selecciono un usuario en un Quiz
+     * @return respuesta
+     */
     public String marcarRespuesta() {
 
         String respuesta = "";
@@ -161,9 +164,12 @@ public class TestBean implements Serializable {
             detalleTest.setRespuesta(respuesta);
 
             Pregunta pregunta = detalleTest.getPregunta();
+            //Obtengo la respuesta correcta para su posterior revisión
             respCorrecta = pregunta.getCorrecta();
 
+            //Valido si la respuesta es correcta
             if (respCorrecta.equals(respuesta)) {
+                //De ser correcta la respuesta se califica con 5 y se guarda en el detalle del test
                 detalleTest.setCalificacion(5);
                 detalleTestServicio.guardarDetalle(detalleTest);
                 esCorrecta = true;
@@ -175,6 +181,7 @@ public class TestBean implements Serializable {
                     calificacionFinal = "Sacaste " + calificacion + " preguntas buenas de 6";
                 }
             } else {
+                //De ser correcta la respuesta se califica con 0 y se guarda en el detalle del test
                 detalleTest.setCalificacion(0);
                 detalleTestServicio.guardarDetalle(detalleTest);
 
@@ -183,6 +190,7 @@ public class TestBean implements Serializable {
             if(indiceDetalleTestActual == 5){
                 pregFinal = true;
             }
+            //direcciona la usuario a la siguiente pregunta
             return "responderTest.xhtml?faces-redirect=true";
 
         } catch (Exception e) {
