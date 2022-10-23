@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="../WEB-INF/template1.xhtml">
+
+    <ui:define name="title">Test</ui:define>
+    <ui:define name="content">
+        <div id="test_en_proceso" jsf:rendered="#{testBean.testenproceso and !testBean.enRevision}"
+             style="text-align: center;">
+            <p:panel style=" align-content:left">
+                <h:outputText value="#{testBean.descripcionPregunta}" escape="false"
+                              style="color:black!important; text-align: left"/>
+            </p:panel>
+            <h:form>
+                <h:panelGrid columns="2" cellpadding="30" style="width: 90vw;  display: inline-flex">
+                    <img src="../uploads/#{testBean.detalleTestList.get(testBean.indiceDetalleTestActual).pregunta.pregunta}" class="pregunta"
+                         width="500" height="500"/>
+                    <h:panelGrid columns="1" cellpadding="30">
+                        <p:selectOneRadio id="customRadio2" value="#{testBean.respSeleccionada}" layout="custom">
+                            <f:selectItem itemLabel="resp1" itemValue="1"/>
+                            <f:selectItem itemLabel="resp2" itemValue="2"/>
+                            <f:selectItem itemLabel="resp3" itemValue="3"/>
+                            <f:selectItem itemLabel="resp4" itemValue="4"/>
+                        </p:selectOneRadio>
+
+                        <h:panelGrid columns="4" cellpadding="5">
+
+                            A)
+                            <p:radioButton id="ref1" for="customRadio2" itemIndex="0"/>
+                            <img src="../uploads/#{testBean.respuestas.get(0)}" class="img4"/>
+                            <h:outputLabel for="ref1"/>
+
+                            B)
+                            <p:radioButton id="ref2" for="customRadio2" itemIndex="1"/>
+                            <img src="../uploads/#{testBean.respuestas.get(1)}" class="img4"/>
+                            <h:outputLabel for="ref2"/>
+
+                            C)
+                            <p:radioButton id="ref3" for="customRadio2" itemIndex="2"/>
+                            <img src="../uploads/#{testBean.respuestas.get(2)}" class="img4"/>
+                            <h:outputLabel for="ref3"/>
+
+                            D)
+                            <p:radioButton id="ref4" for="customRadio2" itemIndex="3"/>
+                            <img src="../uploads/#{testBean.respuestas.get(3)}" class="img4"/>
+                            <h:outputLabel for="ref4"/>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </h:panelGrid>
+                <p:growl id="growl" showDetail="true" for="msj-bean" severity="error"/>
+                <p:messages id="messages" showDetail="true" closable="false" showIcon="false" severity="info">
+                    <p:autoUpdate/>
+                </p:messages>
+                <p:commandButton value="Enviar" style="margin-top: 15px;margin-bottom: 50px;" action="#{testBean.marcarRespuesta()}"
+                                 update="@form" icon="pi pi-angle-double-right" iconPos="right"/>
+            </h:form>
+        </div>
+
+        <div id="test_en_revision" jsf:rendered="#{testBean.testenproceso and testBean.enRevision}"
+             style="text-align: center;">
+            <span style="text-align: center">
+                <div jsf:rendered="#{!testBean.esCorrecta}" class="resp-incorrecta">
+                <h2>
+                Respuesta incorrecta
+                </h2>
+                </div>
+                <div jsf:rendered="#{testBean.esCorrecta}" class="resp-correcta">
+                <h2>
+                Respuesta correcta!
+                </h2>
+                </div>
+            </span>
+            <p:panel style=" align-content:left">
+                <h:outputText value="#{testBean.descripcionPregunta}" escape="false"
+                              style="color:black!important; text-align: left"/>
+            </p:panel>
+            <h:form>
+                <h:panelGrid columns="2" cellpadding="30" style="width: 90vw;  display: inline-flex">
+                    <img src="../uploads/#{testBean.detalleTestList.get(testBean.indiceDetalleTestActual).pregunta.pregunta}" class="pregunta"
+                         width="500" height="500"/>
+                    <h:panelGrid columns="1" cellpadding="30">
+                        <p:selectOneRadio id="customRadio" value="#{testBean.respSeleccionada}" layout="custom"
+                                          disabled="true">
+                            <f:selectItem itemLabel="resp1" itemValue="1"/>
+                            <f:selectItem itemLabel="resp2" itemValue="2"/>
+                            <f:selectItem itemLabel="resp3" itemValue="3"/>
+                            <f:selectItem itemLabel="resp4" itemValue="4"/>
+                        </p:selectOneRadio>
+
+                        <h:panelGrid columns="1" cellpadding="5">
+
+                            <div jsf:rendered="#{testBean.respCorrecta.equals(testBean.respuestas.get(0))}"
+                                 style="background: #29a51a; align-items: center;display: flex">
+                                A)
+                                <p:radioButton id="ref1-1" for="customRadio" itemIndex="0"/>
+                                <img src="../uploads/#{testBean.respuestas.get(0)}" class="img4"/>
+                                <h:outputLabel for="ref1-1"/>
+                            </div>
+
+                            <div jsf:rendered="#{!testBean.respCorrecta.equals(testBean.respuestas.get(0))}"
+                                 style="background: #ff2929; align-items: center;display: flex">
+                                A)
+                                <p:radioButton id="ref1-1-1" for="customRadio" itemIndex="0"/>
+                                <img src="../uploads/#{testBean.respuestas.get(0)}" class="img4"/>
+                                <h:outputLabel for="ref1-1-1"/>
+                            </div>
+
+                            <div jsf:rendered="#{testBean.respCorrecta.equals(testBean.respuestas.get(1))}"
+                                 style="background: #29a51a; align-items: center;display: flex">
+                                B)
+                                <p:radioButton id="ref2-2" for="customRadio" itemIndex="1"/>
+                                <img src="../uploads/#{testBean.respuestas.get(1)}" class="img4"/>
+                                <h:outputLabel for="ref2-2"/>
+                            </div>
+                            <div jsf:rendered="#{!testBean.respCorrecta.equals(testBean.respuestas.get(1))}"
+                                 style="background: #ff2929; align-items: center;display: flex">
+                                B)
+                                <p:radioButton id="ref2-2-2" for="customRadio" itemIndex="1"/>
+                                <img src="../uploads/#{testBean.respuestas.get(1)}" class="img4"/>
+                                <h:outputLabel for="ref2-2-2"/>
+                            </div>
+
+                            <div jsf:rendered="#{testBean.respCorrecta.equals(testBean.respuestas.get(2))}"
+                                 style="background: #29a51a; align-items: center;display: flex">
+                                C)
+                                <p:radioButton id="ref3-3" for="customRadio" itemIndex="2"/>
+                                <img src="../uploads/#{testBean.respuestas.get(2)}" class="img4"/>
+                                <h:outputLabel for="ref3-3"/>
+                            </div>
+                            <div jsf:rendered="#{!testBean.respCorrecta.equals(testBean.respuestas.get(2))}"
+                                 style="background: #ff2929; align-items: center;display: flex">
+                                C)
+                                <p:radioButton id="ref3-3-3" for="customRadio" itemIndex="2"/>
+                                <img src="../uploads/#{testBean.respuestas.get(2)}" class="img4"/>
+                                <h:outputLabel for="ref3-3-3"/>
+                            </div>
+
+                            <div jsf:rendered="#{testBean.respCorrecta.equals(testBean.respuestas.get(3))}"
+                                 style="background: #29a51a; align-items: center;display: flex">
+                                D)
+                                <p:radioButton id="ref4-4" for="customRadio" itemIndex="3"/>
+                                <img src="../uploads/#{testBean.respuestas.get(3)}" class="img4"/>
+                                <h:outputLabel for="ref4-4"/>
+                            </div>
+                            <div jsf:rendered="#{!testBean.respCorrecta.equals(testBean.respuestas.get(3))}"
+                                 style="background: #ff2929; align-items: center;display: flex">
+                                D)
+                                <p:radioButton id="ref4-4-4" for="customRadio" itemIndex="3"/>
+                                <img src="../uploads/#{testBean.respuestas.get(3)}" class="img4"/>
+                                <h:outputLabel for="ref4-4-4"/>
+                            </div>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </h:panelGrid>
+                <p:growl showDetail="true" for="msj-bean"/>
+                <div jsf:rendered="#{!testBean.pregFinal}">
+                    <p:commandButton value="Siguiente" style="margin-top: 15px;margin-bottom: 50px;" action="#{testBean.continuarTest()}"
+                                     update="@form" icon="pi pi-angle-double-right" iconPos="right"/>
+                </div>
+                <div jsf:rendered="#{testBean.pregFinal}">
+                    <p:commandButton value="Terminar" action="#{testBean.continuarTest()}" update="@form"
+                                     styleClass="mr-2" icon="pi pi-check" style="margin-bottom: 50px;">
+                        <p:confirm header="Test Finalizado" message="#{testBean.calificacionFinal}"/>
+                    </p:commandButton>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                        <p:commandButton value="Aceptar" type="button" styleClass="ui-confirmdialog-yes"/>
+                    </p:confirmDialog>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>

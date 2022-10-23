@@ -1,8 +1,5 @@
 HELP.md
-target/
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
 ### STS ###
 .apt_generated
@@ -16,7 +13,6 @@ target/
 ### IntelliJ IDEA ###
 .idea
 *.iws
-*.iml
 *.ipr
 
 ### NetBeans ###
@@ -25,9 +21,6 @@ target/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
 ### VS Code ###
 .vscode/
@@ -35,14 +28,9 @@ build/
 #Archivos compilados
 *.class
 
-#Archivos temporales de Maven
-/**/target/
-
 #Archivos de Intellij
-*.iml
 /.idea
 
 #Ignora archis del sistema Mac
 .DS_store
-/persistencia/target/
 /negocio1

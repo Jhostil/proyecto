@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="../WEB-INF/template1.xhtml">
+
+    <ui:define name="title">Revisión</ui:define>
+    <ui:define name="content">
+        <h:form id="form">
+            <p:dataView var="detalle" value="#{detalleTestBean.detalleTestList}" rows="6" paginator="false"
+                        rowsPerPageTemplate="6,12,16"
+                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        gridIcon="pi pi-th-large" listIcon="pi pi-bars">
+
+
+
+                <p:dataViewListItem>
+                    <div class="product-list-item">
+                        <p:graphicImage url="../../uploads/#{testBean.detalleTestList.get(testBean.indiceDetalleTestActual).pregunta.pregunta}"/>
+
+                        <div class="product-list-action">
+                             <span style="text-align: center">
+                <div jsf:rendered="#{detalle.calificacion == 0}" class="resp-incorrecta">
+                <h2 >
+                Respuesta incorrecta
+                </h2>
+                </div>
+                <div jsf:rendered="#{detalle.calificacion == 5}" class="resp-correcta">
+                <h2 >
+                Respuesta correcta!
+                </h2>
+                </div>
+            </span>
+                            <p:panel  style=" align-content:left" >
+                                <h:outputText value="#{detalle.pregunta.descripcion}" escape="false" style="color:black!important; text-align: left"/>
+                            </p:panel>
+                            <h:form>
+                                <h:panelGrid columns="2" cellpadding="30"   style="width: 90vw;  display: inline-flex">
+                                    <img src="../uploads/#{detalle.pregunta.pregunta}" class="pregunta" width="500" height="500"/>
+                                    <h:panelGrid columns="1" cellpadding="30"  >
+                                        <p:selectOneRadio id="customRadio" value="#{detalleTestBean.respSeleccionada(detalle.respuesta, detalle.pregunta)}" layout="custom" disabled="true">
+                                            <f:selectItem itemLabel="resp1" itemValue="1"/>
+                                            <f:selectItem itemLabel="resp2" itemValue="2"/>
+                                            <f:selectItem itemLabel="resp3" itemValue="3"/>
+                                            <f:selectItem itemLabel="resp4" itemValue="4"/>
+                                        </p:selectOneRadio>
+
+                                        <h:panelGrid columns="1" cellpadding="5">
+
+                                            <div  style="background: #29a51a; align-items: center;display: flex">
+                                                A) <p:radioButton id="ref1-1" for="customRadio" itemIndex="0"/>
+                                                <img src="../uploads/#{detalle.pregunta.correcta}" class="img4"/>
+                                                <h:outputLabel for="ref1-1" />
+                                            </div>
+
+                                            <div style="background: #ff2929; align-items: center;display: flex">
+                                                A) <p:radioButton id="ref1-1-1" for="customRadio" itemIndex="0"/>
+                                                <img src="../uploads/#{detalle.pregunta.incorrecta.get(0)}" class="img4"/>
+                                                <h:outputLabel for="ref1-1-1" />
+                                            </div>
+
+                                            <div style="background: #ff2929; align-items: center;display: flex">
+                                                B) <p:radioButton id="ref2-2-2" for="customRadio" itemIndex="1"/>
+                                                <img src="../uploads/#{detalle.pregunta.incorrecta.get(1)}" class="img4"/>
+                                                <h:outputLabel for="ref2-2-2"/>
+                                            </div>
+
+                                            <div style="background: #ff2929; align-items: center;display: flex">
+                                                C) <p:radioButton id="ref3-3-3" for="customRadio" itemIndex="2"/>
+                                                <img src="../uploads/#{detalle.pregunta.incorrecta.get(2)}" class="img4"/>
+                                                <h:outputLabel for="ref3-3-3" />
+                                            </div>
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+                                </h:form>
+                        </div>
+                    </div>
+                </p:dataViewListItem>
+            </p:dataView>
+            <p:growl  showDetail="true" for="msj-bean" />
+            <p:commandButton value="Aceptar" style="margin-top: 15px"  action="#{testBean.continuarTest()}" update="@form" icon="pi pi-angle-double-right" iconPos="right"/>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

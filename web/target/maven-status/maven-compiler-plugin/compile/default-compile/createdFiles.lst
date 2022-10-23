@@ -1,0 +1,16 @@
+co\edu\uniquindio\proyecto\bean\PreguntaBean.class
+co\edu\uniquindio\proyecto\bean\SeguridadBean.class
+co\edu\uniquindio\proyecto\servicio\FirebaseService.class
+co\edu\uniquindio\proyecto\bean\DetallePreguntaBean.class
+co\edu\uniquindio\proyecto\bean\DetalleTestBean.class
+co\edu\uniquindio\proyecto\WebApplication.class
+co\edu\uniquindio\proyecto\config\PaginaPrincipalConfig.class
+co\edu\uniquindio\proyecto\bean\UsuarioBean.class
+co\edu\uniquindio\proyecto\bean\ProfesorBean.class
+co\edu\uniquindio\proyecto\filtro\SeguridadFilter.class
+co\edu\uniquindio\proyecto\converter\TipoConverter.class
+co\edu\uniquindio\proyecto\rest\UsuarioRestController.class
+co\edu\uniquindio\proyecto\config\InformacionPorDefecto.class
+co\edu\uniquindio\proyecto\bean\TestBean.class
+co\edu\uniquindio\proyecto\bean\InicioBean.class
+co\edu\uniquindio\proyecto\dto\Mensaje.class
