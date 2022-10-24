@@ -102,7 +102,7 @@ public class PreguntaBean implements Serializable {
                     FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Pregunta creado con éxito");
                     FacesContext.getCurrentInstance().addMessage("msj-bean", msg);
                 } else {
-                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Pregunta creado con éxito");
+                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Alerta", "Debe cargar 3 imágenes");
                     FacesContext.getCurrentInstance().addMessage("msj-bean", msg);
                 }
                 pregunta = new Pregunta();
