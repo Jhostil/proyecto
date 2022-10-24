@@ -1,17 +1,23 @@
 package co.edu.uniquindio.proyecto.servicios;
 
 import co.edu.uniquindio.proyecto.entidades.Profesor;
+import co.edu.uniquindio.proyecto.entidades.Test;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
 import co.edu.uniquindio.proyecto.repositorios.ProfesorRepo;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
@@ -29,13 +35,26 @@ public class ProfesorServicioImpl implements ProfesorServicio{
     public Profesor obtenerProfesor(String codigo) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Profesor").whereEqualTo("id",codigo).get();
-
+        FirebaseDatabase storage = FirebaseDatabase.getInstance();
+        DatabaseReference ref = storage.getReference();
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()){
             throw new Exception("El profesor no existe.");
         }
         Profesor buscado = null;
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
             buscado = aux.toObject(Profesor.class);
+        }
+        querySnapshotApiFuture = dbFirestore.collection("Test").get();
+        Test test;
+        List<Test> list = new ArrayList<>();
+        buscado.setTestsConfigurados(list);
+        for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
+            test = aux.toObject(Test.class);
+            if (test.getProfesor() != null) {
+                if (test.getProfesor().getId().equals(codigo)) {
+                    buscado.getTestsConfigurados().add(test);
+                }
+            }
         }
         return buscado;
     }
