@@ -19,6 +19,12 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -92,6 +98,24 @@ public class TestBean implements Serializable {
         calificacionFinal = "";
         pregFinal = false;
 
+    }
+
+    public int getHeight(int id) throws IOException {
+        if (id == -1) {
+            BufferedImage image = ImageIO.read(new File("src/main/resources/META-INF/resources/uploads/"+detalleTestList.get(indiceDetalleTestActual).getPregunta().getPregunta()));
+            return image.getHeight();
+        }
+        BufferedImage image = ImageIO.read(new File("src/main/resources/META-INF/resources/uploads/"+respuestas.get(id)));
+        return image.getHeight();
+    }
+
+    public int getWidth(int id) throws IOException {
+        if (id == -1) {
+            BufferedImage image = ImageIO.read(new File("src/main/resources/META-INF/resources/uploads/"+detalleTestList.get(indiceDetalleTestActual).getPregunta().getPregunta()));
+            return image.getWidth();
+        }
+        BufferedImage image = ImageIO.read(new File("src/main/resources/META-INF/resources/uploads/"+respuestas.get(id)));
+        return image.getWidth();
     }
 
     public String validarCodigo(Usuario usuario) {

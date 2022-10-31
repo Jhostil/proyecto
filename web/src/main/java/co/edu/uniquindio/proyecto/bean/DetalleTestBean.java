@@ -17,6 +17,8 @@ import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.List;
 
+//Clase que comunica la capa web y la capa de negocio,
+// este bean nos ayuda a realizar la validación de si la respuesta seleccionada es la correcta
 @Component
 @Scope("session")
 public class DetalleTestBean implements Serializable {

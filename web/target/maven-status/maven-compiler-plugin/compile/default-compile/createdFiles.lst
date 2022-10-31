@@ -5,6 +5,7 @@ co\edu\uniquindio\proyecto\bean\DetallePreguntaBean.class
 co\edu\uniquindio\proyecto\bean\DetalleTestBean.class
 co\edu\uniquindio\proyecto\WebApplication.class
 co\edu\uniquindio\proyecto\config\PaginaPrincipalConfig.class
+co\edu\uniquindio\proyecto\ResourceWebConfiguration.class
 co\edu\uniquindio\proyecto\bean\UsuarioBean.class
 co\edu\uniquindio\proyecto\bean\ProfesorBean.class
 co\edu\uniquindio\proyecto\filtro\SeguridadFilter.class

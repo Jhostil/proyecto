@@ -20,13 +20,10 @@ public class FirebaseService {
             File file = new File("web/target/classes/serviceAccountKey.json"); // ResourceUtils.getFile("classpath:serviceAccountKey.json");
             InputStream serviceAccount = new FileInputStream(file);
 
-            System.out.println(file.getAbsolutePath());
-
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .setDatabaseUrl("https://quiztest-f0839-default-rtdb.firebaseio.com")
                     .build();
-
             FirebaseApp.initializeApp(options);
         }catch (Exception e){
             e.printStackTrace();

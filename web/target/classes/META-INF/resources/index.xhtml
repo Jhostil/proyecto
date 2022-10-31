@@ -17,7 +17,7 @@
            <div style="width: 50%; height: 10%; left: 25%; position: relative; top: 100px">
            <div class="text-center" >
                <div class="text" style="margin-outside: 1px">
-                   <h1 style="color: white">Bienvenido al test de Pensamiento Computacional</h1>
+                   <h1 style="color: white">QuizRoom</h1>
                </div>
 
                <div id="iniciar-test" jsf:rendered="#{seguridadBean.autenticado and !seguridadBean.profesor}" style="margin-top: 80px">
@@ -32,7 +32,7 @@
                    </h:form>
                    <h:form>
                        <div class="card" style="margin-top:40px">
-                           <p:dataTable var="test" value="#{profesorBean.test}">
+                           <p:dataTable var="test" value="#{profesorBean.tests}">
                                <p:column headerText="Códigos de Tests Disponibles">
                                    <h:outputText value="#{test.id}" />
                                </p:column>

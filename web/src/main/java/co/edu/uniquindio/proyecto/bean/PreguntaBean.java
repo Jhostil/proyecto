@@ -6,6 +6,8 @@ import co.edu.uniquindio.proyecto.entidades.TipoPregunta;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
 import co.edu.uniquindio.proyecto.servicios.PreguntaServicio;
 import co.edu.uniquindio.proyecto.servicios.TipoPreguntaServicio;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.IOUtils;
@@ -100,7 +102,7 @@ public class PreguntaBean implements Serializable {
                     FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Pregunta creado con éxito");
                     FacesContext.getCurrentInstance().addMessage("msj-bean", msg);
                 } else {
-                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Alerta", "Es necesario subir 3 respuestas incorrectas");
+                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Pregunta creado con éxito");
                     FacesContext.getCurrentInstance().addMessage("msj-bean", msg);
                 }
                 pregunta = new Pregunta();
