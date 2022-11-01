@@ -100,6 +100,11 @@ public class TestBean implements Serializable {
 
     }
 
+    /**
+     * Método que obtiene la altura de una imágen
+     * @param id Identificador de la pregunta a la cual pertenece la imágen
+     * @return Retorna un valor entero que representa la altura de la imágen
+     */
     public int getHeight(int id) throws IOException {
         if (id == -1) {
             BufferedImage image = ImageIO.read(new File("src/main/resources/META-INF/resources/uploads/"+detalleTestList.get(indiceDetalleTestActual).getPregunta().getPregunta()));
@@ -109,6 +114,11 @@ public class TestBean implements Serializable {
         return image.getHeight();
     }
 
+    /**
+     * Método que obtiene el ancho de una impagen
+     * @param id Identificador de la pregunta a la cual pertenece la imágen
+     * @return Retorna un valor entero que representa la altura de la imágen
+     */
     public int getWidth(int id) throws IOException {
         if (id == -1) {
             BufferedImage image = ImageIO.read(new File("src/main/resources/META-INF/resources/uploads/"+detalleTestList.get(indiceDetalleTestActual).getPregunta().getPregunta()));
@@ -118,6 +128,11 @@ public class TestBean implements Serializable {
         return image.getWidth();
     }
 
+    /**
+     * Método controlador que permite validar si existe un objeto de tipo Test asociado a un código
+     * @param usuario Usuario que desea realizar el test
+     * @return Retorna una cadena con la redirección de página
+     */
     public String validarCodigo(Usuario usuario) {
         if (codigo == "") {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", "Ingrese un código");
@@ -154,6 +169,10 @@ public class TestBean implements Serializable {
         return "";
     }
 
+    /**
+     * Método controlador que permite iniciar el proceso para responder un Test
+     * @param usuario Usuario que desea reponder el Test
+     */
     public void iniciarTest(Usuario usuario) throws Exception {
 
         detalleTestList = testServicio.iniciarTest(codigo, usuario);
@@ -161,6 +180,9 @@ public class TestBean implements Serializable {
         this.testenproceso = true;
     }
 
+    /**
+     * Método que permite obtener las respuestas de una pregunta desordenándolas
+     */
     public void obtenerRespuestas()  throws Exception{
         respuestas = new ArrayList<>();
         Pregunta pregunta = preguntaServicio.obtenerPregunta(detalleTestList.get(indiceDetalleTestActual).getPregunta().getId());
@@ -175,8 +197,9 @@ public class TestBean implements Serializable {
     }
 
     /**
-     * Metodo que me permite saber que respuesta selecciono un usuario en un Quiz
-     * @return respuesta
+     * Método que permite marcar la respuesta seleccionada de una pregunta
+     * Si es la última pregunta del test, se le notifica al usuario cuanto puntaje sacó.
+     * @return Retorna una cadena con la redirección de página
      */
     public String marcarRespuesta() {
 
@@ -224,6 +247,10 @@ public class TestBean implements Serializable {
         return "";
     }
 
+    /**
+     * Método que permite obtener la siguiente pregunta del test y redireccionar la página para que cargue la nueva pregunta
+     * @return Retorna una cadena con la redirección de página
+     */
     public String continuarTest() throws Exception{
 
         indiceDetalleTestActual++;
@@ -238,6 +265,10 @@ public class TestBean implements Serializable {
         return "responderTest.xhtml?faces-redirect=true";
     }
 
+    /**
+     * Método que permite invalidar el proceso de reponder un test cuando este haya sido repondido completamente
+     * @return Retorna una cadena con la redirección de página
+     */
     public String cerrarTest() {
         this.test = null;
         this.detalleTestList = new ArrayList<>();

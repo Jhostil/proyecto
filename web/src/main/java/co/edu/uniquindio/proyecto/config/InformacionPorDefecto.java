@@ -12,6 +12,9 @@ public class InformacionPorDefecto implements CommandLineRunner {
     @Autowired
     private TipoPreguntaServicio tipoPreguntaServicio;
 
+    /**
+     * Método que permite crear nuevos tipoPregunta si no existe ninguno cuando la aplicación inicie
+     */
     @Override
     public void run(String... args) throws Exception {
         if(!tipoPreguntaServicio.existenTipos()){

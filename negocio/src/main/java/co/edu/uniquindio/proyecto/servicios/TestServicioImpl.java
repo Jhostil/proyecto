@@ -26,6 +26,12 @@ public class TestServicioImpl implements TestServicio {
         this.detalleTestRepo = detalleTestRepo;
     }
 
+    /**
+     * Método que valida si un usuario ya presentó o no un determinado Test.
+     * @param codigo Identificador del Test a presentar
+     * @param idUsuario Identificador del Usuario que desea presentar el Test
+     * @return Retorna una cadena de tipo String indicando el resultado de la validación
+     */
     @Override
     public String validarCodigo(String codigo, String idUsuario) throws Exception {
 
@@ -65,6 +71,13 @@ public class TestServicioImpl implements TestServicio {
         return "invalido";
     }
 
+    /**
+     * Méetodo que dado un código de un Test,
+     * crea y guarda los DetalleTest asociados a ese Test y asociados al usuario que va a respoder las preguntas.
+     * @param codigo Identificador del Test a presentar-
+     * @param usuario Identificador del Usuario que va a presentat el Test.
+     * @return Retorna una lista con los DetalleTest asociados al usuario y al Test.
+     */
     @Override
     public List<DetalleTest> iniciarTest(String codigo, Usuario usuario) throws Exception {
 

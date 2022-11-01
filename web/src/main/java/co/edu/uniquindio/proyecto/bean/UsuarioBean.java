@@ -50,6 +50,9 @@ public class UsuarioBean implements Serializable {
 
     }
 
+    /**
+     * Método controlador que permite inciar el proceso para registrar un nuevo usuario
+     */
     public void registrarUsuario ()
     {
         if (rol.equals("Estudiante")) {

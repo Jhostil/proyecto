@@ -77,6 +77,9 @@ public class PreguntaBean implements Serializable {
         this.tipo = "";
     }
 
+    /**
+     * Método que sirve para crear una nueva pregunta previamente configurada por el profesor
+     */
     public void crearPregunta(){
         try {
             if(profesorSesion != null){
@@ -118,6 +121,10 @@ public class PreguntaBean implements Serializable {
         }
     }
 
+    /**
+     * Método que permite subir una imágen
+     * @param fileUploadEvent Imagen a guardar
+     */
     public void subirImagenPregunta (FileUploadEvent fileUploadEvent) {
         UploadedFile imagen = fileUploadEvent.getFile();
         String nombreImg = subirImagen(imagen);
@@ -126,6 +133,11 @@ public class PreguntaBean implements Serializable {
             preguntaP = nombreImg;
         }
     }
+
+    /**
+     * Método que permite cargar la imagen correspondiente a la respuesta correcta
+     * @param fileUploadEvent Imágen a subir al sistema
+     */
     public void subirImagenCorrecta (FileUploadEvent fileUploadEvent) {
         UploadedFile imagen = fileUploadEvent.getFile();
         String nombreImg = subirImagen(imagen);
@@ -134,6 +146,11 @@ public class PreguntaBean implements Serializable {
             correcta = nombreImg;
         }
     }
+
+    /**
+     * Método que permite subir las imágenes correspondientes a las respuestas incorrectas de una pregunta
+     * @param fileUploadEvent Imágen a subir
+     */
     public void subirImagenesIncorrectas (FileUploadEvent fileUploadEvent) {
         UploadedFile imagen = fileUploadEvent.getFile();
         String nombreImg = subirImagen(imagen);
@@ -142,6 +159,7 @@ public class PreguntaBean implements Serializable {
             incorrectas.add(nombreImg);
         }
     }
+
 
     public String subirImagen (UploadedFile imagen){
 

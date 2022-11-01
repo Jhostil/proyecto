@@ -63,20 +63,14 @@ public class SeguridadBean implements Serializable {
     public void inicializar(){
 
         this.preguntaTests = new ArrayList<>();
-      /*  this.subTotal = 0;
-        productosCarrito = new ArrayList<>();
-        this.medioPago = "";
-
-        if(usuarioSesion != null)
-        {
-            actualizarListaProductosPublicados();
-            actualizarListaProductosFavoritos();
-            actualizarListaProductosComprados();
-        }*/
 
     }
 
 
+    /**
+     * Método controlador que permite validar la iniciada de sesión
+     * @return Retorna una cadena con la redirección a la página index.
+     */
     public String iniciarSesion(){
 
         if(!password.isEmpty()){
@@ -92,10 +86,6 @@ public class SeguridadBean implements Serializable {
 
                     autenticado=true;
                     profesor = false;
-
-                    //actualizarListaProductosPublicados();
-                    //actualizarListaProductosFavoritos();
-                   // actualizarListaTestRealizados();
 
                     return "/index.xhtml?faces-redirect=true";
 
@@ -113,11 +103,21 @@ public class SeguridadBean implements Serializable {
     }
 
 
+    /**
+     * Método que permite invalidar la sesión abierta
+     * @return Retorna una cadena con la redirección a la página principal
+     */
     public String cerrarSesion(){
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/index.xhtml?faces-redirect=true";
     }
 
+    /**
+     * Método que permite agregar una pregunta a un nuevo Test
+     * @param id Identificador de la pregunta.
+     * @param pregunta Ruta de la imágen de la pregunta
+     * @param descripcion Descripción de la pregunta
+     */
     public void agregarAlTest(Integer id, String pregunta, String descripcion){
 
         PreguntaTest preguntaTest =  new PreguntaTest(id, pregunta, descripcion);
@@ -131,6 +131,9 @@ public class SeguridadBean implements Serializable {
         }
     }
 
+    /**
+     * Método que permite generar un nuevo test previamente configurado por el profesor
+     */
     public void generarTest(){
 
         if(profesorServicio != null && preguntaTests.size() == 6){

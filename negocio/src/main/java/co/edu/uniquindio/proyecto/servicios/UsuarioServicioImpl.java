@@ -33,6 +33,11 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
         this.usuarioRepo = usuarioRepo;
     }
 
+    /**
+     * Método que guarda un nuevo registro de un nuevo Usuario.
+     * @param u Objeti de tipo Usuario que se va a guardar
+     * @return Retorna el objeto guardado
+     */
     @Override
     public Usuario registrarUsuario(Usuario u) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -76,6 +81,11 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
         return u;
     }
 
+    /**
+     * Método que sirve para actualizar un objeto de tipo Usuario
+     * @param u Usuario actualizado
+     * @return Retorna el objeto actualizado
+     */
     @Override
     public Usuario actualizarUsuario(Usuario u) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -115,6 +125,10 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
         return usuarioRepo.save(u);
     }
 
+    /**
+     * Método que sirve para eliminar un usuario de la base de datos
+     * @param codigo Identificador del usuario a eliminar
+     */
     @Override
     public void eliminarUsuario(String codigo) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -126,6 +140,10 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
         dbFirestore.collection("Usuario").document(codigo).delete();
     }
 
+    /**
+     * Metodo que sirve para listar todos los usuarios existentes en la base de datos
+     * @return Retorna una lista con los usuarios existentes
+     */
     @Override
     public List<Usuario> listarUsuarios() throws ExecutionException, InterruptedException {
         List<Usuario> usuarios = new ArrayList<>();
@@ -139,6 +157,11 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
         return usuarios;
     }
 
+    /**
+     * Método que sirve para obtener un usuario dado si id
+     * @param codigo Identificador del usuario a buscar
+     * @return Retorna un objeto de tipo Usuario asociado al identificador ingreado
+     */
     @Override
     public Usuario obtenerUsuario(String codigo) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -154,6 +177,12 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
         return buscado;
     }
 
+    /**
+     * Método que sirve para validar que las credencialos ingresadas estén asociadas a un usuiario y que sean correctas
+     * @param username Username de usuario
+     * @param password Contraseña del usuario
+     * @return Retorna el usuario asociado a las credenciales ingrsadas
+     */
     @Override
     public Usuario iniciarSesion(String username, String password) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -173,6 +202,11 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
         }
     }
 
+    /**
+     * Método que srive para listar los test realizados por un usuario en particular
+     * @param id Identificador del usuario
+     * @return Retorna una lista con los test presentados por el usuario
+     */
     @Override
     public List<Test> listarTestRealizados(String id) throws ExecutionException, InterruptedException {
         List<Test> list = new ArrayList<>();
@@ -190,6 +224,11 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
         return list;
     }
 
+    /**
+     * Método que busca un usuario asociado el email ingresado por parámetro
+     * @param email Email del usuario a buscar
+     * @return Retorna un objeto de tipo Usuario asociado al email ingreado
+     */
     private Usuario buscarPorEmail (String email) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Usuario").whereEqualTo("email",email).get();

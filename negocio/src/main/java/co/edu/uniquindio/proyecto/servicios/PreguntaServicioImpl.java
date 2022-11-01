@@ -40,6 +40,10 @@ public class PreguntaServicioImpl implements PreguntaServicio{
         this.detalleTestRepo = detalleTestRepo;
     }
 
+    /**
+     * Método que obtiene los tipos de preguntas existentes.
+     * @return Retorna la lista con los tipo de preguntas que hay.
+     */
     @Override
     public List<TipoPregunta> listarTiposPregunta() throws ExecutionException, InterruptedException {
         List<TipoPregunta> list = new ArrayList<>();
@@ -53,6 +57,10 @@ public class PreguntaServicioImpl implements PreguntaServicio{
         return list;
     }
 
+    /**
+     * Método que obtiene las preguntas existentes
+     * @return Retorna una lista con las preguntas que hay.
+     */
     @Override
     public List<Pregunta> listarPreguntas() throws ExecutionException, InterruptedException {
         List<Pregunta> list = new ArrayList<>();
@@ -66,6 +74,11 @@ public class PreguntaServicioImpl implements PreguntaServicio{
         return list;
     }
 
+    /**
+     * Método que guarda una pregunta a la base de datos.
+     * @param p Objeto de tipo Pregunta que se va a guardar
+     * @return Retorna la pregunta guardada.
+     */
     @Override
     public Pregunta guardarPregunta(Pregunta p) throws Exception {
         try {
@@ -78,6 +91,11 @@ public class PreguntaServicioImpl implements PreguntaServicio{
         }
     }
 
+    /**
+     * Método que dado un id obtiene una pregunta
+     * @param codigo Identificador de la pregunta a devolver
+     * @return Retorna la pregunta asociada al id.
+     */
     @Override
     public Pregunta obtenerPregunta(Integer codigo) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -92,6 +110,13 @@ public class PreguntaServicioImpl implements PreguntaServicio{
         return pregunta;
     }
 
+    /**
+     * Método que sirve para generar un nuevo test previamente configurado por un usuario con el rol de profesor
+     * Este método crea y guarda los detalleTest asosciados al nuevo Test.
+     * @param profesor Objeto de tipo Profesor quien fué el que creó el Test
+     * @param preguntaTests arraylist que contiene los detallesTest a guardar
+     * @return Retorna el Test guardado
+     */
     @Override
     public Test generarTest(Profesor profesor, ArrayList<PreguntaTest> preguntaTests) throws Exception{
 
@@ -128,6 +153,10 @@ public class PreguntaServicioImpl implements PreguntaServicio{
         }
     }
 
+    /**
+     * Método que genera un códgo aleatorio de tamaño 5, combinando letras mayúsuculas y números
+     * @return Retorna un string con el código aleatorio generado
+     */
     public String getRandomString()
     {
         String theAlphaNumericS;
@@ -154,6 +183,11 @@ public class PreguntaServicioImpl implements PreguntaServicio{
         return builder.toString();
     }
 
+    /**
+     * Método que dado un id de un Test verifica si existe o no.
+     * @param id Identificador del Test a buscar
+     * @return Retorna true si el Test con ese id existe. Retorna false si no existe un Test con el id dado
+     */
     public boolean verificarId (String id) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Test").whereEqualTo("id",id).get();

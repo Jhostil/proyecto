@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class PaginaPrincipalConfig implements WebMvcConfigurer {
 
+    //Método controlador que permite redireccionar a la página principal cuando la aplicación inicie.
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/")

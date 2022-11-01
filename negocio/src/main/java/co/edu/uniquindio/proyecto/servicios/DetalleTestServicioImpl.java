@@ -23,6 +23,12 @@ public class DetalleTestServicioImpl implements DetalleTestServicio{
         this.detalleTestRepo = detalleTestRepo;
     }
 
+    /**
+     * Método que permite obtener los detallesTest a partir de un código de un test
+     * @param codigoTest Identificador de un Test
+     * @return retorna una lista con los detalletest asociados al código del Test.
+     * Los detalletest representan las preguntas previamente configuradas al test.
+     */
     @Override
     public List<DetalleTest> obtenerDetallesTest(String codigoTest) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -40,12 +46,22 @@ public class DetalleTestServicioImpl implements DetalleTestServicio{
         return list;
     }
 
+    /**
+     * Método que permite guardar un detalleTest creado
+     * @param detalleTest detalleTest a guardar
+     */
     @Override
     public void guardarDetalle(DetalleTest detalleTest) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         dbFirestore.collection("DetalleTest").document(Integer.toString(detalleTest.getId())).set(detalleTest);
     }
 
+    /**
+     * Método que obtiene las preguntas de un test presentado por un usuario
+     * @param codigoTest Código del test al que pertenecen las preguntas
+     * @param idUsuario Identificador del usuario
+     * @return retorna una lista con los detallesTest pertenecientes al usuario y asociados código del test
+     */
     @Override
     public List<DetalleTest> obtenerDetallesTestPresentados(String codigoTest, String idUsuario) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();

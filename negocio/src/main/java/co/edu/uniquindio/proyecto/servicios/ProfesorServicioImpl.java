@@ -31,6 +31,11 @@ public class ProfesorServicioImpl implements ProfesorServicio{
         this.profesorRepo = profesorRepo;
     }
 
+    /**
+     * Método que dado un id, devulve un objeto de tipo Profesor
+     * @param codigo Identificador del Profesor
+     * @return Retorna un objeto de tipo profesor.
+     */
     @Override
     public Profesor obtenerProfesor(String codigo) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -60,6 +65,13 @@ public class ProfesorServicioImpl implements ProfesorServicio{
     }
 
 
+    /**
+     * Método que dado un username y password, valida si existe un Profesor con ese username,
+     * y si existe, valida que la contraseña ingresada coincida con la existente
+     * @param username Username del usuario
+     * @param password Contraseña del usuario
+     * @return Retorna un objeto de tipo Profesor.
+     */
     @Override
     public Profesor iniciarSesion(String username, String password) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -79,6 +91,11 @@ public class ProfesorServicioImpl implements ProfesorServicio{
         }
     }
 
+    /**
+     * Método que sirve para guardar un objeto de tipo profesor en la base de datos.
+     * @param p Objeto de tipo Profesor a guardar.
+     * @return Retorna el Profesor guardado.
+     */
     @Override
     public Profesor registrarProfesor(Profesor p) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -123,6 +140,11 @@ public class ProfesorServicioImpl implements ProfesorServicio{
         return p;
     }
 
+    /**
+     * Método que sirve para buscar un Profesor dado su email
+     * @param email Email del Profesor a buscar
+     * @return Retorna un objeto de tipo Profesor el cual está asociado al correo ingresado.
+     */
     private Profesor buscarPorEmail (String email) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Profesor").whereEqualTo("email",email).get();

@@ -51,6 +51,12 @@ public class DetalleTestBean implements Serializable {
         }
     }
 
+    /**
+     * Método que sirve para obtener el índice de la posición de la respuesta seleccionada.
+     * @param respuesta Respuesta seleccionada por el usuario
+     * @param pregunta Pregunta respondida por el usuario
+     * @return Retorna la posición de la respuesta seleccionada por el usuario
+     */
     public int respSeleccionada(String respuesta, Pregunta pregunta){
         int resp = 0;
         if (!pregunta.getCorrecta().equals(respuesta))
