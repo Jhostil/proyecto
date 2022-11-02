@@ -482,7 +482,6 @@
 }
 
 .fondo {
-
     background: rgb(34,193,195);
     background: -moz-radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(253,146,45,1) 100%);
     background: -webkit-radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(253,146,45,1) 100%);
