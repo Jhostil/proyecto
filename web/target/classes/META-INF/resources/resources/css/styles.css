@@ -586,6 +586,11 @@ body .ui-panel .ui-panel-titlebar {
     padding: 2rem 0;
 }
 
+.pregunta {
+    width: 80%;
+    height: 80%;
+}
+
 .product-item .product-image {
     width: 70%;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
@@ -604,20 +609,20 @@ body .ui-panel .ui-panel-titlebar {
 color: black}
 
 .img1{
-    height: 200px;
+    height: 400px;
     width: 300px;
 }
 .img2{
-    height: 200px;
-    width: 300px;
+    height: 50%;
+    width: 65%;
 }
 .img3{
-    height: 200px;
-    width: 300px;
+     height: 50%;
+     width: 65%;
 }
 .img4{
-    height: 200px;
-    width: 300px;
+    width: 50%;
+    height: auto;
 }
 .resp-img{
     margin-bottom: 20px;
