@@ -22,7 +22,7 @@
             <h:form>
                 <h:panelGrid columns="2" cellpadding="30" style="width: 90vw;  display: inline-flex">
                     <img src="../uploads/#{testBean.detalleTestList.get(testBean.indiceDetalleTestActual).pregunta.pregunta}" class="pregunta"
-                         width="500" height="500"/>
+                         width="80%" height="80%"/>
                     <h:panelGrid columns="1" cellpadding="30">
                         <p:selectOneRadio id="customRadio2" value="#{testBean.respSeleccionada}" layout="custom">
                             <f:selectItem itemLabel="resp1" itemValue="1"/>
@@ -85,7 +85,7 @@
             <h:form>
                 <h:panelGrid columns="2" cellpadding="30" style="width: 90vw;  display: inline-flex">
                     <img src="../uploads/#{testBean.detalleTestList.get(testBean.indiceDetalleTestActual).pregunta.pregunta}" class="pregunta"
-                         width="500" height="500"/>
+                         width="80%" height="80%"/>
                     <h:panelGrid columns="1" cellpadding="30">
                         <p:selectOneRadio id="customRadio" value="#{testBean.respSeleccionada}" layout="custom"
                                           disabled="true">
