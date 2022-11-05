@@ -20,7 +20,7 @@ import java.util.List;
 @ToString
 public class Test implements Serializable {
 
-    //Llave primaria de la entidad que es autogenerada
+    //Llave primaria de la entidad
     @Id
     @EqualsAndHashCode.Include
     private String id;
@@ -34,7 +34,7 @@ public class Test implements Serializable {
     @ManyToOne
     private Usuario usuario;
 
-    //Relacion de muchos a uno con la entidad Usuario
+    //Relacion de muchos a uno con la entidad Profesor
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)

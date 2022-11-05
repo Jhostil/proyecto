@@ -24,11 +24,17 @@ public class Usuario extends Persona implements Serializable {
     @NotBlank(message = "El campo está vacío, debe ingresar un username")
     private String username;
 
-    //Relacion de uno a muchos con Test
+    //Relacion de uno a muchos con DetalleTest
     @OneToMany(mappedBy = "usuario")
     @JsonIgnore
     @ToString.Exclude
     private List<DetalleTest> testRealizados;
+
+    //Relacion de uno a muchos con UsuarioClase
+    @OneToMany(mappedBy = "usuario")
+    @JsonIgnore
+    @ToString.Exclude
+    private List<UsuarioClase> clases;
 
     //Constructor con argumentos
     public Usuario (String id, String nombre, String apellido, String email, String username, String password, String fechaNacimiento)

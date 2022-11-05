@@ -71,6 +71,13 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.grpc/grpc-alts -->
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-alts</artifactId>
+            <version>1.50.2</version>
+            <scope>runtime</scope>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.firebase/firebase-admin -->
         <dependency>
             <groupId>com.google.firebase</groupId>

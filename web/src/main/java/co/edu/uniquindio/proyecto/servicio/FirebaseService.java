@@ -18,6 +18,7 @@ public class FirebaseService {
     public void inicializar(){
         try {
             File file = new File("web/target/classes/serviceAccountKey.json"); // ResourceUtils.getFile("classpath:serviceAccountKey.json");
+            
             InputStream serviceAccount = new FileInputStream(file);
 
             FirebaseOptions options = new FirebaseOptions.Builder()

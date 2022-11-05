@@ -21,12 +21,19 @@ import java.util.List;
 @Setter
 public class Profesor extends Persona implements Serializable {
 
+    //Relación de uno a muchos con la entidad Test
     @OneToMany(mappedBy = "profesor")
     @JsonIgnore
     @ToString.Exclude
     private List<Test> testsConfigurados;
 
-    //Atributo que represneta el usurname del usuario
+    //Relación de uno a muchos con la entidad Clase
+    @OneToMany(mappedBy = "profesor")
+    @JsonIgnore
+    @ToString.Exclude
+    private List<Clase> clases;
+
+    //Atributo que represneta el username del usuario
     @Column(nullable = false, unique = true)
     @NotBlank(message = "El campo está vacío, debe ingresar un username")
     private String username;
