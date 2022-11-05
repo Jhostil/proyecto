@@ -1,5 +1,6 @@
 package co.edu.uniquindio.proyecto.bean;
 
+import co.edu.uniquindio.proyecto.entidades.Clase;
 import co.edu.uniquindio.proyecto.entidades.Pregunta;
 import co.edu.uniquindio.proyecto.entidades.Profesor;
 import co.edu.uniquindio.proyecto.entidades.Test;
@@ -37,6 +38,12 @@ public class ProfesorBean implements Serializable {
     private Test test;
 
     @Getter @Setter
+    private Clase claseSeleccionada;
+
+    @Getter @Setter
+    private List<Clase> clases;
+
+    @Getter @Setter
     private List<Test> tests;
 
     @Autowired
@@ -50,6 +57,8 @@ public class ProfesorBean implements Serializable {
         try {
             preguntas = preguntaServicio.listarPreguntas();
             tests = profesorServicio.obtenerProfesor(profesor.getId()).getTestsConfigurados();
+            Profesor p = profesorServicio.obtenerProfesor(profesor.getId());
+            clases = profesorServicio.obtenerClases(p);
             this.test = new Test();
         } catch (Exception e) {
             throw new RuntimeException(e);

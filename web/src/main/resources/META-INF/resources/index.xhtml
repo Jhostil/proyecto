@@ -14,12 +14,11 @@
 
     <ui:define name="content">
 
-           <div style="width: 50%; height: 10%; left: 25%; position: relative; top: 100px">
+           <div style=" position: relative; top: 100px">
            <div class="text-center" >
                <div class="text" style="margin-outside: 1px">
                    <h1 style="color: white">Bienvenidos al test de pensamiento computacional</h1>
                </div>
-
                <div id="iniciar-test" jsf:rendered="#{seguridadBean.autenticado and !seguridadBean.profesor}" style="margin-top: 80px">
                    <h:form>
                        <p:commandButton value="Iniciar Nuevo Test" styleClass="btn btn-primary" action="/usuario/test?faces-redirect=true" icon="pi pi-plus"/>
@@ -27,23 +26,60 @@
                </div>
                <div id="configurar-test" jsf:rendered="#{seguridadBean.profesor}" style="margin-top: 80px">
                    <h:form>
-                       <p:commandButton value="Configurar Nuevo Test" styleClass="btn btn-primary" action="/profesor/configurarTest?faces-redirect=true" icon="pi pi-cog"/>
-                       <p:commandButton value="Crear preguntas" style="margin-left:10px"  styleClass="btn btn-primary" action="/profesor/crearPreguntas?faces-redirect=true" icon="pi pi-plus"/>
-                   </h:form>
-                   <h:form>
-                       <div class="card" style="margin-top:40px">
+                       <div id="tests-disponibles" class="card" >
                            <p:dataTable var="test" value="#{profesorBean.tests}">
-                               <p:column headerText="Códigos de Tests Disponibles">
+                               <f:facet name="header">
+                                   Tests Disponibles
+                               </f:facet>
+                               <p:column headerText="Código">
                                    <h:outputText value="#{test.id}" />
                                </p:column>
                            </p:dataTable>
                        </div>
+
+                        <div>
+                            <p:commandButton value="Configurar Nuevo Test" styleClass="btn btn-primary" action="/profesor/configurarTest?faces-redirect=true" icon="pi pi-cog"/>
+                            <p:commandButton value="Crear preguntas" style="margin-left:10px"  styleClass="btn btn-primary" action="/profesor/crearPreguntas?faces-redirect=true" icon="pi pi-plus"/>
+                            <p:commandButton value="Crear Clase" style="margin-left:10px"  styleClass="btn btn-primary" onclick="PF('clase').show()" icon="pi pi-plus"/>
+
+                            <div id="clases-disponibles" class="card" >
+
+                                <p:dataTable id="clases-disponibles" var="clase" value="#{profesorBean.clases}" rowKey="#{clase.id}"
+                                             selection="#{profesorBean.claseSeleccionada}" selectionMode="single">
+                                    <f:facet name="header">
+                                        Clases Disponibles
+                                    </f:facet>
+                                    <p:column headerText="Código de acceso">
+                                        <h:outputText value="#{clase.id}" />
+                                    </p:column>
+                                    <p:column headerText="Nombre">
+                                        <h:outputText value="#{clase.nombre}" />
+                                    </p:column>
+                                </p:dataTable>
+                                <p:contextMenu for="clases-disponibles">
+                                    <p:menuitem value="Ver Clase" update="@form" icon="pi pi-search"
+                                                oncomplete="PF('clase').show()" />
+                                </p:contextMenu>
+                            </div>
+                        </div>
                    </h:form>
+                       <p:dialog header="Crear Clase" showEffect="fade" widgetVar="clase" modal="true" rendered="#{seguridadBean.profesor}" >
+                           <h:form >
+                               <h:panelGrid columns="3" cellpadding="5">
+                                   <p:outputLabel for="nombre_clase" value="Nombre de la clase:" />
+                                   <p:inputText id="nombre_clase" value="#{claseBean.nombreClase}" required="true" />
+                                   <p:message for="nombre_clase" />
+                               </h:panelGrid>
+                               <div style="text-align: center">
+                                   <p:commandButton value="Crear Clase" action="#{claseBean.crearClase}" styleClass="mt-4" update="@form" icon="pi pi-sign-in" iconPos="left" style="align-item:center" />
+                               </div>
+                               <p:growl for="nombre_clase" showDetail="true" />
+                           </h:form>
+                       </p:dialog>
+
                </div>
            </div>
            </div>
-
     </ui:define>
-
 </ui:composition>
 </html>

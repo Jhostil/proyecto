@@ -1,7 +1,10 @@
 package co.edu.uniquindio.proyecto.servicios;
 
+import co.edu.uniquindio.proyecto.entidades.Clase;
 import co.edu.uniquindio.proyecto.entidades.Profesor;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
+
+import java.util.List;
 
 public interface ProfesorServicio {
 
@@ -10,4 +13,6 @@ public interface ProfesorServicio {
     Profesor iniciarSesion(String username, String password) throws Exception;
 
     Profesor registrarProfesor(Profesor p) throws Exception;
+
+    List<Clase> obtenerClases (Profesor p) throws Exception;
 }

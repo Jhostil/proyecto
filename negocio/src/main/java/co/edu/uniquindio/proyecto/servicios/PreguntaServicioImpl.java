@@ -148,7 +148,6 @@ public class PreguntaServicioImpl implements PreguntaServicio{
             }
             return testGuardado;
         }catch (Exception e){
-            System.out.println(e.getMessage());
             throw new Exception(e.getMessage());
         }
     }

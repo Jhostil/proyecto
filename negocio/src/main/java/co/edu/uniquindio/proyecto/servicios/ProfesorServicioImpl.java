@@ -1,5 +1,6 @@
 package co.edu.uniquindio.proyecto.servicios;
 
+import co.edu.uniquindio.proyecto.entidades.Clase;
 import co.edu.uniquindio.proyecto.entidades.Profesor;
 import co.edu.uniquindio.proyecto.entidades.Test;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
@@ -138,6 +139,17 @@ public class ProfesorServicioImpl implements ProfesorServicio{
             e.printStackTrace();
         }
         return p;
+    }
+
+    @Override
+    public List<Clase> obtenerClases(Profesor p) throws Exception {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Clase").whereEqualTo("profesor.id",p.getId()).get();
+        List<Clase> clases = new ArrayList<>();
+        for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
+            clases.add(aux.toObject(Clase.class));
+        }
+        return  clases;
     }
 
     /**

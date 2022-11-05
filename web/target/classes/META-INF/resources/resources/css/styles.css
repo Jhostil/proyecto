@@ -778,3 +778,17 @@ body .ui-dialog.ui-confirm-dialog .ui-dialog-content {
     align-items: center;
     font-size: 19px;
 }
+
+#tests-disponibles{
+    /* <div style="width: 50%; height: 10%; left: 25%; position: relative; top: 100px"> */
+    margin-left: 40px;
+    float: left;
+    width: 20vw;
+}
+
+#clases-disponibles{
+    /* <div style="width: 50%; height: 10%; left: 25%; position: relative; top: 100px"> */
+    margin-right: 40px;
+    float: right;
+    width: 20vw;
+}
