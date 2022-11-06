@@ -1,9 +1,11 @@
 package co.edu.uniquindio.proyecto.bean;
 
 import co.edu.uniquindio.proyecto.dto.PreguntaTest;
+import co.edu.uniquindio.proyecto.entidades.Clase;
 import co.edu.uniquindio.proyecto.entidades.Profesor;
 import co.edu.uniquindio.proyecto.entidades.Test;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
+import co.edu.uniquindio.proyecto.servicios.ClaseServicio;
 import co.edu.uniquindio.proyecto.servicios.PreguntaServicio;
 import co.edu.uniquindio.proyecto.servicios.ProfesorServicio;
 import co.edu.uniquindio.proyecto.servicios.UsuarioServicio;
@@ -38,6 +40,9 @@ public class SeguridadBean implements Serializable {
 
     @Autowired
     private ProfesorServicio profesorServicio;
+
+    @Autowired
+    private ClaseServicio claseServicio;
 
     @Autowired
     private PreguntaServicio preguntaServicio;
@@ -133,12 +138,18 @@ public class SeguridadBean implements Serializable {
 
     /**
      * Método que permite generar un nuevo test previamente configurado por el profesor
+     * @param nombreClasesTest Arraylist de tipo String el cual contiene el nombre de las clases a las cuales se
+     *                         les va a asociar el nuevo test.
      */
-    public void generarTest(){
+    public void generarTest(String[] nombreClasesTest){
 
         if(profesorServicio != null && preguntaTests.size() == 6){
             try {
-                Test test = preguntaServicio.generarTest(profesorSesion, preguntaTests);
+                List<Clase> clases = new ArrayList<>();
+                if (nombreClasesTest.length != 0 ){
+                    clases = claseServicio.obtenerClasesSeleccionadas(profesorSesion, nombreClasesTest);
+                }
+                Test test = preguntaServicio.generarTest(clases, profesorSesion, preguntaTests);
                 preguntaTests.clear();
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Test creado con éxito");
                 FacesContext.getCurrentInstance().addMessage("msj-bean", fm);

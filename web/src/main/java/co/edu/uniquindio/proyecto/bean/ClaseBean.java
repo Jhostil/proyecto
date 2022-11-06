@@ -33,13 +33,14 @@ public class ClaseBean implements Serializable {
     @Autowired
     private ClaseServicio claseServicio;
 
-
-    public String crearClase (){
+    /**
+     * Método que permite a un profesor crear una nueva clase
+     */
+    public void crearClase (){
 
         if (nombreClase.isEmpty()) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", "Ingrese un nombre");
             FacesContext.getCurrentInstance().addMessage("nombre_clase", fm);
-            return null;
         }
         try {
             Clase clase = claseServicio.crearClase(nombreClase, profesor);
@@ -49,6 +50,5 @@ public class ClaseBean implements Serializable {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
             FacesContext.getCurrentInstance().addMessage("nombre_clase", fm);
         }
-        return null;
     }
 }

@@ -46,6 +46,12 @@ public class Test implements Serializable {
     @ToString.Exclude
     private List<DetalleTest> detalleTestList;
 
+    //Relacion de uno a muchos con testClase
+    @OneToMany(mappedBy = "test")
+    @JsonIgnore
+    @ToString.Exclude
+    private List<TestClase> testClases;
+
     public Test (Usuario usuario, Profesor profesor, List<DetalleTest> detalleTestList)
     {
         this.profesor = profesor;

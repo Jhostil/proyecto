@@ -113,12 +113,13 @@ public class PreguntaServicioImpl implements PreguntaServicio{
     /**
      * Método que sirve para generar un nuevo test previamente configurado por un usuario con el rol de profesor
      * Este método crea y guarda los detalleTest asosciados al nuevo Test.
+     * @param clases Arraylist que contiene las clases a las cuales se les va a asignar el nuevo test
      * @param profesor Objeto de tipo Profesor quien fué el que creó el Test
      * @param preguntaTests arraylist que contiene los detallesTest a guardar
      * @return Retorna el Test guardado
      */
     @Override
-    public Test generarTest(Profesor profesor, ArrayList<PreguntaTest> preguntaTests) throws Exception{
+    public Test generarTest(List<Clase> clases, Profesor profesor, ArrayList<PreguntaTest> preguntaTests) throws Exception{
 
         try {
             Test test = new Test();
@@ -133,11 +134,25 @@ public class PreguntaServicioImpl implements PreguntaServicio{
                 codigo = verificarId(idTest);
             }
 
+            //Se guarda el test
             test.setId(idTest);
             Firestore dbFirestore = FirestoreClient.getFirestore();
             dbFirestore.collection("Test").document(test.getId()).set(test);
             Test testGuardado = test;
 
+            //Se asocia el test a las clases seleccionadas
+            if(clases.size() != 0) {
+                for (Clase clase:clases) {
+                    TestClase testClase = new TestClase();
+                    testClase.setClase(clase);
+                    testClase.setTest(testGuardado);
+                    testClase.setActivo(true);
+                    testClase.setId(dbFirestore.collection("TestClase").get().get().getDocuments().size()+1);
+                    dbFirestore.collection("TestClase").document().set(testClase);
+                }
+            }
+
+            //Se crean y guardan las preguntas del test
             DetalleTest dt;
             for (PreguntaTest p : preguntaTests){
                 dt = new DetalleTest();

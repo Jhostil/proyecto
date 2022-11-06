@@ -653,6 +653,7 @@ body .ui-carousel .ui-carousel-header {
     border: 1px solid #dee2e600;
     margin: 0;
     font-weight: 700;
+    text-align: center;
 
 }
 body .ui-carousel .ui-carousel-button.ui-carousel-next-button {
@@ -790,5 +791,10 @@ body .ui-dialog.ui-confirm-dialog .ui-dialog-content {
     /* <div style="width: 50%; height: 10%; left: 25%; position: relative; top: 100px"> */
     margin-right: 40px;
     float: right;
+    width: 20vw;
+}
+
+#clases-alumno{
+    margin-left: 40px;
     width: 20vw;
 }

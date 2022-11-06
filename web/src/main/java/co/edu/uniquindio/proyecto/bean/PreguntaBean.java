@@ -83,8 +83,6 @@ public class PreguntaBean implements Serializable {
     public void crearPregunta(){
         try {
             if(profesorSesion != null){
-                System.out.println(incorrectas.isEmpty());
-                System.out.println(incorrectas.size());
                 if(!incorrectas.isEmpty() && incorrectas.size() == 3){
 
                     TipoPregunta tipoPregunta = tipoPreguntaServicio.obtenerTipoPorNombre("cuestionario");;

@@ -1,9 +1,6 @@
 package co.edu.uniquindio.proyecto.servicios;
 
-import co.edu.uniquindio.proyecto.entidades.DetalleTest;
-import co.edu.uniquindio.proyecto.entidades.Pregunta;
-import co.edu.uniquindio.proyecto.entidades.Test;
-import co.edu.uniquindio.proyecto.entidades.Usuario;
+import co.edu.uniquindio.proyecto.entidades.*;
 import co.edu.uniquindio.proyecto.repositorios.UsuarioRepo;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -239,4 +236,14 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
         return usuario;
     }
 
+    @Override
+    public List<UsuarioClase> obtenerClases(Usuario u) throws Exception {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("UsuarioClase").whereEqualTo("usuario.id",u.getId()).get();
+        List<UsuarioClase> clases = new ArrayList<>();
+        for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
+            clases.add(aux.toObject(UsuarioClase.class));
+        }
+        return  clases;
+    }
 }

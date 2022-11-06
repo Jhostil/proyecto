@@ -1,9 +1,6 @@
 package co.edu.uniquindio.proyecto.servicios;
 
-import co.edu.uniquindio.proyecto.entidades.Clase;
-import co.edu.uniquindio.proyecto.entidades.Profesor;
-import co.edu.uniquindio.proyecto.entidades.Test;
-import co.edu.uniquindio.proyecto.entidades.TipoPregunta;
+import co.edu.uniquindio.proyecto.entidades.*;
 import co.edu.uniquindio.proyecto.repositorios.ClaseRepo;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -13,6 +10,8 @@ import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -57,6 +56,66 @@ public class ClaseServicioImpl implements ClaseServicio{
         dbFirestore.collection("Clase").document(clase.getId()).set(clase);
 
         return clase;
+    }
+
+    /**
+     * Método para buscar una clase a partir de su identificador
+     * @param codigo Identificador de la clase a buscar
+     * @return Retorna la clase correspondiente al código ingresado
+     */
+    @Override
+    public Clase obtenerClase(String codigo) throws Exception {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Clase").whereEqualTo("id",codigo).get();
+        if (querySnapshotApiFuture.get().getDocuments().isEmpty()) {
+            throw new Exception("No existe una clase con ese código");
+        }
+        Clase clase = null;
+        for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
+            clase = aux.toObject(Clase.class);
+        }
+        return clase;
+    }
+
+    /**
+     * Método que permite obtener los test activos que tiene una clase en la que está un alumno
+     * @param codigoClase Identificador de la clase
+     * @return Retorna una lista de tipo TestClase la cual contiene los test activos de la clase}
+     */
+    @Override
+    public List<TestClase> obtenerTestsActivosClase(String codigoClase) throws Exception {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("TestClase").whereEqualTo("clase.id",codigoClase).whereEqualTo("testActivo", true).get();
+
+        List<TestClase> testClase = new ArrayList<>();
+        for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
+            testClase.add(aux.toObject(TestClase.class));
+        }
+        return testClase;
+    }
+
+    /**
+     * Método que obtiene los objetos de tipo Clase dado un arreglo con sus nombre
+     * @param profesorSesion Profesor al cual pertenecen las clases
+     * @param nombreClasesTest Arraylist que contiene los nombres de las clases a obtener
+     * @return Retorna un arreglo con los objetos de tipo Clase
+     */
+    @Override
+    public List<Clase> obtenerClasesSeleccionadas(Profesor profesorSesion, String[] nombreClasesTest) throws Exception {
+
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Clase").whereEqualTo("profesor.id",profesorSesion.getId()).get();
+
+        List<Clase> clases = new ArrayList<>();
+        for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
+            for (String nombreClase: nombreClasesTest) {
+                Clase aux1 = aux.toObject(Clase.class);
+                if (nombreClase.equals(aux1.getNombre())){
+                    clases.add(aux1);
+                }
+            }
+        }
+        return clases;
     }
 
     /**

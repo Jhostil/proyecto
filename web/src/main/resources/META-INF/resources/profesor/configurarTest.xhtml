@@ -38,9 +38,21 @@
         </p:carousel>
             </div>
             <div style="text-align: center">
-
+                <div>
+                <p:growl>
+                    <p:autoUpdate/>
+                </p:growl>
+                    <h3>Asignar a:</h3>
+                <p:selectCheckboxMenu id="menu" value="#{profesorBean.clasesSeleccionadas}" label="Clases" style="width: 15rem"
+                                      filter="true" filterMatchMode="startsWith" panelStyle="width: 15rem" scrollHeight="250"
+                                      dynamic="true">
+                    <f:selectItems value="#{profesorBean.nombreClases}"/>
+                </p:selectCheckboxMenu>
+                </div>
+                <div>
                 <p:growl for="msj-bean" infostyle="color:green" showDetail="true"/>
-                <p:commandButton value="Generar Test" styleClass="ui-button-raised"  update="@form" icon="pi pi-check" iconPos="right" action="#{seguridadBean.generarTest()}" style="margin-top:20px" />
+                <p:commandButton value="Generar Test" styleClass="ui-button-raised"  update="@form" icon="pi pi-check" iconPos="right" action="#{seguridadBean.generarTest(profesorBean.clasesSeleccionadas)}" style="margin-top:20px" />
+                </div>
             </div>
     </h:form>
     </ui:define>

@@ -1,12 +1,17 @@
 package co.edu.uniquindio.proyecto.bean;
 
+import co.edu.uniquindio.proyecto.entidades.Clase;
 import co.edu.uniquindio.proyecto.entidades.Profesor;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
+import co.edu.uniquindio.proyecto.entidades.UsuarioClase;
 import co.edu.uniquindio.proyecto.servicios.ProfesorServicio;
+import co.edu.uniquindio.proyecto.servicios.UsuarioClaseServicio;
 import co.edu.uniquindio.proyecto.servicios.UsuarioServicio;
 import lombok.Getter;
 import lombok.Setter;
+import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -24,6 +29,10 @@ public class UsuarioBean implements Serializable {
     @Setter
     private Usuario usuario;
 
+    @Getter @Setter
+    @Value("#{seguridadBean.usuarioSesion}")
+    private Usuario usuarioSesion;
+
     @Getter
     @Setter
     private LocalDate localDate;
@@ -40,13 +49,32 @@ public class UsuarioBean implements Serializable {
     @Autowired
     private ProfesorServicio profesorServicio;
 
+    @Getter @Setter
+    private List<UsuarioClase> usuarioClases;
+
+    @Getter @Setter
+    private UsuarioClase usuarioClaseSeleccionada;
+
+    @Getter @Setter
+    private String codigoClase;
+
+    @Autowired
+    private UsuarioClaseServicio usuarioClaseServicio;
+
 
     @PostConstruct
     public void inicializar()
     {
+        try {
         usuario = new Usuario();
         profesor = new Profesor();
         rol = "";
+        Usuario u = null;
+        u = usuarioServicio.obtenerUsuario(usuarioSesion.getId());
+            usuarioClases = usuarioServicio.obtenerClases(u);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -90,5 +118,28 @@ public class UsuarioBean implements Serializable {
         }
     }
 
+    /**
+     * Método que permite a un alumno entrar a una clase mediante un código
+     * @return Retorna la vista xhtml de la clase
+     */
+    public String registrarClase () throws Exception {
+        if (codigoClase.isEmpty()) {
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", "Ingrese el código de la clase");
+            FacesContext.getCurrentInstance().addMessage("codigo-clase", fm);
+        }
+        try {
+            UsuarioClase usuarioClase = usuarioClaseServicio.registrarClase(codigoClase, usuarioSesion);
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Clase agregada con éxito");
+            FacesContext.getCurrentInstance().addMessage("codigo-clase", fm);
+            return "";
+        } catch (Exception e) {
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage("codigo-clase", fm);
+        }
+        return "";
+    }
 
+    public String verClase () {
+        return "/usuario/clase.xhtml?faces-redirect=true&amp;codigoClase=" + usuarioClaseSeleccionada.getClase().getId();
+    }
 }

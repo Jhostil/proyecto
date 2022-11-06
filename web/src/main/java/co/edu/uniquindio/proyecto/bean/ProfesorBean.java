@@ -17,6 +17,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -49,6 +50,13 @@ public class ProfesorBean implements Serializable {
     @Autowired
     private ProfesorServicio profesorServicio;
 
+    @Getter @Setter
+    private String[] clasesSeleccionadas;
+
+    @Getter @Setter
+    private List<String> nombreClases;
+
+
     @PostConstruct
     public void inicializar () throws ExecutionException, InterruptedException {
         preguntas = preguntaServicio.listarPreguntas();
@@ -59,9 +67,17 @@ public class ProfesorBean implements Serializable {
             tests = profesorServicio.obtenerProfesor(profesor.getId()).getTestsConfigurados();
             Profesor p = profesorServicio.obtenerProfesor(profesor.getId());
             clases = profesorServicio.obtenerClases(p);
+            nombreClases = new ArrayList<>();
+            obtenerNombreClases();
             this.test = new Test();
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void obtenerNombreClases(){
+        for (Clase c: this.clases) {
+            nombreClases.add(c.getNombre());
         }
     }
 }
