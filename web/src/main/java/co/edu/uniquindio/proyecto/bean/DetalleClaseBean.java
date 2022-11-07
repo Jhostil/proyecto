@@ -5,6 +5,7 @@ import co.edu.uniquindio.proyecto.entidades.Profesor;
 import co.edu.uniquindio.proyecto.entidades.TestClase;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
 import co.edu.uniquindio.proyecto.servicios.ClaseServicio;
+import co.edu.uniquindio.proyecto.servicios.UsuarioClaseServicio;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,17 @@ public class DetalleClaseBean implements Serializable {
     private Usuario usuarioSesion;
 
     @Getter @Setter
+    private List<Usuario> alumnosClase;
+
+    @Getter @Setter
     private Clase clase;
 
     @Autowired
     private ClaseServicio claseServicio;
+
+    @Autowired
+    private UsuarioClaseServicio usuarioClaseServicio;
+
 
     @PostConstruct
     public void inicializar(){
@@ -43,6 +51,7 @@ public class DetalleClaseBean implements Serializable {
         if (codigoClase != null && !codigoClase.isEmpty()){
             try {
                 clase = claseServicio.obtenerClase(codigoClase);
+                alumnosClase = usuarioClaseServicio.obtenerAlumnos(codigoClase);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -51,6 +60,10 @@ public class DetalleClaseBean implements Serializable {
 
     public List<TestClase> obtenerTestsActivosAlumno () throws Exception {
         return claseServicio.obtenerTestsActivosClase( codigoClase);
+    }
+
+    public List<TestClase> obtenerTestsProfesor() throws Exception {
+        return claseServicio.obtenerTestsProfesor(codigoClase);
     }
 
 }

@@ -148,7 +148,7 @@ public class PreguntaServicioImpl implements PreguntaServicio{
                     testClase.setTest(testGuardado);
                     testClase.setActivo(true);
                     testClase.setId(dbFirestore.collection("TestClase").get().get().getDocuments().size()+1);
-                    dbFirestore.collection("TestClase").document().set(testClase);
+                    dbFirestore.collection("TestClase").document(Integer.toString(testClase.getId())).set(testClase);
                 }
             }
 

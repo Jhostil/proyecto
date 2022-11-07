@@ -70,8 +70,11 @@ public class UsuarioBean implements Serializable {
         profesor = new Profesor();
         rol = "";
         Usuario u = null;
-        u = usuarioServicio.obtenerUsuario(usuarioSesion.getId());
+        if (usuarioSesion != null)
+        {
+            u = usuarioServicio.obtenerUsuario(usuarioSesion.getId());
             usuarioClases = usuarioServicio.obtenerClases(u);
+        }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -131,7 +134,7 @@ public class UsuarioBean implements Serializable {
             UsuarioClase usuarioClase = usuarioClaseServicio.registrarClase(codigoClase, usuarioSesion);
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Clase agregada con éxito");
             FacesContext.getCurrentInstance().addMessage("codigo-clase", fm);
-            return "";
+            return "/index?faces-redirect=true";
         } catch (Exception e) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
             FacesContext.getCurrentInstance().addMessage("codigo-clase", fm);

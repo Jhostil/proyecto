@@ -85,7 +85,24 @@ public class ClaseServicioImpl implements ClaseServicio{
     @Override
     public List<TestClase> obtenerTestsActivosClase(String codigoClase) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("TestClase").whereEqualTo("clase.id",codigoClase).whereEqualTo("testActivo", true).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("TestClase").whereEqualTo("clase.id",codigoClase).whereEqualTo("activo", true).get();
+
+        List<TestClase> testClase = new ArrayList<>();
+        for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
+            testClase.add(aux.toObject(TestClase.class));
+        }
+        return testClase;
+    }
+
+    /**
+     * Método que permite obtener los test que tiene una clase de un profesor
+     * @param codigoClase Identificador de la clase
+     * @return Retorna una lista de tipo TestClase la cual contiene los test de la clase}
+     */
+    @Override
+    public List<TestClase> obtenerTestsProfesor(String codigoClase) throws Exception {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("TestClase").whereEqualTo("clase.id",codigoClase).get();
 
         List<TestClase> testClase = new ArrayList<>();
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {

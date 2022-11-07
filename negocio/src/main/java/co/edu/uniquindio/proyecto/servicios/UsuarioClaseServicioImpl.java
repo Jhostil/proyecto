@@ -48,4 +48,18 @@ public class UsuarioClaseServicioImpl implements UsuarioClaseServicio{
 
         return usuarioClase;
     }
+
+    @Override
+    public List<Usuario> obtenerAlumnos(String codigoClase) throws Exception {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("UsuarioClase").whereEqualTo("clase.id",codigoClase).get();
+
+        List<Usuario> alumnos = new ArrayList<>();
+
+        for (DocumentSnapshot aux : querySnapshotApiFuture.get().getDocuments()) {
+            alumnos.add(aux.toObject(UsuarioClase.class).getUsuario());
+        }
+
+        return  alumnos;
+    }
 }

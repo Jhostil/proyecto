@@ -17,8 +17,8 @@ public class FirebaseService {
     @PostConstruct
     public void inicializar(){
         try {
-            //File file = new File("web/target/classes/serviceAccountKey.json"); // ResourceUtils.getFile("classpath:serviceAccountKey.json");
-            File file = new File("C:/Users/JHOINER/Documents/Workspace Intellij IDEA/proyecto/web/target/classes/serviceAccountKey.json"); // ResourceUtils.getFile("classpath:serviceAccountKey.json");
+            File file = new File("web/target/classes/serviceAccountKey.json"); // ResourceUtils.getFile("classpath:serviceAccountKey.json");
+
             InputStream serviceAccount = new FileInputStream(file);
 
             FirebaseOptions options = new FirebaseOptions.Builder()

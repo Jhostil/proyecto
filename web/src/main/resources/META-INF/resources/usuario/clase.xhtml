@@ -16,16 +16,27 @@
             <h1 style="color: white">#{detalleClaseBean.clase.nombre}</h1>
         </div>
         <h:form>
-        <div id="tests-disponibles" class="card" >
-            <p:dataTable var="test" value="#{detalleClaseBean.obtenerTestsActivosAlumno()}">
+            <div id="info-clase-alumno">
+                <h2>Clase: #{detalleClaseBean.clase.nombre}</h2>
+                <h2>Profesor: #{detalleClaseBean.clase.profesor.nombre}</h2>
+            </div>
+        <div id="tests-disponibles-alumno" class="card" >
+            <p:dataTable id="tests-disponibles" var="test" value="#{detalleClaseBean.obtenerTestsActivosAlumno()}" rowKey="#{test.id}"
+                         selection="#{testBean.testClaseSeleccionado}" selectionMode="single">
                 <f:facet name="header">
                     Tests Disponibles
                 </f:facet>
                 <p:column headerText="Código">
-                    <h:outputText value="#{test.id}" />
+                    <h:outputText value="#{test.test.id}" />
                 </p:column>
             </p:dataTable>
+            <p:contextMenu for="tests-disponibles">
+                <p:menuitem value="Presentar Quiz" update="@form" icon="pi pi-search"
+                            action="#{testBean.validarCodigo(seguridadBean.usuarioSesion)}" />
+            </p:contextMenu>
+            <p:growl id="growl" showDetail="true" infostyle="color:red" />
         </div>
+
         </h:form>
     </ui:define>
 </ui:composition>

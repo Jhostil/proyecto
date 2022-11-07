@@ -780,11 +780,12 @@ body .ui-dialog.ui-confirm-dialog .ui-dialog-content {
     font-size: 19px;
 }
 
-#tests-disponibles{
+#tests-disponibles-alumno{
     /* <div style="width: 50%; height: 10%; left: 25%; position: relative; top: 100px"> */
-    margin-left: 40px;
-    float: left;
+    margin-right: 20%;
+    float: right;
     width: 20vw;
+    margin-top: 40px;
 }
 
 #clases-disponibles{
@@ -797,4 +798,27 @@ body .ui-dialog.ui-confirm-dialog .ui-dialog-content {
 #clases-alumno{
     margin-left: 40px;
     width: 20vw;
+    margin-bottom: 10%;
+}
+
+#info-clase-alumno{
+    margin-left: 20%;
+    float: left;
+    width: 20vw;
+    margin-top: 40px;
+}
+
+#info-clase-alumno > h2{
+    color: white;
+}
+
+#tests-disponibles{
+    /* <div style="width: 50%; height: 10%; left: 25%; position: relative; top: 100px"> */
+    margin-left: 40px;
+    float: left;
+    width: 20vw;
+}
+#alumnos-clase{
+    margin-right: 5%;
+    margin-left: 25%;
 }

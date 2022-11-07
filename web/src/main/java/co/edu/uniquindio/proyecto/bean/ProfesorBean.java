@@ -75,9 +75,16 @@ public class ProfesorBean implements Serializable {
         }
     }
 
+    /**
+     * Método que permite obtener el nombre de las clases y las agrega a un arraylist de tipo String
+     */
     private void obtenerNombreClases(){
         for (Clase c: this.clases) {
             nombreClases.add(c.getNombre());
         }
+    }
+
+    public String verClase () {
+        return "/profesor/clase.xhtml?faces-redirect=true&amp;codigoClase=" + claseSeleccionada.getId();
     }
 }
