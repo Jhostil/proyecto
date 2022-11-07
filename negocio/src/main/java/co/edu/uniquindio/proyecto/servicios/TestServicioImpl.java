@@ -71,6 +71,7 @@ public class TestServicioImpl implements TestServicio {
                 }*/
             }
         } catch (Exception e) {
+            Thread.currentThread().interrupt();
             return "invalido";
         }
         return "invalido";
@@ -132,6 +133,7 @@ public class TestServicioImpl implements TestServicio {
             return nuevoTest;
         }catch (Exception e)
         {
+            Thread.currentThread().interrupt();
             throw new Exception(e.getMessage());
         }
     }

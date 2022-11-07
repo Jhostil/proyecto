@@ -143,7 +143,7 @@ public class TestBean implements Serializable {
             codigo = testClaseSeleccionado.getTest().getId();
         }
 
-        if (codigo == "") {
+        if (codigo.equals("")) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", "Ingrese un código");
             FacesContext.getCurrentInstance().addMessage("codigo_test", fm);
             return "";

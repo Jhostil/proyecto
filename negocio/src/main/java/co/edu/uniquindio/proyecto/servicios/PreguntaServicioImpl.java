@@ -87,6 +87,7 @@ public class PreguntaServicioImpl implements PreguntaServicio{
             dbFirestore.collection("Pregunta").document(Integer.toString(p.getId())).set(p);
             return p;
         } catch (Exception e) {
+            Thread.currentThread().interrupt();
             throw new Exception(e.getMessage());
         }
     }
@@ -163,6 +164,7 @@ public class PreguntaServicioImpl implements PreguntaServicio{
             }
             return testGuardado;
         }catch (Exception e){
+            Thread.currentThread().interrupt();
             throw new Exception(e.getMessage());
         }
     }

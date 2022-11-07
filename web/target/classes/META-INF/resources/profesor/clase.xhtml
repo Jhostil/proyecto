@@ -31,10 +31,10 @@
                     </p:column>
                 </p:dataTable>
                 <p:contextMenu for="tests-disponibles" update="@form" >
-                    <p:menuitem value="Habilitar Quiz" update="@form" icon="pi pi-lock"
+                    <p:menuitem value="Habilitar Quiz" update="@form" icon="pi pi-lock-open"
                                 action="#{testBean.habilitarTest}"/>
 
-                    <p:menuitem value="Deshabilitar Quiz" update="@form" icon="pi pi-lock-open"
+                    <p:menuitem value="Deshabilitar Quiz" update="@form" icon="pi pi-lock"
                                 action="#{testBean.deshabilitarTest}"/>
                 </p:contextMenu>
                 <p:growl id="growl" showDetail="true" />

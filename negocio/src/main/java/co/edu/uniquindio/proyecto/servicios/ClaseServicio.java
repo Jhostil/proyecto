@@ -3,7 +3,6 @@ package co.edu.uniquindio.proyecto.servicios;
 import co.edu.uniquindio.proyecto.entidades.Clase;
 import co.edu.uniquindio.proyecto.entidades.Profesor;
 import co.edu.uniquindio.proyecto.entidades.TestClase;
-import co.edu.uniquindio.proyecto.entidades.Usuario;
 
 import java.util.List;
 

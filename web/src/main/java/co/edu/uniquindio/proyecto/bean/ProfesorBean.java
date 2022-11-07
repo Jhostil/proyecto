@@ -71,6 +71,7 @@ public class ProfesorBean implements Serializable {
             obtenerNombreClases();
             this.test = new Test();
         } catch (Exception e) {
+            Thread.currentThread().interrupt();
             throw new RuntimeException(e);
         }
     }

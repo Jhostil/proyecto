@@ -122,7 +122,6 @@
     border-radius: 4px;
     background: #fff;
     color: #6b6e80;
-    position: relative;
 }
 
 .blog-comment .meta {
@@ -244,7 +243,6 @@
 }
 
 .btn-mod {
-    position: relative;
     display: block;
     overflow: hidden;
     width: 100%;
@@ -657,7 +655,6 @@ body .ui-carousel .ui-carousel-header {
 
 }
 body .ui-carousel .ui-carousel-button.ui-carousel-next-button {
-    font-family: 'primeicons' !important;
     font-style: normal;
     font-weight: normal;
     display: inline-block;
@@ -665,7 +662,6 @@ body .ui-carousel .ui-carousel-button.ui-carousel-next-button {
     color: black;
 }
 body .ui-carousel .ui-carousel-button.ui-carousel-prev-button {
-    font-family: 'primeicons' !important;
     font-style: normal;
     font-weight: normal;
     display: inline-block;
@@ -698,7 +694,6 @@ body .ui-carousel .ui-carousel-viewport {
     color:black;
 }
 body .ui-galleria .ui-galleria-nav-prev {
-    font-family: 'primeicons' !important;
     font-style: normal;
     font-weight: normal;
     display: inline-block;

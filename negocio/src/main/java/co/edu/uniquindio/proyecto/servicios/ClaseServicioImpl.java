@@ -19,6 +19,9 @@ public class ClaseServicioImpl implements ClaseServicio{
 
     private final ClaseRepo claseRepo;
 
+    private static final String COLECCIONCLASE = "Clase";
+    private static final String COLECCIONTESTCLASE = "TestClase";
+
     public ClaseServicioImpl(ClaseRepo claseRepo) {
         this.claseRepo = claseRepo;
     }
@@ -31,29 +34,26 @@ public class ClaseServicioImpl implements ClaseServicio{
      */
     @Override
     public Clase crearClase(String nombre, Profesor profesor) throws Exception {
-
         Clase clase = new Clase();
         clase.setNombre(nombre);
         clase.setProfesor(profesor);
 
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Clase").whereEqualTo("nombre",nombre).whereEqualTo("profesor.id", profesor.getId()).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONCLASE).whereEqualTo("nombre",nombre).whereEqualTo("profesor.id", profesor.getId()).get();
 
         if (!querySnapshotApiFuture.get().getDocuments().isEmpty()) {
             throw new Exception("Ya existe una clase con ese nombre.");
         }
 
         String codigoClase = getRandomString();
-        boolean codigo = verificarId(codigoClase);
 
-        while (codigo == false)
+        while (!verificarId(codigoClase))
         {
             codigoClase = getRandomString();
-            codigo = verificarId(codigoClase);
         }
 
         clase.setId(codigoClase);
-        dbFirestore.collection("Clase").document(clase.getId()).set(clase);
+        dbFirestore.collection(COLECCIONCLASE).document(clase.getId()).set(clase);
 
         return clase;
     }
@@ -66,7 +66,7 @@ public class ClaseServicioImpl implements ClaseServicio{
     @Override
     public Clase obtenerClase(String codigo) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Clase").whereEqualTo("id",codigo).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONCLASE).whereEqualTo("id",codigo).get();
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()) {
             throw new Exception("No existe una clase con ese código");
         }
@@ -85,7 +85,7 @@ public class ClaseServicioImpl implements ClaseServicio{
     @Override
     public List<TestClase> obtenerTestsActivosClase(String codigoClase) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("TestClase").whereEqualTo("clase.id",codigoClase).whereEqualTo("activo", true).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONTESTCLASE).whereEqualTo("clase.id",codigoClase).whereEqualTo("activo", true).get();
 
         List<TestClase> testClase = new ArrayList<>();
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
@@ -102,7 +102,7 @@ public class ClaseServicioImpl implements ClaseServicio{
     @Override
     public List<TestClase> obtenerTestsProfesor(String codigoClase) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("TestClase").whereEqualTo("clase.id",codigoClase).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONTESTCLASE).whereEqualTo("clase.id",codigoClase).get();
 
         List<TestClase> testClase = new ArrayList<>();
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
@@ -121,7 +121,7 @@ public class ClaseServicioImpl implements ClaseServicio{
     public List<Clase> obtenerClasesSeleccionadas(Profesor profesorSesion, String[] nombreClasesTest) throws Exception {
 
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Clase").whereEqualTo("profesor.id",profesorSesion.getId()).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONCLASE).whereEqualTo("profesor.id",profesorSesion.getId()).get();
 
         List<Clase> clases = new ArrayList<>();
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
