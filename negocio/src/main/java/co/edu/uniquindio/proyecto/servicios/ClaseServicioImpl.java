@@ -7,9 +7,9 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -152,10 +152,11 @@ public class ClaseServicioImpl implements ClaseServicio{
 
         for (int m = 0; m < 5; m++) {
 
+            SecureRandom secureRandom = new SecureRandom();
             // generate numeric
             int myindex
                     = (int)(theAlphaNumericS.length()
-                    * Math.random());
+                    * secureRandom.nextDouble());
 
             // add the characters
             builder.append(theAlphaNumericS

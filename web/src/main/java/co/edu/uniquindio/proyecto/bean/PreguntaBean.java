@@ -163,8 +163,9 @@ public class PreguntaBean implements Serializable {
 
         try {
             File archivo = new File(urlUpload + "/" + imagen.getFileName());
-            OutputStream outputStream = new FileOutputStream(archivo); //Donde quiero que copie el archivo
-            IOUtils.copy(imagen.getInputStream(), outputStream );
+           try ( OutputStream outputStream = new FileOutputStream(archivo)) { //Donde quiero que copie el archivo
+               IOUtils.copy(imagen.getInputStream(), outputStream );
+           }
             return imagen.getFileName();
         } catch (Exception e) {
             e.printStackTrace();

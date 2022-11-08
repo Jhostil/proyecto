@@ -46,7 +46,7 @@ public class ProfesorServicioImpl implements ProfesorServicio{
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()){
             throw new Exception("El profesor no existe.");
         }
-        Profesor buscado = null;
+        Profesor buscado = new Profesor();
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
             buscado = aux.toObject(Profesor.class);
         }
@@ -80,7 +80,7 @@ public class ProfesorServicioImpl implements ProfesorServicio{
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()){
             throw new Exception("Los datos de autenticación son incorrectos");
         }
-        Profesor profesor = null;
+        Profesor profesor = new Profesor();
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
             profesor = aux.toObject(Profesor.class);
         }

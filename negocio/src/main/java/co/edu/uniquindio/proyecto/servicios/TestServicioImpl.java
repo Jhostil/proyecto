@@ -88,7 +88,7 @@ public class TestServicioImpl implements TestServicio {
     public List<DetalleTest> iniciarTest(String codigo, Usuario usuario) throws Exception {
 
         try {
-            Test test = null;
+            Test test = new Test();
             Firestore dbFirestore = FirestoreClient.getFirestore();
             ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Test").whereEqualTo("id",codigo).get();
             for (DocumentSnapshot aux : querySnapshotApiFuture.get().getDocuments()) {

@@ -19,13 +19,13 @@ public class FirebaseService {
         try {
             File file = new File("web/target/classes/serviceAccountKey.json"); // ResourceUtils.getFile("classpath:serviceAccountKey.json");
 
-            InputStream serviceAccount = new FileInputStream(file);
-
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .setDatabaseUrl("https://quiztest-f0839-default-rtdb.firebaseio.com")
-                    .build();
-            FirebaseApp.initializeApp(options);
+            try (InputStream serviceAccount = new FileInputStream(file)){
+                FirebaseOptions options = new FirebaseOptions.Builder()
+                        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                        .setDatabaseUrl("https://quiztest-f0839-default-rtdb.firebaseio.com")
+                        .build();
+                FirebaseApp.initializeApp(options);
+            }
         }catch (Exception e){
             e.printStackTrace();
         }

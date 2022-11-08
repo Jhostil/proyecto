@@ -14,6 +14,7 @@ import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -186,10 +187,11 @@ public class PreguntaServicioImpl implements PreguntaServicio{
 
         for (int m = 0; m < 5; m++) {
 
+            SecureRandom secureRandom = new SecureRandom();
             // generate numeric
             int myindex
                     = (int)(theAlphaNumericS.length()
-                    * Math.random());
+                    * secureRandom.nextDouble());
 
             // add the characters
             builder.append(theAlphaNumericS

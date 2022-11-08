@@ -187,7 +187,7 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()) {
             throw new Exception("Los datos de autenticación son incorrectos");
         }
-        Usuario usuario = null;
+        Usuario usuario = new Usuario();
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
             usuario = aux.toObject(Usuario.class);
         }
@@ -207,16 +207,21 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
     @Override
     public List<Test> listarTestRealizados(String id) throws ExecutionException, InterruptedException {
         List<Test> list = new ArrayList<>();
-        Test test = null;
+        Test test = new Test();
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Test").get();
         for (DocumentSnapshot aux: querySnapshotApiFuture.get().getDocuments()) {
             test = aux.toObject(Test.class);
-            if (test.getUsuario() != null) {
-                if (test.getUsuario().equals(id)) {
-                    list.add(test);
+            try {
+                if (test.getUsuario() != null) {
+                    if (test.getUsuario().getId().equals(id)) {
+                        list.add(test);
+                    }
                 }
+            } catch (Exception e){
+                System.out.println("Usuario no encontrado");
             }
+
         }
         return list;
     }
