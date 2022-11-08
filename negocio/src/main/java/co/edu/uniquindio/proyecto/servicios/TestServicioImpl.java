@@ -21,6 +21,8 @@ public class TestServicioImpl implements TestServicio {
     private TestRepo testRepo;
     private DetalleTestRepo detalleTestRepo;
 
+    private static final String COLECCIONDETALLETEST = "DetalleTest";
+
     public TestServicioImpl(TestRepo testRepo, DetalleTestRepo detalleTestRepo) {
         this.testRepo = testRepo;
         this.detalleTestRepo = detalleTestRepo;
@@ -43,32 +45,13 @@ public class TestServicioImpl implements TestServicio {
                 test = aux.toObject(Test.class);
             }
             if (test != null) {
-                Usuario u = null;
-                querySnapshotApiFuture = dbFirestore.collection("DetalleTest").whereEqualTo("test.id", codigo).whereEqualTo("usuario.id", idUsuario).get();
+                querySnapshotApiFuture = dbFirestore.collection(COLECCIONDETALLETEST).whereEqualTo("test.id", codigo).whereEqualTo("usuario.id", idUsuario).get();
                 if (!querySnapshotApiFuture.get().getDocuments().isEmpty()){
                     return "El test ya fué presentado";
                 } else {
                     return "valido";
                 }
-                /*for (DocumentSnapshot aux : querySnapshotApiFuture.get().getDocuments()) {
-                    DetalleTest dt = aux.toObject(DetalleTest.class);
-                    if (dt.getTest() != null) {
-                        if (dt.getTest().getId().equals(codigo)) {
-                            if (dt.getUsuario() != null) {
-                                if (dt.getUsuario().getId().equals(idUsuario)) {
-                                    u = dt.getUsuario();
-                                }
-                            }
-                        }
-                    }
-                }*/
-
-                /*if (u == null)
-                {
-                    return "valido";
-                } else {
-
-                }*/
+                
             }
         } catch (Exception e) {
             Thread.currentThread().interrupt();
@@ -94,7 +77,7 @@ public class TestServicioImpl implements TestServicio {
             for (DocumentSnapshot aux : querySnapshotApiFuture.get().getDocuments()) {
                 test = aux.toObject(Test.class);
             }
-            querySnapshotApiFuture = dbFirestore.collection("DetalleTest").whereEqualTo("test.id", codigo).whereEqualTo("usuario", null).get();
+            querySnapshotApiFuture = dbFirestore.collection(COLECCIONDETALLETEST).whereEqualTo("test.id", codigo).whereEqualTo("usuario", null).get();
             /*DetalleTest detalle;
             List<DetalleTest> list = new ArrayList<>();
             test.setDetalleTestList(list);
@@ -110,7 +93,7 @@ public class TestServicioImpl implements TestServicio {
             List<DetalleTest> nuevoTest = new ArrayList<>();
 
             DetalleTest dt = new DetalleTest();
-            int id = dbFirestore.collection("DetalleTest").get().get().getDocuments().size()+1;
+            int id = dbFirestore.collection(COLECCIONDETALLETEST).get().get().getDocuments().size()+1;
 
             for (DocumentSnapshot aux : querySnapshotApiFuture.get().getDocuments()) {
                 dt = aux.toObject(DetalleTest.class);
@@ -125,7 +108,7 @@ public class TestServicioImpl implements TestServicio {
                 detalleTest.setFechaTest(LocalDate.now().toString());
                 detalleTest.setId(id);
                 id++;
-                dbFirestore.collection("DetalleTest").document(Integer.toString(detalleTest.getId())).set(detalleTest);
+                dbFirestore.collection(COLECCIONDETALLETEST).document(Integer.toString(detalleTest.getId())).set(detalleTest);
                 nuevoTest.add(detalleTest);
             //}
             }

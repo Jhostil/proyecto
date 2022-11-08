@@ -176,8 +176,9 @@ public class ClaseServicioImpl implements ClaseServicio{
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Test").whereEqualTo("id",id).get();
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()){
             return true; //ID está disponible
+        } else {
+            return false; //EL ID ya existe
         }
-        return false; //EL ID ya existe
 
     }
 }
