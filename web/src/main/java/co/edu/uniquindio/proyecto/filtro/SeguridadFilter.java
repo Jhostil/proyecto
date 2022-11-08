@@ -59,7 +59,7 @@ public class SeguridadFilter implements Filter {
                 filterChain.doFilter(servletRequest, servletResponse);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
 

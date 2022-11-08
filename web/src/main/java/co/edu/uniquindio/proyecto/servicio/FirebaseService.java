@@ -27,7 +27,7 @@ public class FirebaseService {
                 FirebaseApp.initializeApp(options);
             }
         }catch (Exception e){
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
 

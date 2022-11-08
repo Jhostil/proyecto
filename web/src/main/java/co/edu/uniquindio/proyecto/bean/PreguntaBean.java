@@ -168,7 +168,7 @@ public class PreguntaBean implements Serializable {
            }
             return imagen.getFileName();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
         return null;
     }

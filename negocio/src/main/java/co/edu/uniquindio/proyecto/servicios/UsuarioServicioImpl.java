@@ -73,7 +73,7 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
             dbFirestore.collection("Usuario").document(u.getId()).set(u);
         } catch (Exception e)
         {
-            e.printStackTrace();
+            System.out.println(e);
         }
         return u;
     }

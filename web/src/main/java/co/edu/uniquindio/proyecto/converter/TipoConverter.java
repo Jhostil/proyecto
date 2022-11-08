@@ -23,7 +23,7 @@ public class TipoConverter implements Converter<TipoPregunta>, Serializable {
         try {
             tipoPregunta = tipoPreguntaServicio.obtenerTipoPregunta(Integer.parseInt(s));
         } catch (Exception e){
-            e.printStackTrace();
+            System.out.println(e);
         }
         return tipoPregunta;
     }

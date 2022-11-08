@@ -136,7 +136,7 @@ public class ProfesorServicioImpl implements ProfesorServicio{
             dbFirestore.collection("Profesor").document(p.getId()).set(p);
         } catch (Exception e)
         {
-            e.printStackTrace();
+            System.out.println(e);
         }
         return p;
     }
