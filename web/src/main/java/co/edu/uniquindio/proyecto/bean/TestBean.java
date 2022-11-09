@@ -88,6 +88,9 @@ public class TestBean implements Serializable {
 
     @Autowired
     private TestClaseServicio testClaseServicio;
+    private static final String RUTAIMAGENES = "src/main/resources/META-INF/resources/uploads/";
+    private static final String CONSTANTALERTA = "Alerta";
+    private static final String CONSTANTGROWLCODTEST = "codigo_test";
 
     @PostConstruct
     public void inicializar() {
@@ -111,10 +114,10 @@ public class TestBean implements Serializable {
      */
     public int getHeight(int id) throws IOException {
         if (id == -1) {
-            BufferedImage image = ImageIO.read(new File("src/main/resources/META-INF/resources/uploads/"+detalleTestList.get(indiceDetalleTestActual).getPregunta().getPregunta()));
+            BufferedImage image = ImageIO.read(new File(RUTAIMAGENES+detalleTestList.get(indiceDetalleTestActual).getPregunta().getPregunta()));
             return image.getHeight();
         }
-        BufferedImage image = ImageIO.read(new File("src/main/resources/META-INF/resources/uploads/"+respuestas.get(id)));
+        BufferedImage image = ImageIO.read(new File(RUTAIMAGENES+respuestas.get(id)));
         return image.getHeight();
     }
 
@@ -125,10 +128,10 @@ public class TestBean implements Serializable {
      */
     public int getWidth(int id) throws IOException {
         if (id == -1) {
-            BufferedImage image = ImageIO.read(new File("src/main/resources/META-INF/resources/uploads/"+detalleTestList.get(indiceDetalleTestActual).getPregunta().getPregunta()));
+            BufferedImage image = ImageIO.read(new File(RUTAIMAGENES+detalleTestList.get(indiceDetalleTestActual).getPregunta().getPregunta()));
             return image.getWidth();
         }
-        BufferedImage image = ImageIO.read(new File("src/main/resources/META-INF/resources/uploads/"+respuestas.get(id)));
+        BufferedImage image = ImageIO.read(new File(RUTAIMAGENES+respuestas.get(id)));
         return image.getWidth();
     }
 
@@ -144,8 +147,8 @@ public class TestBean implements Serializable {
         }
 
         if (codigo.equals("")) {
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", "Ingrese un código");
-            FacesContext.getCurrentInstance().addMessage("codigo_test", fm);
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, "Ingrese un código");
+            FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLCODTEST, fm);
             return "";
         }
         try {
@@ -154,8 +157,8 @@ public class TestBean implements Serializable {
                 valido = testServicio.validarCodigo(this.codigo, usuario.getId());
             } catch (Exception e)
             {
-                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
-                FacesContext.getCurrentInstance().addMessage("codigo_test", fm);
+                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, e.getMessage());
+                FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLCODTEST, fm);
             }
             if (valido.equals("valido")) {
                 iniciarTest(usuario);
@@ -171,8 +174,8 @@ public class TestBean implements Serializable {
                 PrimeFaces.current().dialog().showMessageDynamic(message);
             }
         } catch (Exception e) {
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
-            FacesContext.getCurrentInstance().addMessage("codigo_test", fm);
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLCODTEST, fm);
 
         }
         return "";
@@ -250,7 +253,7 @@ public class TestBean implements Serializable {
             return "responderTest.xhtml?faces-redirect=true";
 
         } catch (Exception e) {
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", "Debe seleccionar una respuesta");
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, "Debe seleccionar una respuesta");
             FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
         }
         return "";
@@ -282,7 +285,6 @@ public class TestBean implements Serializable {
         this.test = null;
         this.detalleTestList = new ArrayList<>();
         this.testenproceso = false;
-        String aux = codigo;
         this.codigo = "";
         this.respSeleccionada="";
         this.indiceDetalleTestActual = 0;
@@ -298,12 +300,12 @@ public class TestBean implements Serializable {
     public void habilitarTest () throws Exception {
         if (testClaseSeleccionado.isActivo())
         {
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", "El Quiz ya está habilitado");
-            FacesContext.getCurrentInstance().addMessage("codigo_test", fm);
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, "El Quiz ya está habilitado");
+            FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLCODTEST, fm);
         } else {
             testClaseServicio.habilitarTest(testClaseSeleccionado);
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Quiz habilitado con éxito");
-            FacesContext.getCurrentInstance().addMessage("codigo_test", fm);
+            FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLCODTEST, fm);
         }
 
     }
@@ -314,7 +316,7 @@ public class TestBean implements Serializable {
     public void deshabilitarTest () throws Exception {
         if (!testClaseSeleccionado.isActivo())
         {
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", "El Quiz ya está deshabilitado");
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, "El Quiz ya está deshabilitado");
             FacesContext.getCurrentInstance().addMessage("growl", fm);
         } else {
             testClaseServicio.deshabilitarTest(testClaseSeleccionado);

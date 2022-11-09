@@ -33,7 +33,9 @@ public class SeguridadBean implements Serializable {
     private boolean autenticado;
 
     @Getter @Setter
-    private String username, password;
+    private String username;
+    @Getter @Setter
+    private String password;
 
     @Autowired
     private UsuarioServicio usuarioServicio;
@@ -63,6 +65,8 @@ public class SeguridadBean implements Serializable {
 
     @Getter @Setter
     private List<Test> testRealizados;
+    private static final String CONSTANTALERTA = "Alerta";
+    private static final String CONSTANTMSJBEAN = "msj-bean";
 
     @PostConstruct
     public void inicializar(){
@@ -95,13 +99,13 @@ public class SeguridadBean implements Serializable {
                     return "/index.xhtml?faces-redirect=true";
 
                 } catch (Exception e) {
-                    FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
+                    FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, e.getMessage());
                     FacesContext.getCurrentInstance().addMessage("login-bean", fm);
                 }
                 }
             }
         } else {
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", "Ingrese una contraseña");
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, "Ingrese una contraseña");
             FacesContext.getCurrentInstance().addMessage("login-bean", fm);
         }
         return null;
@@ -128,10 +132,10 @@ public class SeguridadBean implements Serializable {
         PreguntaTest preguntaTest =  new PreguntaTest(id, pregunta, descripcion);
         if(!preguntaTests.contains(preguntaTest)){
             preguntaTests.add(preguntaTest);
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Pregunta agregada al test");
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, CONSTANTALERTA, "Pregunta agregada al test");
             FacesContext.getCurrentInstance().addMessage("add-cart", fm);
         } else {
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, "Alerta", "Esa pregunta ya está en el test");
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, CONSTANTALERTA, "Esa pregunta ya está en el test");
             FacesContext.getCurrentInstance().addMessage("add-cart", fm);
         }
     }
@@ -151,19 +155,19 @@ public class SeguridadBean implements Serializable {
                 }
                 Test test = preguntaServicio.generarTest(clases, profesorSesion, preguntaTests);
                 preguntaTests.clear();
-                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Test creado con éxito");
-                FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
+                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, CONSTANTALERTA, "Test creado con éxito");
+                FacesContext.getCurrentInstance().addMessage(CONSTANTMSJBEAN, fm);
 
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message", "El código de acceso al test es: \n" + test.getId());
                 PrimeFaces.current().dialog().showMessageDynamic(message);
 
             } catch (Exception e) {
-                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
-                FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
+                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, e.getMessage());
+                FacesContext.getCurrentInstance().addMessage(CONSTANTMSJBEAN, fm);
             }
         } else {
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", "El test debe tener 6 preguntas");
-            FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, "El test debe tener 6 preguntas");
+            FacesContext.getCurrentInstance().addMessage(CONSTANTMSJBEAN, fm);
         }
     }
 

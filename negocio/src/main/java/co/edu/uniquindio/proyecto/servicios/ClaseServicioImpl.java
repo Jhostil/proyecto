@@ -138,6 +138,7 @@ public class ClaseServicioImpl implements ClaseServicio{
     /**
      * Método que genera un códgo aleatorio de tamaño 5, combinando letras mayúsuculas y números
      * @return Retorna un string con el código aleatorio generado
+     * Método tomado de: https://www.delftstack.com/howto/java/random-alphanumeric-string-in-java/
      */
     public String getRandomString()
     {
@@ -167,18 +168,17 @@ public class ClaseServicioImpl implements ClaseServicio{
     }
 
     /**
-     * Método que dado un id de una Clase verifica si existe o no.
+     * Método que dado un id, verifica si está disponible para asignarlo a una nueva clase
+     * Si la busqueda retorna un arreglo vacío quiere decir que no se encontró una clase con ese id,
+     * lo que quiere decir que dicho id está disponible para ser asignado como identificador a una clase.
      * @param id Identificador de la Clase a buscar
      * @return Retorna true si la Clase con ese id existe. Retorna false si no existe una Clase con el id dado
      */
     public boolean verificarId (String id) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Test").whereEqualTo("id",id).get();
-        if (querySnapshotApiFuture.get().getDocuments().isEmpty()){
-            return true; //ID está disponible
-        } else {
-            return false; //EL ID ya existe
-        }
+
+        return (querySnapshotApiFuture.get().getDocuments().isEmpty());
 
     }
 }

@@ -75,7 +75,7 @@ public class TipoPreguntaImpl implements TipoPreguntaServicio {
             tipos.add(tipoPregunta);
         }
 
-        if (tipos == null || tipos.size() == 0) {
+        if (tipos == null || tipos.isEmpty()) {
             resultado = false;
         }
         return resultado;

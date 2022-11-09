@@ -2,18 +2,12 @@ package co.edu.uniquindio.proyecto.entidades;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.dao.DataAccessException;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 
 @Getter

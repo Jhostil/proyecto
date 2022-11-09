@@ -19,6 +19,8 @@ public class UsuarioClaseServicioImpl implements UsuarioClaseServicio{
 
     private final UsuarioClaseRepo usuarioClaseRepo;
 
+    private static final String COLECCIONUSUARIOCLASE = "UsuarioClase";
+
 
     public UsuarioClaseServicioImpl(UsuarioClaseRepo usuarioClaseRepo) {
         this.usuarioClaseRepo = usuarioClaseRepo;
@@ -37,14 +39,14 @@ public class UsuarioClaseServicioImpl implements UsuarioClaseServicio{
         DocumentSnapshot aux=querySnapshotApiFuture.get().getDocuments().get(0);
         usuarioClase.setClase(aux.toObject(Clase.class));
 
-        querySnapshotApiFuture = dbFirestore.collection("UsuarioClase").whereEqualTo("usuario.id",usuario.getId()).whereEqualTo("clase.id", codigoClase).get();
+        querySnapshotApiFuture = dbFirestore.collection(COLECCIONUSUARIOCLASE).whereEqualTo("usuario.id",usuario.getId()).whereEqualTo("clase.id", codigoClase).get();
 
         if (!querySnapshotApiFuture.get().getDocuments().isEmpty()) {
             throw new Exception("Ya está registrado en esa clase");
         }
         usuarioClase.setUsuario(usuario);
-        usuarioClase.setId(dbFirestore.collection("UsuarioClase").get().get().getDocuments().size()+1);
-        dbFirestore.collection("UsuarioClase").document(Integer.toString(usuarioClase.getId())).set(usuarioClase);
+        usuarioClase.setId(dbFirestore.collection(COLECCIONUSUARIOCLASE).get().get().getDocuments().size()+1);
+        dbFirestore.collection(COLECCIONUSUARIOCLASE).document(Integer.toString(usuarioClase.getId())).set(usuarioClase);
 
         return usuarioClase;
     }
@@ -52,7 +54,7 @@ public class UsuarioClaseServicioImpl implements UsuarioClaseServicio{
     @Override
     public List<Usuario> obtenerAlumnos(String codigoClase) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("UsuarioClase").whereEqualTo("clase.id",codigoClase).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONUSUARIOCLASE).whereEqualTo("clase.id",codigoClase).get();
 
         List<Usuario> alumnos = new ArrayList<>();
 

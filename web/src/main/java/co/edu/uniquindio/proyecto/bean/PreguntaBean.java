@@ -65,6 +65,8 @@ public class PreguntaBean implements Serializable {
     private List<TipoPregunta> tipoPreguntaList;
 
     private ArrayList<String> incorrectas;
+    private static final String CONSTANTALERTA = "Alerta";
+    private static final String CONSTANTMSJBEAN = "msj-bean";
 
     @PostConstruct
     public void inicializar() throws ExecutionException, InterruptedException {
@@ -85,7 +87,7 @@ public class PreguntaBean implements Serializable {
             if(profesorSesion != null){
                 if(!incorrectas.isEmpty() && incorrectas.size() == 3){
 
-                    TipoPregunta tipoPregunta = tipoPreguntaServicio.obtenerTipoPorNombre("cuestionario");;
+                    TipoPregunta tipoPregunta = tipoPreguntaServicio.obtenerTipoPorNombre("cuestionario");
                     if (tipo.equals("logica"))
                     {
                          tipoPregunta = tipoPreguntaServicio.obtenerTipoPorNombre("logica");
@@ -100,11 +102,11 @@ public class PreguntaBean implements Serializable {
                     pregunta.setTipo(tipoPregunta);
                     preguntaServicio.guardarPregunta(pregunta);
 
-                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Pregunta creado con éxito");
-                    FacesContext.getCurrentInstance().addMessage("msj-bean", msg);
+                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, CONSTANTALERTA, "Pregunta creado con éxito");
+                    FacesContext.getCurrentInstance().addMessage(CONSTANTMSJBEAN, msg);
                 } else {
-                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Pregunta creado con éxito");
-                    FacesContext.getCurrentInstance().addMessage("msj-bean", msg);
+                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, CONSTANTALERTA, "Pregunta creado con éxito");
+                    FacesContext.getCurrentInstance().addMessage(CONSTANTMSJBEAN, msg);
                 }
                 pregunta = new Pregunta();
                 correcta = "";
@@ -114,8 +116,8 @@ public class PreguntaBean implements Serializable {
 
 
         } catch (Exception e) {
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
-            FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(CONSTANTMSJBEAN, fm);
         }
     }
 

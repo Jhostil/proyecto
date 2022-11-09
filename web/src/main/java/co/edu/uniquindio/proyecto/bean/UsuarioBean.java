@@ -60,6 +60,9 @@ public class UsuarioBean implements Serializable {
 
     @Autowired
     private UsuarioClaseServicio usuarioClaseServicio;
+    private static final String CONSTANTALERTA = "Alerta";
+    private static final String CONSTANTGROWLMSJBEAN = "msj-bean";
+    private static final String CONSTANTGROWLCODCLASE = "codigo-clase";
 
 
     @PostConstruct
@@ -92,11 +95,11 @@ public class UsuarioBean implements Serializable {
                 usuarioServicio.registrarUsuario(usuario);
                 usuario = new Usuario();
                 rol = "";
-                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Registro exitoso");
-                FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
+                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, CONSTANTALERTA, "Registro exitoso");
+                FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLMSJBEAN, fm);
             } catch (Exception e) {
-                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
-                FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
+                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, e.getMessage());
+                FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLMSJBEAN, fm);
             }
         } else {
             try {
@@ -112,11 +115,11 @@ public class UsuarioBean implements Serializable {
                 usuario = new Usuario();
                 profesor = new Profesor();
                 rol = "";
-                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Registro exitoso");
-                FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
+                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, CONSTANTALERTA, "Registro exitoso");
+                FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLMSJBEAN, fm);
             } catch (Exception e) {
-                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
-                FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
+                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, e.getMessage());
+                FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLMSJBEAN, fm);
             }
         }
     }
@@ -127,17 +130,17 @@ public class UsuarioBean implements Serializable {
      */
     public String registrarClase () throws Exception {
         if (codigoClase.isEmpty()) {
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", "Ingrese el código de la clase");
-            FacesContext.getCurrentInstance().addMessage("codigo-clase", fm);
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, "Ingrese el código de la clase");
+            FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLCODCLASE, fm);
         }
         try {
             UsuarioClase usuarioClase = usuarioClaseServicio.registrarClase(codigoClase, usuarioSesion);
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Clase agregada con éxito");
-            FacesContext.getCurrentInstance().addMessage("codigo-clase", fm);
+            FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLCODCLASE, fm);
             return "/index?faces-redirect=true";
         } catch (Exception e) {
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
-            FacesContext.getCurrentInstance().addMessage("codigo-clase", fm);
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLCODCLASE, fm);
         }
         return "";
     }

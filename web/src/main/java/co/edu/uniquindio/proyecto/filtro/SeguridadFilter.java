@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class SeguridadFilter implements Filter {
 
-    private final String PAGINA_INICIO = "/index.xhtml";
+    private final String PAGINAINICIO = "/index.xhtml";
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) {
@@ -35,7 +35,7 @@ public class SeguridadFilter implements Filter {
                         } else {
 //El usuario no está logueado, entonces se redirecciona al inicio
 
-                            response.sendRedirect(request.getContextPath() + PAGINA_INICIO);
+                            response.sendRedirect(request.getContextPath() + PAGINAINICIO);
                         }
                     } else {
                         if (userManager.isAutenticado()) {
@@ -45,12 +45,12 @@ public class SeguridadFilter implements Filter {
                         } else {
 //El usuario no está logueado, entonces se redirecciona al inicio
 
-                            response.sendRedirect(request.getContextPath() + PAGINA_INICIO);
+                            response.sendRedirect(request.getContextPath() + PAGINAINICIO);
                         }
                     }
                 } else {
 //El usuario no está logueado, entonces se redirecciona al inicio
-                    response.sendRedirect(request.getContextPath() + PAGINA_INICIO);
+                    response.sendRedirect(request.getContextPath() + PAGINAINICIO);
                 }
 
             }else{

@@ -25,6 +25,9 @@ import java.util.concurrent.Future;
 public class UsuarioServicioImpl implements  UsuarioServicio{
 
     private final UsuarioRepo usuarioRepo;
+    private static final String COLECCIONUSUARIO = "Usuario";
+    private static final String CONSTANTEMAIL = "email";
+    private static final String CONSTANTUSERNAME = "username";
 
     public UsuarioServicioImpl(UsuarioRepo usuarioRepo) {
         this.usuarioRepo = usuarioRepo;
@@ -38,21 +41,21 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
     @Override
     public Usuario registrarUsuario(Usuario u) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Usuario").whereEqualTo("id",u.getId()).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONUSUARIO).whereEqualTo("id",u.getId()).get();
 
         if (!querySnapshotApiFuture.get().getDocuments().isEmpty()) {
             throw new Exception("El id del usuario ya existe.");
         }
 
         if (u.getEmail() != null) {
-            querySnapshotApiFuture = dbFirestore.collection("Usuario").whereEqualTo("email",u.getEmail()).get();
+            querySnapshotApiFuture = dbFirestore.collection(COLECCIONUSUARIO).whereEqualTo(CONSTANTEMAIL,u.getEmail()).get();
 
             if (!querySnapshotApiFuture.get().getDocuments().isEmpty()) {
                 throw new Exception("El email del usuario ya existe.");
             }
 
         }
-        querySnapshotApiFuture = dbFirestore.collection("Usuario").whereEqualTo("username",u.getUsername()).get();
+        querySnapshotApiFuture = dbFirestore.collection(COLECCIONUSUARIO).whereEqualTo(CONSTANTUSERNAME,u.getUsername()).get();
 
         if (!querySnapshotApiFuture.get().getDocuments().isEmpty()) {
             throw new Exception("El username del usuario ya existe.");
@@ -70,7 +73,7 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
         }
 
         try {
-            dbFirestore.collection("Usuario").document(u.getId()).set(u);
+            dbFirestore.collection(COLECCIONUSUARIO).document(u.getId()).set(u);
         } catch (Exception e)
         {
             System.out.println(e);
@@ -86,7 +89,7 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
     @Override
     public Usuario actualizarUsuario(Usuario u) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Usuario").whereEqualTo("id",u.getId()).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONUSUARIO).whereEqualTo("id",u.getId()).get();
         Usuario buscado = null;
         for (DocumentSnapshot usuario:querySnapshotApiFuture.get().getDocuments()) {
             buscado = usuario.toObject(Usuario.class);
@@ -97,28 +100,28 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
             throw new Exception("El usuario no existe");
         }
         buscado = u;
-        dbFirestore.collection("Usuario").document(buscado.getId()).set(buscado);
+        dbFirestore.collection(COLECCIONUSUARIO).document(buscado.getId()).set(buscado);
         return buscado;
     }
 
     private Usuario buscarUsuario(Usuario u) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Usuario").whereEqualTo("id",u.getId()).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONUSUARIO).whereEqualTo("id",u.getId()).get();
 
         if (!querySnapshotApiFuture.get().getDocuments().isEmpty()){
             throw new Exception("El código del usuario ya existe.");
         }
-        querySnapshotApiFuture = dbFirestore.collection("Usuario").whereEqualTo("email",u.getEmail()).get();
+        querySnapshotApiFuture = dbFirestore.collection(COLECCIONUSUARIO).whereEqualTo(CONSTANTEMAIL,u.getEmail()).get();
 
         if (!querySnapshotApiFuture.get().getDocuments().isEmpty()){
             throw new Exception("El email del usuario ya existe.");
         }
-        querySnapshotApiFuture = dbFirestore.collection("Usuario").whereEqualTo("username",u.getUsername()).get();
+        querySnapshotApiFuture = dbFirestore.collection(COLECCIONUSUARIO).whereEqualTo(CONSTANTUSERNAME,u.getUsername()).get();
 
         if (!querySnapshotApiFuture.get().getDocuments().isEmpty()){
             throw new Exception("El username del usuario ya existe.");
         }
-        dbFirestore.collection("Usuario").document(u.getId()).set(u);
+        dbFirestore.collection(COLECCIONUSUARIO).document(u.getId()).set(u);
         return usuarioRepo.save(u);
     }
 
@@ -129,12 +132,12 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
     @Override
     public void eliminarUsuario(String codigo) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Usuario").whereEqualTo("id",codigo).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONUSUARIO).whereEqualTo("id",codigo).get();
 
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()){
             throw new Exception("El código del usuario no existe.");
         }
-        dbFirestore.collection("Usuario").document(codigo).delete();
+        dbFirestore.collection(COLECCIONUSUARIO).document(codigo).delete();
     }
 
     /**
@@ -146,7 +149,7 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
         List<Usuario> usuarios = new ArrayList<>();
         Usuario usuario;
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Usuario").get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONUSUARIO).get();
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
             usuario = aux.toObject(Usuario.class);
             usuarios.add(usuario);
@@ -162,7 +165,7 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
     @Override
     public Usuario obtenerUsuario(String codigo) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Usuario").whereEqualTo("id",codigo).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONUSUARIO).whereEqualTo("id",codigo).get();
 
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()){
             throw new Exception("El usuario no existe.");
@@ -183,7 +186,7 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
     @Override
     public Usuario iniciarSesion(String username, String password) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Usuario").whereEqualTo("username",username).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONUSUARIO).whereEqualTo(CONSTANTUSERNAME,username).get();
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()) {
             throw new Exception("Los datos de autenticación son incorrectos");
         }
@@ -213,10 +216,8 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
         for (DocumentSnapshot aux: querySnapshotApiFuture.get().getDocuments()) {
             test = aux.toObject(Test.class);
             try {
-                if (test.getUsuario() != null) {
-                    if (test.getUsuario().getId().equals(id)) {
+                if (test.getUsuario() != null && test.getUsuario().getId().equals(id)) {
                         list.add(test);
-                    }
                 }
             } catch (Exception e){
                 System.out.println("Usuario no encontrado");
@@ -233,7 +234,7 @@ public class UsuarioServicioImpl implements  UsuarioServicio{
      */
     private Usuario buscarPorEmail (String email) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Usuario").whereEqualTo("email",email).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONUSUARIO).whereEqualTo(CONSTANTEMAIL,email).get();
         Usuario usuario = null;
         for (DocumentSnapshot aux: querySnapshotApiFuture.get().getDocuments()) {
             usuario = aux.toObject(Usuario.class);

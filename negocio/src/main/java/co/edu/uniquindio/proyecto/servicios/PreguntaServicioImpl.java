@@ -173,6 +173,7 @@ public class PreguntaServicioImpl implements PreguntaServicio{
     /**
      * Método que genera un códgo aleatorio de tamaño 5, combinando letras mayúsuculas y números
      * @return Retorna un string con el código aleatorio generado
+     * Método tomado de: https://www.delftstack.com/howto/java/random-alphanumeric-string-in-java/
      */
     public String getRandomString()
     {
@@ -202,19 +203,16 @@ public class PreguntaServicioImpl implements PreguntaServicio{
     }
 
     /**
-     * Método que dado un id de un Test verifica si existe o no.
+     * Método que dado un id, verifica si está disponible para asignarlo a un nevo Test.
+     * Si la búsqueda retorna un arreglo vacío quiere decir que no se encontró un Test con ese id,
+     * lo que quiere decir que dicho id está disponible para ser asignado como identificador a un Test.
      * @param id Identificador del Test a buscar
      * @return Retorna true si el Test con ese id existe. Retorna false si no existe un Test con el id dado
      */
     public boolean verificarId (String id) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Test").whereEqualTo("id", id).get();
-        if (querySnapshotApiFuture.get().getDocuments().isEmpty()) {
-            return true; //ID está disponible
-        } else {
-            return false; //EL ID ya existe
-        }
-
+        return (querySnapshotApiFuture.get().getDocuments().isEmpty());
     }
 
 }
