@@ -33,6 +33,7 @@ import java.util.List;
 @Component
 public class TestBean implements Serializable {
 
+    private static final String CONSTANTE = "responderTest.xhtml?faces-redirect=true";
     @Getter @Setter
     private Test test;
 
@@ -162,7 +163,7 @@ public class TestBean implements Serializable {
             }
             if (valido.equals("valido")) {
                 iniciarTest(usuario);
-                return "responderTest.xhtml?faces-redirect=true";
+                return CONSTANTE;
             }
             if (valido.equals("invalido")){
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Message", "Código inválido");
@@ -250,7 +251,7 @@ public class TestBean implements Serializable {
                 pregFinal = true;
             }
             //direcciona la usuario a la siguiente pregunta
-            return "responderTest.xhtml?faces-redirect=true";
+            return CONSTANTE;
 
         } catch (Exception e) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, "Debe seleccionar una respuesta");
@@ -274,7 +275,7 @@ public class TestBean implements Serializable {
             return cerrarTest();
         }
         obtenerRespuestas();
-        return "responderTest.xhtml?faces-redirect=true";
+        return CONSTANTE;
     }
 
     /**
