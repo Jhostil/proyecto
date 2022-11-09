@@ -9,41 +9,33 @@
       xmlns:jsf="http://xmlns.jcp.org/jsf"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
+    <h:outputStylesheet library="css" name="bootstrap.min.css" />
+    <h:outputStylesheet library="css" name="styles.css"/>
+    <h:outputScript library="js" name="bootstrap.bundle.min.js"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <h:outputStylesheet library="css" name="styles.css"/>
     <title>Uniquindio</title>
 </h:head>
 <h:body  class = "fondo" >
-
-    <div id="info-sesion" jsf:rendered="#{seguridadBean.autenticado and !seguridadBean.profesor}">
-        <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small" style="text-align: center">
-        <li>
-            <a href="/" class="nav-link text-white">
-                <i class="pi pi-home d-block mx-auto mb-1 icon-menu" />
-                Inicio
-            </a>
-        </li>
-        </ul>
-        <h4>Hola, #{seguridadBean.usuarioSesion.nombre}</h4>
-        <h:form>
-            <p:commandButton value="Cerrar Sesión" styleClass="btn btn-secundary" action="#{seguridadBean.cerrarSesion}" update="@form" icon="pi pi-sign-out"/>
-        </h:form>
-    </div>
-    <div id="info-sesion1" jsf:rendered="#{seguridadBean.autenticado and seguridadBean.profesor}">
-        <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small" style="text-align: center">
-            <li>
-                <a href="/" class="nav-link text-white">
-                    <i class="pi pi-home d-block mx-auto mb-1 icon-menu"/>
-                    Inicio
-                </a>
-            </li>
-        </ul>
-        <h4>Hola, #{seguridadBean.profesorSesion.nombre}</h4>
-        <h:form>
-            <p:commandButton value="Cerrar Sesión" styleClass="btn btn-secundary" action="#{seguridadBean.cerrarSesion}" update="@form" icon="pi pi-sign-out"/>
-        </h:form>
-    </div>
+        <div id="header">
+            <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+                <div id="info-sesion1" jsf:rendered="#{seguridadBean.autenticado and seguridadBean.profesor}">
+                    <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small" style="text-align: center">
+                        <li>
+                            <a href="/" class="nav-link text-white">
+                                <i class="pi pi-home d-block mx-auto mb-1 icon-menu"/>
+                                Inicio
+                            </a>
+                        </li>
+                    </ul>
+                    <h4>Hola, #{seguridadBean.profesorSesion.nombre}</h4>
+                    <h:form>
+                        <p:commandButton value="Cerrar Sesión" styleClass="btn btn-secundary" action="#{seguridadBean.cerrarSesion}" update="@form" icon="pi pi-sign-out"/>
+                    </h:form>
+                </div>
+            </header>
+        </div>
         <div id="content">
             <div class="container">
                 <ui:insert name="content">Contenido del documento</ui:insert>

@@ -2,11 +2,15 @@ co\edu\uniquindio\proyecto\servicios\PreguntaServicioImpl.class
 co\edu\uniquindio\proyecto\servicios\ProfesorServicio.class
 co\edu\uniquindio\proyecto\servicios\ProfesorServicioImpl.class
 co\edu\uniquindio\proyecto\servicios\TestServicio.class
+co\edu\uniquindio\proyecto\servicios\ClaseServicio.class
+co\edu\uniquindio\proyecto\servicios\UsuarioClaseServicio.class
 co\edu\uniquindio\proyecto\servicios\TipoPreguntaImpl.class
 co\edu\uniquindio\proyecto\servicios\DetalleTestServicioImpl.class
 co\edu\uniquindio\proyecto\servicios\PreguntaServicio.class
 co\edu\uniquindio\proyecto\servicios\DetalleTestServicio.class
 co\edu\uniquindio\proyecto\servicios\UsuarioServicioImpl.class
+co\edu\uniquindio\proyecto\servicios\ClaseServicioImpl.class
+co\edu\uniquindio\proyecto\servicios\UsuarioClaseServicioImpl.class
 co\edu\uniquindio\proyecto\servicios\TipoPreguntaServicio.class
 co\edu\uniquindio\proyecto\servicios\UsuarioServicio.class
 co\edu\uniquindio\proyecto\servicios\TestServicioImpl.class

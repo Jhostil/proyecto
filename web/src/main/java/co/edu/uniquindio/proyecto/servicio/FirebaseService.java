@@ -17,7 +17,7 @@ public class FirebaseService {
     @PostConstruct
     public void inicializar(){
         try {
-            File file = new File("web/target/classes/serviceAccountKey.json"); // ResourceUtils.getFile("classpath:serviceAccountKey.json");
+            File file = new File("C:/Users/crist.LAPTOP-C0GK424K.000/Desktop/proyecto/web/target/classes/serviceAccountKey.json"); // ResourceUtils.getFile("classpath:serviceAccountKey.json");
             
             InputStream serviceAccount = new FileInputStream(file);
 
@@ -30,5 +30,4 @@ public class FirebaseService {
             e.printStackTrace();
         }
     }
-
 }
