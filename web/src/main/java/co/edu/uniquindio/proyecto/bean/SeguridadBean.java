@@ -92,6 +92,7 @@ public class SeguridadBean implements Serializable {
                     autenticado=true;
                     profesor = false;
 
+                    //return "/usuario/clase?faces-redirect=true";
                     return "/index.xhtml?faces-redirect=true";
 
                 } catch (Exception e) {

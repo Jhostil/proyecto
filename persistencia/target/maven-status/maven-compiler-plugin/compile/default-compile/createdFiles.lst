@@ -10,6 +10,7 @@ co\edu\uniquindio\proyecto\repositorios\ClaseRepo.class
 co\edu\uniquindio\proyecto\entidades\DetalleTest.class
 co\edu\uniquindio\proyecto\entidades\TipoPregunta.class
 co\edu\uniquindio\proyecto\entidades\Clase.class
+co\edu\uniquindio\proyecto\PersistenciaApplication.class
 co\edu\uniquindio\proyecto\repositorios\TestRepo.class
 co\edu\uniquindio\proyecto\entidades\Profesor.class
 co\edu\uniquindio\proyecto\entidades\UsuarioClase.class
