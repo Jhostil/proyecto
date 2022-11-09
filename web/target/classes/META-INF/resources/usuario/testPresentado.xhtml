@@ -42,7 +42,7 @@
                             </p:panel>
                             <h:form>
                                 <h:panelGrid columns="2" cellpadding="30"   style="width: 90vw;  display: inline-flex">
-                                    <img src="../uploads/#{detalle.pregunta.pregunta}" class="pregunta" width="500" height="500"/>
+                                    <img src="../uploads/#{detalle.pregunta.pregunta}" class="pregunta" width="500" height="500" alt="../uploads/#{detalle.pregunta.pregunta}"/>
                                     <h:panelGrid columns="1" cellpadding="30"  >
                                         <p:selectOneRadio id="customRadio" value="#{detalleTestBean.respSeleccionada(detalle.respuesta, detalle.pregunta)}" layout="custom" disabled="true">
                                             <f:selectItem itemLabel="resp1" itemValue="1"/>
@@ -55,25 +55,25 @@
 
                                             <div  style="background: #29a51a; align-items: center;display: flex">
                                                 A) <p:radioButton id="ref1-1" for="customRadio" itemIndex="0"/>
-                                                <img src="../uploads/#{detalle.pregunta.correcta}" class="img4"/>
+                                                <img src="../uploads/#{detalle.pregunta.correcta}" class="img4" alt="../uploads/#{detalle.pregunta.correcta}"/>
                                                 <h:outputLabel for="ref1-1" />
                                             </div>
 
                                             <div style="background: #ff2929; align-items: center;display: flex">
                                                 A) <p:radioButton id="ref1-1-1" for="customRadio" itemIndex="0"/>
-                                                <img src="../uploads/#{detalle.pregunta.incorrecta.get(0)}" class="img4"/>
+                                                <img src="../uploads/#{detalle.pregunta.incorrecta.get(0)}" class="img4" alt="../uploads/#{detalle.pregunta.incorrecta.get(0)}"/>
                                                 <h:outputLabel for="ref1-1-1" />
                                             </div>
 
                                             <div style="background: #ff2929; align-items: center;display: flex">
                                                 B) <p:radioButton id="ref2-2-2" for="customRadio" itemIndex="1"/>
-                                                <img src="../uploads/#{detalle.pregunta.incorrecta.get(1)}" class="img4"/>
+                                                <img src="../uploads/#{detalle.pregunta.incorrecta.get(1)}" class="img4" alt="../uploads/#{detalle.pregunta.incorrecta.get(1)}"/>
                                                 <h:outputLabel for="ref2-2-2"/>
                                             </div>
 
                                             <div style="background: #ff2929; align-items: center;display: flex">
                                                 C) <p:radioButton id="ref3-3-3" for="customRadio" itemIndex="2"/>
-                                                <img src="../uploads/#{detalle.pregunta.incorrecta.get(2)}" class="img4"/>
+                                                <img src="../uploads/#{detalle.pregunta.incorrecta.get(2)}" class="img4" alt="../uploads/#{detalle.pregunta.incorrecta.get(2)}"/>
                                                 <h:outputLabel for="ref3-3-3" />
                                             </div>
                                         </h:panelGrid>

@@ -17,6 +17,8 @@ public class DetalleTestServicioImpl implements DetalleTestServicio{
 
     private final DetalleTestRepo detalleTestRepo;
 
+    private static final String COLECCIONDETALLE = "DetalleTest";
+
 
     public DetalleTestServicioImpl (DetalleTestRepo detalleTestRepo){
 
@@ -32,15 +34,13 @@ public class DetalleTestServicioImpl implements DetalleTestServicio{
     @Override
     public List<DetalleTest> obtenerDetallesTest(String codigoTest) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("DetalleTest").get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONDETALLE).get();
         List<DetalleTest> list = new ArrayList<>();
         DetalleTest detalleTest;
         for (DocumentSnapshot aux: querySnapshotApiFuture.get().getDocuments()) {
             detalleTest = aux.toObject(DetalleTest.class);
-            if (detalleTest.getTest() != null) {
-                if (detalleTest.getTest().getId().equals(codigoTest)){
+            if (detalleTest.getTest() != null && detalleTest.getTest().getId().equals(codigoTest)) {
                     list.add(detalleTest);
-                }
             }
         }
         return list;
@@ -53,7 +53,7 @@ public class DetalleTestServicioImpl implements DetalleTestServicio{
     @Override
     public void guardarDetalle(DetalleTest detalleTest) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        dbFirestore.collection("DetalleTest").document(Integer.toString(detalleTest.getId())).set(detalleTest);
+        dbFirestore.collection(COLECCIONDETALLE).document(Integer.toString(detalleTest.getId())).set(detalleTest);
     }
 
     /**
@@ -65,19 +65,13 @@ public class DetalleTestServicioImpl implements DetalleTestServicio{
     @Override
     public List<DetalleTest> obtenerDetallesTestPresentados(String codigoTest, String idUsuario) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("DetalleTest").get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONDETALLE).get();
         List<DetalleTest> list = new ArrayList<>();
         DetalleTest detalleTest;
         for (DocumentSnapshot aux: querySnapshotApiFuture.get().getDocuments()) {
             detalleTest = aux.toObject(DetalleTest.class);
-            if (detalleTest.getTest() != null) {
-                if (detalleTest.getTest().getId().equals(codigoTest)){
-                    if (detalleTest.getUsuario() != null) {
-                        if (detalleTest.getUsuario().getId().equals(idUsuario)){
-                            list.add(detalleTest);
-                        }
-                    }
-                }
+            if (detalleTest.getTest() != null && detalleTest.getTest().getId().equals(codigoTest) && detalleTest.getUsuario() != null && detalleTest.getUsuario().getId().equals(idUsuario)) {
+                list.add(detalleTest);
             }
         }
         return list;

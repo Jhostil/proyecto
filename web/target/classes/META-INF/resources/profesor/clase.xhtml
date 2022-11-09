@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="../WEB-INF/template1.xhtml">
+
+    <ui:define name="title">Clase</ui:define>
+    <ui:define name="content">
+        <div class="text-center">
+            <h1 style="color: white">#{detalleClaseBean.clase.nombre}</h1>
+        </div>
+        <div>
+        <h:form>
+            <div id="tests-disponibles" class="card" >
+                <p:dataTable id="tests-disponibles" var="test" value="#{detalleClaseBean.obtenerTestsProfesor()}" rowKey="#{test.id}"
+                             selection="#{testBean.testClaseSeleccionado}" selectionMode="single" update="@form">
+                    <f:facet name="header">
+                        Tests de la clase
+                    </f:facet>
+                    <p:column headerText="Código">
+                        <h:outputText value="#{test.test.id}" />
+                    </p:column>
+                    <p:column headerText="Activo">
+                        <h:outputText value="#{test.activo}" />
+                    </p:column>
+                </p:dataTable>
+                <p:contextMenu for="tests-disponibles" update="@form" >
+                    <p:menuitem value="Habilitar Quiz" update="@form" icon="pi pi-lock-open"
+                                action="#{testBean.habilitarTest}"/>
+
+                    <p:menuitem value="Deshabilitar Quiz" update="@form" icon="pi pi-lock"
+                                action="#{testBean.deshabilitarTest}"/>
+                </p:contextMenu>
+                <p:growl id="growl" showDetail="true" />
+            </div>
+
+            <div id="alumnos-clase">
+                <p:dataTable id="alumnos-clase" var="alumno" value="#{detalleClaseBean.alumnosClase}" update="@form">
+                    <f:facet name="header">
+                        Alumnos de la clase
+                    </f:facet>
+                    <p:column headerText="Código">
+                        <h:outputText value="#{alumno.id}" />
+                    </p:column>
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{alumno.nombre}" />
+                    </p:column>
+                    <p:column headerText="Apellido">
+                        <h:outputText value="#{alumno.apellido}" />
+                    </p:column>
+                </p:dataTable>
+            </div>
+
+        </h:form>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>

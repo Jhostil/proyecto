@@ -17,6 +17,6 @@ public interface PreguntaServicio {
 
     Pregunta obtenerPregunta(Integer codigo) throws Exception;
 
-    Test generarTest(Profesor profesor, ArrayList<PreguntaTest> preguntaTests) throws Exception;
+    Test generarTest(List<Clase> clases, Profesor profesor, ArrayList<PreguntaTest> preguntaTests) throws Exception;
 
 }

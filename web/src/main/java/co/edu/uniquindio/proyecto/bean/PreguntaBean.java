@@ -83,8 +83,6 @@ public class PreguntaBean implements Serializable {
     public void crearPregunta(){
         try {
             if(profesorSesion != null){
-                System.out.println(incorrectas.isEmpty());
-                System.out.println(incorrectas.size());
                 if(!incorrectas.isEmpty() && incorrectas.size() == 3){
 
                     TipoPregunta tipoPregunta = tipoPreguntaServicio.obtenerTipoPorNombre("cuestionario");;
@@ -165,11 +163,12 @@ public class PreguntaBean implements Serializable {
 
         try {
             File archivo = new File(urlUpload + "/" + imagen.getFileName());
-            OutputStream outputStream = new FileOutputStream(archivo); //Donde quiero que copie el archivo
-            IOUtils.copy(imagen.getInputStream(), outputStream );
+           try ( OutputStream outputStream = new FileOutputStream(archivo)) { //Donde quiero que copie el archivo
+               IOUtils.copy(imagen.getInputStream(), outputStream );
+           }
             return imagen.getFileName();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
         return null;
     }

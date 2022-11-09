@@ -21,6 +21,8 @@ public class TestServicioImpl implements TestServicio {
     private TestRepo testRepo;
     private DetalleTestRepo detalleTestRepo;
 
+    private static final String COLECCIONDETALLETEST = "DetalleTest";
+
     public TestServicioImpl(TestRepo testRepo, DetalleTestRepo detalleTestRepo) {
         this.testRepo = testRepo;
         this.detalleTestRepo = detalleTestRepo;
@@ -43,29 +45,16 @@ public class TestServicioImpl implements TestServicio {
                 test = aux.toObject(Test.class);
             }
             if (test != null) {
-                Usuario u = null;
-                querySnapshotApiFuture = dbFirestore.collection("DetalleTest").get();
-                for (DocumentSnapshot aux : querySnapshotApiFuture.get().getDocuments()) {
-                    DetalleTest dt = aux.toObject(DetalleTest.class);
-                    if (dt.getTest() != null) {
-                        if (dt.getTest().getId().equals(codigo)) {
-                            if (dt.getUsuario() != null) {
-                                if (dt.getUsuario().getId().equals(idUsuario)) {
-                                    u = dt.getUsuario();
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (u == null)
-                {
-                    return "valido";
-                } else {
+                querySnapshotApiFuture = dbFirestore.collection(COLECCIONDETALLETEST).whereEqualTo("test.id", codigo).whereEqualTo("usuario.id", idUsuario).get();
+                if (!querySnapshotApiFuture.get().getDocuments().isEmpty()){
                     return "El test ya fué presentado";
+                } else {
+                    return "valido";
                 }
+                
             }
         } catch (Exception e) {
+            Thread.currentThread().interrupt();
             return "invalido";
         }
         return "invalido";
@@ -82,14 +71,14 @@ public class TestServicioImpl implements TestServicio {
     public List<DetalleTest> iniciarTest(String codigo, Usuario usuario) throws Exception {
 
         try {
-            Test test = null;
+            Test test = new Test();
             Firestore dbFirestore = FirestoreClient.getFirestore();
             ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Test").whereEqualTo("id",codigo).get();
             for (DocumentSnapshot aux : querySnapshotApiFuture.get().getDocuments()) {
                 test = aux.toObject(Test.class);
             }
-            querySnapshotApiFuture = dbFirestore.collection("DetalleTest").get();
-            DetalleTest detalle;
+            querySnapshotApiFuture = dbFirestore.collection(COLECCIONDETALLETEST).whereEqualTo("test.id", codigo).whereEqualTo("usuario", null).get();
+            /*DetalleTest detalle;
             List<DetalleTest> list = new ArrayList<>();
             test.setDetalleTestList(list);
             for (DocumentSnapshot aux : querySnapshotApiFuture.get().getDocuments()) {
@@ -99,11 +88,17 @@ public class TestServicioImpl implements TestServicio {
                         test.getDetalleTestList().add(detalle);
                     }
                 }
-            }
+            }*/
             List<DetalleTest> detalleTestList = test.getDetalleTestList();
             List<DetalleTest> nuevoTest = new ArrayList<>();
 
-            for (DetalleTest dt: detalleTestList) {
+            DetalleTest dt = new DetalleTest();
+            int id = dbFirestore.collection(COLECCIONDETALLETEST).get().get().getDocuments().size()+1;
+
+            for (DocumentSnapshot aux : querySnapshotApiFuture.get().getDocuments()) {
+                dt = aux.toObject(DetalleTest.class);
+
+                //for (DetalleTest dt: detalleTestList) {
 
                 Pregunta pregunta = dt.getPregunta();
                 DetalleTest detalleTest = new DetalleTest();
@@ -111,14 +106,17 @@ public class TestServicioImpl implements TestServicio {
                 detalleTest.setPregunta(pregunta);
                 detalleTest.setUsuario(usuario);
                 detalleTest.setFechaTest(LocalDate.now().toString());
-                detalleTest.setId(dbFirestore.collection("DetalleTest").get().get().getDocuments().size()+1);
-                dbFirestore.collection("DetalleTest").document(Integer.toString(detalleTest.getId())).set(detalleTest);
+                detalleTest.setId(id);
+                id++;
+                dbFirestore.collection(COLECCIONDETALLETEST).document(Integer.toString(detalleTest.getId())).set(detalleTest);
                 nuevoTest.add(detalleTest);
+            //}
             }
 
             return nuevoTest;
         }catch (Exception e)
         {
+            Thread.currentThread().interrupt();
             throw new Exception(e.getMessage());
         }
     }

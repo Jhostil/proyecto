@@ -122,7 +122,6 @@
     border-radius: 4px;
     background: #fff;
     color: #6b6e80;
-    position: relative;
 }
 
 .blog-comment .meta {
@@ -242,7 +241,6 @@
 }
 
 .btn-mod {
-    position: relative;
     display: block;
     overflow: hidden;
     width: 100%;
@@ -645,10 +643,10 @@ body .ui-carousel .ui-carousel-header {
     border: 1px solid #dee2e600;
     margin: 0;
     font-weight: 700;
+    text-align: center;
 
 }
 body .ui-carousel .ui-carousel-button.ui-carousel-next-button {
-    font-family: 'primeicons' !important;
     font-style: normal;
     font-weight: normal;
     display: inline-block;
@@ -656,7 +654,6 @@ body .ui-carousel .ui-carousel-button.ui-carousel-next-button {
     color: black;
 }
 body .ui-carousel .ui-carousel-button.ui-carousel-prev-button {
-    font-family: 'primeicons' !important;
     font-style: normal;
     font-weight: normal;
     display: inline-block;
@@ -689,7 +686,6 @@ body .ui-carousel .ui-carousel-viewport {
     color:black;
 }
 body .ui-galleria .ui-galleria-nav-prev {
-    font-family: 'primeicons' !important;
     font-style: normal;
     font-weight: normal;
     display: inline-block;
@@ -769,4 +765,47 @@ body .ui-dialog.ui-confirm-dialog .ui-dialog-content {
     -ms-flex-align: center;
     align-items: center;
     font-size: 19px;
+}
+
+#tests-disponibles-alumno{
+    /* <div style="width: 50%; height: 10%; left: 25%; position: relative; top: 100px"> */
+    margin-right: 20%;
+    float: right;
+    width: 20vw;
+    margin-top: 40px;
+}
+
+#clases-disponibles{
+    /* <div style="width: 50%; height: 10%; left: 25%; position: relative; top: 100px"> */
+    margin-right: 40px;
+    float: right;
+    width: 20vw;
+}
+
+#clases-alumno{
+    margin-left: 40px;
+    width: 20vw;
+    margin-bottom: 10%;
+}
+
+#info-clase-alumno{
+    margin-left: 20%;
+    float: left;
+    width: 20vw;
+    margin-top: 40px;
+}
+
+#info-clase-alumno > h2{
+    color: white;
+}
+
+#tests-disponibles{
+    /* <div style="width: 50%; height: 10%; left: 25%; position: relative; top: 100px"> */
+    margin-left: 40px;
+    float: left;
+    width: 20vw;
+}
+#alumnos-clase{
+    margin-right: 5%;
+    margin-left: 25%;
 }

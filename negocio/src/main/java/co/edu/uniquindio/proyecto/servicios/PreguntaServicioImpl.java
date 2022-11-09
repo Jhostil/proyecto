@@ -14,6 +14,7 @@ import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class PreguntaServicioImpl implements PreguntaServicio{
     private final TestRepo testRepo;
 
     private final DetalleTestRepo detalleTestRepo;
+
+    private static final String COLECCIONPREGUNTA = "Pregunta";
 
     public PreguntaServicioImpl (PreguntaRepo preguntaRepo, TipoPreguntaRepo tipoPreguntaRepo, TestRepo testRepo, DetalleTestRepo detalleTestRepo)
     {
@@ -66,7 +69,7 @@ public class PreguntaServicioImpl implements PreguntaServicio{
         List<Pregunta> list = new ArrayList<>();
         Pregunta pregunta;
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Pregunta").get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONPREGUNTA).get();
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
             pregunta = aux.toObject(Pregunta.class);
             list.add(pregunta);
@@ -83,10 +86,11 @@ public class PreguntaServicioImpl implements PreguntaServicio{
     public Pregunta guardarPregunta(Pregunta p) throws Exception {
         try {
             Firestore dbFirestore = FirestoreClient.getFirestore();
-            p.setId(dbFirestore.collection("Pregunta").get().get().getDocuments().size()+1);
-            dbFirestore.collection("Pregunta").document(Integer.toString(p.getId())).set(p);
+            p.setId(dbFirestore.collection(COLECCIONPREGUNTA).get().get().getDocuments().size()+1);
+            dbFirestore.collection(COLECCIONPREGUNTA).document(Integer.toString(p.getId())).set(p);
             return p;
         } catch (Exception e) {
+            Thread.currentThread().interrupt();
             throw new Exception(e.getMessage());
         }
     }
@@ -99,7 +103,7 @@ public class PreguntaServicioImpl implements PreguntaServicio{
     @Override
     public Pregunta obtenerPregunta(Integer codigo) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Pregunta").whereEqualTo("id",codigo).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONPREGUNTA).whereEqualTo("id",codigo).get();
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()) {
             throw new Exception("El código de la pregunta no es válido");
         }
@@ -113,31 +117,44 @@ public class PreguntaServicioImpl implements PreguntaServicio{
     /**
      * Método que sirve para generar un nuevo test previamente configurado por un usuario con el rol de profesor
      * Este método crea y guarda los detalleTest asosciados al nuevo Test.
+     * @param clases Arraylist que contiene las clases a las cuales se les va a asignar el nuevo test
      * @param profesor Objeto de tipo Profesor quien fué el que creó el Test
      * @param preguntaTests arraylist que contiene los detallesTest a guardar
      * @return Retorna el Test guardado
      */
     @Override
-    public Test generarTest(Profesor profesor, ArrayList<PreguntaTest> preguntaTests) throws Exception{
+    public Test generarTest(List<Clase> clases, Profesor profesor, ArrayList<PreguntaTest> preguntaTests) throws Exception{
 
         try {
             Test test = new Test();
             test.setProfesor(profesor);
 
             String idTest = getRandomString();
-            boolean codigo = verificarId(idTest);
 
-            while (codigo == false)
+            while (!verificarId(idTest))
             {
                 idTest = getRandomString();
-                codigo = verificarId(idTest);
             }
 
+            //Se guarda el test
             test.setId(idTest);
             Firestore dbFirestore = FirestoreClient.getFirestore();
             dbFirestore.collection("Test").document(test.getId()).set(test);
             Test testGuardado = test;
 
+            //Se asocia el test a las clases seleccionadas
+            if(!clases.isEmpty()) {
+                for (Clase clase:clases) {
+                    TestClase testClase = new TestClase();
+                    testClase.setClase(clase);
+                    testClase.setTest(testGuardado);
+                    testClase.setActivo(true);
+                    testClase.setId(dbFirestore.collection("TestClase").get().get().getDocuments().size()+1);
+                    dbFirestore.collection("TestClase").document(Integer.toString(testClase.getId())).set(testClase);
+                }
+            }
+
+            //Se crean y guardan las preguntas del test
             DetalleTest dt;
             for (PreguntaTest p : preguntaTests){
                 dt = new DetalleTest();
@@ -148,7 +165,7 @@ public class PreguntaServicioImpl implements PreguntaServicio{
             }
             return testGuardado;
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            Thread.currentThread().interrupt();
             throw new Exception(e.getMessage());
         }
     }
@@ -170,10 +187,11 @@ public class PreguntaServicioImpl implements PreguntaServicio{
 
         for (int m = 0; m < 5; m++) {
 
+            SecureRandom secureRandom = new SecureRandom();
             // generate numeric
             int myindex
                     = (int)(theAlphaNumericS.length()
-                    * Math.random());
+                    * secureRandom.nextDouble());
 
             // add the characters
             builder.append(theAlphaNumericS
@@ -190,11 +208,12 @@ public class PreguntaServicioImpl implements PreguntaServicio{
      */
     public boolean verificarId (String id) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Test").whereEqualTo("id",id).get();
-        if (querySnapshotApiFuture.get().getDocuments().isEmpty()){
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Test").whereEqualTo("id", id).get();
+        if (querySnapshotApiFuture.get().getDocuments().isEmpty()) {
             return true; //ID está disponible
+        } else {
+            return false; //EL ID ya existe
         }
-        return false; //EL ID ya existe
 
     }
 

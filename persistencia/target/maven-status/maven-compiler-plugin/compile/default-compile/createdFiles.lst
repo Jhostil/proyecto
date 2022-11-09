@@ -15,4 +15,5 @@ co\edu\uniquindio\proyecto\entidades\Profesor.class
 co\edu\uniquindio\proyecto\entidades\UsuarioClase.class
 co\edu\uniquindio\proyecto\dto\PreguntaTest.class
 co\edu\uniquindio\proyecto\repositorios\UsuarioRepo.class
+co\edu\uniquindio\proyecto\entidades\TestClase.class
 co\edu\uniquindio\proyecto\entidades\Usuario.class

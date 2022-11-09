@@ -35,6 +35,12 @@ public class Clase implements Serializable {
     @OneToMany(mappedBy = "clase")
     @JsonIgnore
     @ToString.Exclude
-    private List<UsuarioClase> clases;
+    private List<UsuarioClase> alumnos;
+
+    //Relación de uno a muchos con la entidad TestClase
+    @OneToMany(mappedBy = "clase")
+    @JsonIgnore
+    @ToString.Exclude
+    private List<TestClase> testClases;
 }
 

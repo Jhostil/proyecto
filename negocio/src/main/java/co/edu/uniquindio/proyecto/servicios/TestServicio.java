@@ -8,10 +8,9 @@ import java.util.List;
 
 public interface TestServicio {
 
-
     String validarCodigo (String codigo, String idUsuario) throws Exception;
-
     List<DetalleTest> iniciarTest(String codigo, Usuario usuario) throws Exception;
+
 
 
 }

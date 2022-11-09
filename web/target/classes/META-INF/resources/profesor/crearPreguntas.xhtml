@@ -15,16 +15,16 @@
         <div id="test"  jsf:rendered="#{seguridadBean.autenticado}" style="text-align: center">
             <h:form style="text-align: -webkit-center">
 
-                <h:panelGrid columns="3" cellpadding="5" style="width:600px">
+                <h:panelGrid columns="3" cellpadding="5" style="width:800px">
                 <p:outputLabel value="Descripción:" for="descripcion_p"/>
                 <p:textEditor id="descripcion_p" value="#{preguntaBean.pregunta.descripcion}" height="100" widht="100" secure="false"/>
                 <p:message for="descripcion_p"/>
                 </h:panelGrid>
 
-                <h:panelGrid columns="5" cellpadding="5">
+                <h:panelGrid columns="5" cellpadding="25">
                     <p:outputLabel value="Pregunta:" for="img_pregunta"/>
-                    <p:fileUpload id="img_pregunta" listener="#{preguntaBean.subirImagenPregunta}" mode="advanced" multiple="false" sizeLimit="1000000" fileLimit="1"
-                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="false"/>
+                    <p:fileUpload id="img_pregunta" listener="#{preguntaBean.subirImagenPregunta}" mode="advanced" multiple="false" fileLimit="1"
+                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="false" style="width:225px"/>
                     <p:message for="img_pregunta"/>
 
                     <p:outputLabel for="@next" value="Tipo de pregunta"/>
@@ -38,12 +38,12 @@
                 </h:panelGrid>
                 <h:panelGrid columns="6" cellpadding="5">
                     <p:outputLabel value="Respuesta correcta:" for="img_correcta"/>
-                    <p:fileUpload id="img_correcta" listener="#{preguntaBean.subirImagenCorrecta}" mode="advanced" multiple="false" sizeLimit="1000000" fileLimit="1"
+                    <p:fileUpload id="img_correcta" listener="#{preguntaBean.subirImagenCorrecta}" mode="advanced" multiple="false" fileLimit="1"
                                   allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true"/>
                     <p:message for="img_correcta"/>
 
                     <p:outputLabel value="Respuestas Incorrectas:" for="img_incorrectas"/>
-                    <p:fileUpload id="img_incorrectas" listener="#{preguntaBean.subirImagenesIncorrectas}" mode="advanced" multiple="true" sizeLimit="1000000" fileLimit="3"
+                    <p:fileUpload id="img_incorrectas" listener="#{preguntaBean.subirImagenesIncorrectas}" mode="advanced" multiple="true" fileLimit="3"
                                   allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true"/>
                     <p:message for="img_incorrectas"/>
 

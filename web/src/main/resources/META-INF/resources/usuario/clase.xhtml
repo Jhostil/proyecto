@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="../WEB-INF/template1.xhtml">
+
+    <ui:define name="title">Clase</ui:define>
+    <ui:define name="content">
+        <div class="text-center">
+            <h1 style="color: white">#{detalleClaseBean.clase.nombre}</h1>
+        </div>
+        <h:form>
+            <div id="info-clase-alumno">
+                <h2>Clase: #{detalleClaseBean.clase.nombre}</h2>
+                <h2>Profesor: #{detalleClaseBean.clase.profesor.nombre}</h2>
+            </div>
+        <div id="tests-disponibles-alumno" class="card" >
+            <p:dataTable id="tests-disponibles" var="test" value="#{detalleClaseBean.obtenerTestsActivosAlumno()}" rowKey="#{test.id}"
+                         selection="#{testBean.testClaseSeleccionado}" selectionMode="single">
+                <f:facet name="header">
+                    Tests Disponibles
+                </f:facet>
+                <p:column headerText="Código">
+                    <h:outputText value="#{test.test.id}" />
+                </p:column>
+            </p:dataTable>
+            <p:contextMenu for="tests-disponibles">
+                <p:menuitem value="Presentar Quiz" update="@form" icon="pi pi-search"
+                            action="#{testBean.validarCodigo(seguridadBean.usuarioSesion)}" />
+            </p:contextMenu>
+            <p:growl id="growl" showDetail="true" infostyle="color:red" />
+        </div>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

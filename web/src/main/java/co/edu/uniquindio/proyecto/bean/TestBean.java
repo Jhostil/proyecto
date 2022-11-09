@@ -1,11 +1,9 @@
 package co.edu.uniquindio.proyecto.bean;
 
-import co.edu.uniquindio.proyecto.entidades.DetalleTest;
-import co.edu.uniquindio.proyecto.entidades.Pregunta;
-import co.edu.uniquindio.proyecto.entidades.Test;
-import co.edu.uniquindio.proyecto.entidades.Usuario;
+import co.edu.uniquindio.proyecto.entidades.*;
 import co.edu.uniquindio.proyecto.servicios.DetalleTestServicio;
 import co.edu.uniquindio.proyecto.servicios.PreguntaServicio;
+import co.edu.uniquindio.proyecto.servicios.TestClaseServicio;
 import co.edu.uniquindio.proyecto.servicios.TestServicio;
 import lombok.Getter;
 import lombok.Setter;
@@ -84,6 +82,13 @@ public class TestBean implements Serializable {
 
     @Getter @Setter
     private boolean pregFinal;
+
+    @Getter @Setter
+    private TestClase testClaseSeleccionado;
+
+    @Autowired
+    private TestClaseServicio testClaseServicio;
+
     @PostConstruct
     public void inicializar() {
         testenproceso = false;
@@ -97,7 +102,6 @@ public class TestBean implements Serializable {
         calificacion = 0;
         calificacionFinal = "";
         pregFinal = false;
-
     }
 
     /**
@@ -134,7 +138,12 @@ public class TestBean implements Serializable {
      * @return Retorna una cadena con la redirección de página
      */
     public String validarCodigo(Usuario usuario) {
-        if (codigo == "") {
+
+        if (testClaseSeleccionado != null) {
+            codigo = testClaseSeleccionado.getTest().getId();
+        }
+
+        if (codigo.equals("")) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", "Ingrese un código");
             FacesContext.getCurrentInstance().addMessage("codigo_test", fm);
             return "";
@@ -281,8 +290,39 @@ public class TestBean implements Serializable {
         calificacionFinal = "";
 
         return "/index.xhtml?faces-redirect=true";
-        //return "/usuario/testPresentado.xhtml?faces-redirect=true&amp;test=" + aux;
     }
+
+    /**
+     * Método que permite activar un Quiz
+     */
+    public void habilitarTest () throws Exception {
+        if (testClaseSeleccionado.isActivo())
+        {
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", "El Quiz ya está habilitado");
+            FacesContext.getCurrentInstance().addMessage("codigo_test", fm);
+        } else {
+            testClaseServicio.habilitarTest(testClaseSeleccionado);
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Quiz habilitado con éxito");
+            FacesContext.getCurrentInstance().addMessage("codigo_test", fm);
+        }
+
+    }
+
+    /**
+     * Método que permite desactivar un Quiz
+     */
+    public void deshabilitarTest () throws Exception {
+        if (!testClaseSeleccionado.isActivo())
+        {
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", "El Quiz ya está deshabilitado");
+            FacesContext.getCurrentInstance().addMessage("growl", fm);
+        } else {
+            testClaseServicio.deshabilitarTest(testClaseSeleccionado);
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Quiz deshabilitado con éxito");
+            FacesContext.getCurrentInstance().addMessage("growl", fm);
+        }
+    }
+
 }
 
 

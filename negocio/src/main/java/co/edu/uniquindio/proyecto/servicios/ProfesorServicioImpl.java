@@ -1,5 +1,6 @@
 package co.edu.uniquindio.proyecto.servicios;
 
+import co.edu.uniquindio.proyecto.entidades.Clase;
 import co.edu.uniquindio.proyecto.entidades.Profesor;
 import co.edu.uniquindio.proyecto.entidades.Test;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
@@ -26,6 +27,8 @@ public class ProfesorServicioImpl implements ProfesorServicio{
 
     private final ProfesorRepo profesorRepo;
 
+    private static final String COLECCIONPROFESOR = "Profesor";
+
     public ProfesorServicioImpl(ProfesorRepo profesorRepo)
     {
         this.profesorRepo = profesorRepo;
@@ -39,13 +42,13 @@ public class ProfesorServicioImpl implements ProfesorServicio{
     @Override
     public Profesor obtenerProfesor(String codigo) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Profesor").whereEqualTo("id",codigo).get();
-        FirebaseDatabase storage = FirebaseDatabase.getInstance();
-        DatabaseReference ref = storage.getReference();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONPROFESOR).whereEqualTo("id",codigo).get();
+       //FirebaseDatabase storage = FirebaseDatabase.getInstance();
+        //DatabaseReference ref = storage.getReference();
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()){
             throw new Exception("El profesor no existe.");
         }
-        Profesor buscado = null;
+        Profesor buscado = new Profesor();
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
             buscado = aux.toObject(Profesor.class);
         }
@@ -55,10 +58,8 @@ public class ProfesorServicioImpl implements ProfesorServicio{
         buscado.setTestsConfigurados(list);
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
             test = aux.toObject(Test.class);
-            if (test.getProfesor() != null) {
-                if (test.getProfesor().getId().equals(codigo)) {
-                    buscado.getTestsConfigurados().add(test);
-                }
+            if (test.getProfesor() != null && test.getProfesor().getId().equals(codigo)) {
+                buscado.getTestsConfigurados().add(test);
             }
         }
         return buscado;
@@ -75,11 +76,11 @@ public class ProfesorServicioImpl implements ProfesorServicio{
     @Override
     public Profesor iniciarSesion(String username, String password) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Profesor").whereEqualTo("username",username).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONPROFESOR).whereEqualTo("username",username).get();
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()){
             throw new Exception("Los datos de autenticación son incorrectos");
         }
-        Profesor profesor = null;
+        Profesor profesor = new Profesor();
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
             profesor = aux.toObject(Profesor.class);
         }
@@ -99,14 +100,14 @@ public class ProfesorServicioImpl implements ProfesorServicio{
     @Override
     public Profesor registrarProfesor(Profesor p) throws Exception {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Profesor").whereEqualTo("id",p.getId()).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONPROFESOR).whereEqualTo("id",p.getId()).get();
 
         if (!querySnapshotApiFuture.get().getDocuments().isEmpty()) {
             throw new Exception("El id del profesor ya existe.");
         }
 
         if (p.getEmail() != null) {
-            querySnapshotApiFuture = dbFirestore.collection("Profesor").whereEqualTo("email",p.getEmail()).get();
+            querySnapshotApiFuture = dbFirestore.collection(COLECCIONPROFESOR).whereEqualTo("email",p.getEmail()).get();
 
             if (!querySnapshotApiFuture.get().getDocuments().isEmpty()) {
                 throw new Exception("El email del profesor ya existe.");
@@ -114,7 +115,7 @@ public class ProfesorServicioImpl implements ProfesorServicio{
 
         }
 
-        querySnapshotApiFuture = dbFirestore.collection("Profesor").whereEqualTo("username",p.getUsername()).get();
+        querySnapshotApiFuture = dbFirestore.collection(COLECCIONPROFESOR).whereEqualTo("username",p.getUsername()).get();
 
         if (!querySnapshotApiFuture.get().getDocuments().isEmpty()) {
             throw new Exception("El username del profesor ya existe.");
@@ -132,12 +133,23 @@ public class ProfesorServicioImpl implements ProfesorServicio{
         }
 
         try {
-            dbFirestore.collection("Profesor").document(p.getId()).set(p);
+            dbFirestore.collection(COLECCIONPROFESOR).document(p.getId()).set(p);
         } catch (Exception e)
         {
-            e.printStackTrace();
+            System.out.println(e);
         }
         return p;
+    }
+
+    @Override
+    public List<Clase> obtenerClases(Profesor p) throws Exception {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Clase").whereEqualTo("profesor.id",p.getId()).get();
+        List<Clase> clases = new ArrayList<>();
+        for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
+            clases.add(aux.toObject(Clase.class));
+        }
+        return  clases;
     }
 
     /**
@@ -147,7 +159,7 @@ public class ProfesorServicioImpl implements ProfesorServicio{
      */
     private Profesor buscarPorEmail (String email) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Profesor").whereEqualTo("email",email).get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONPROFESOR).whereEqualTo("email",email).get();
         Profesor profesor = null;
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
             profesor = aux.toObject(Profesor.class);

@@ -1,7 +1,6 @@
 package co.edu.uniquindio.proyecto.servicios;
 
-import co.edu.uniquindio.proyecto.entidades.Test;
-import co.edu.uniquindio.proyecto.entidades.Usuario;
+import co.edu.uniquindio.proyecto.entidades.*;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -18,4 +17,6 @@ public interface UsuarioServicio {
     Usuario iniciarSesion(String username, String password) throws Exception;
 
     List<Test> listarTestRealizados(String id) throws ExecutionException, InterruptedException;
+
+    List<UsuarioClase> obtenerClases (Usuario u) throws Exception;
 }
