@@ -170,11 +170,9 @@
 }
 
 #info-sesion{
-    position: relative;
-    margin-top: 20px;
-    margin-right: 20px;
     font-size: 20px;
     text-align: end;
+    background: #042940;
 }
 
 #info-sesion > * {
