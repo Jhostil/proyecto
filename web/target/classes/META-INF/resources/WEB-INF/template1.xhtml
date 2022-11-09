@@ -17,29 +17,42 @@
     <h:outputStylesheet library="css" name="styles.css"/>
     <title>Uniquindio</title>
 </h:head>
-<h:body  class = "fondo" >
-        <div id="header">
-            <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-                <div id="info-sesion1" jsf:rendered="#{seguridadBean.autenticado and seguridadBean.profesor}">
-                    <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small" style="text-align: center">
-                        <li>
-                            <a href="/" class="nav-link text-white">
-                                <i class="pi pi-home d-block mx-auto mb-1 icon-menu"/>
-                                Inicio
-                            </a>
-                        </li>
-                    </ul>
-                    <h4>Hola, #{seguridadBean.profesorSesion.nombre}</h4>
-                    <h:form>
-                        <p:commandButton value="Cerrar Sesión" styleClass="btn btn-secundary" action="#{seguridadBean.cerrarSesion}" update="@form" icon="pi pi-sign-out"/>
-                    </h:form>
-                </div>
-            </header>
-        </div>
+<h:body  style="" class = "fondo" >
         <div id="content">
+            <div id="header">
+                <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+                    <div id="info-sesion1" jsf:rendered="#{seguridadBean.autenticado and seguridadBean.profesor}">
+                        <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small" style="text-align: center">
+                            <li>
+                                <a href="/" class="nav-link text-white">
+                                    <i class="pi pi-home d-block mx-auto mb-1 icon-menu"/>
+                                    Inicio
+                                </a>
+                            </li>
+                        </ul>
+                        <h4>Hola, #{seguridadBean.profesorSesion.nombre}</h4>
+                        <h:form>
+                            <p:commandButton value="Cerrar Sesión" styleClass="btn btn-secundary" action="#{seguridadBean.cerrarSesion}" update="@form" icon="pi pi-sign-out"/>
+                        </h:form>
+                    </div>
+                    <div id="info-sesion" jsf:rendered="#{seguridadBean.autenticado and !seguridadBean.profesor}">
+                        <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small" style="text-align: center">
+                            <li>
+                                <a href="/" class="nav-link text-white">
+                                    <i class="pi pi-home d-block mx-auto mb-1 icon-menu"/>
+                                    Inicio
+                                </a>
+                            </li>
+                        </ul>
+                        <h4>Hola, #{seguridadBean.usuarioSesion.nombre}</h4>
+                        <h:form>
+                            <p:commandButton value="Cerrar Sesión" styleClass="btn btn-secundary" action="#{seguridadBean.cerrarSesion}" update="@form" icon="pi pi-sign-out"/>
+                        </h:form>
+                    </div>
+                </header>
+            </div>
             <div class="container">
                 <ui:insert name="content">Contenido del documento</ui:insert>
-
             </div>
 
         <div class="btn-inicio" style="top: 250px" jsf:rendered="#{!seguridadBean.autenticado}">
