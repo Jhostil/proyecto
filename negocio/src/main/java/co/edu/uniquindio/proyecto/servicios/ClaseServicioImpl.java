@@ -33,7 +33,7 @@ public class ClaseServicioImpl implements ClaseServicio{
      * @return Retorna la clase guardada
      */
     @Override
-    public Clase crearClase(String nombre, Profesor profesor) throws Exception {
+    public Clase crearClase(String nombre, Profesor profesor) throws InterruptedException, ExecutionException {
         Clase clase = new Clase();
         clase.setNombre(nombre);
         clase.setProfesor(profesor);
@@ -42,7 +42,7 @@ public class ClaseServicioImpl implements ClaseServicio{
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONCLASE).whereEqualTo("nombre",nombre).whereEqualTo("profesor.id", profesor.getId()).get();
 
         if (!querySnapshotApiFuture.get().getDocuments().isEmpty()) {
-            throw new Exception("Ya existe una clase con ese nombre.");
+            throw new InterruptedException("Ya existe una clase con ese nombre.");
         }
 
         String codigoClase = getRandomString();
