@@ -17,7 +17,7 @@
 
            <div style=" position: relative; top: 100px">
            <div class="text-center" >
-               <div class="text" style="margin-outside: 1px">
+               <div class="text" >
                    <h1 style="color: white">Bienvenido al test de pensamiento computacional</h1>
                </div>
                <div id="iniciar-test" jsf:rendered="#{seguridadBean.autenticado and !seguridadBean.profesor}" style="margin-top: 80px">
@@ -49,7 +49,7 @@
                                    <p:message for="codigo-clase" />
                                </h:panelGrid>
                                <div style="text-align: center">
-                                   <p:commandButton value="Entrar" action="#{usuarioBean.registrarClase}" styleClass="mt-4" update="@form" icon="pi pi-sign-in" iconPos="left" style="align-item:center" />
+                                   <p:commandButton value="Entrar" action="#{usuarioBean.registrarClase}" styleClass="mt-4" update="@form" icon="pi pi-sign-in" iconPos="left"  />
                                </div>
                                <p:growl for="codigo-clase" showDetail="true" />
                            </h:form>
@@ -103,7 +103,7 @@
                                    <p:message for="nombre_clase" />
                                </h:panelGrid>
                                <div style="text-align: center">
-                                   <p:commandButton value="Crear Clase" action="#{claseBean.crearClase}" styleClass="mt-4" update="@form" icon="pi pi-sign-in" iconPos="left" style="align-item:center" />
+                                   <p:commandButton value="Crear Clase" action="#{claseBean.crearClase}" styleClass="mt-4" update="@form" icon="pi pi-sign-in" iconPos="left" />
                                </div>
                                <p:growl for="nombre_clase" showDetail="true" />
                            </h:form>
