@@ -33,7 +33,7 @@ public class ClaseServicioImpl implements ClaseServicio{
      * @return Retorna la clase guardada
      */
     @Override
-    public Clase crearClase(String nombre, Profesor profesor) throws InterruptedException, ExecutionException {
+    public Clase crearClase(String nombre, Profesor profesor) throws InterruptedException, ExecutionException{
         Clase clase = new Clase();
         clase.setNombre(nombre);
         clase.setProfesor(profesor);
@@ -64,11 +64,11 @@ public class ClaseServicioImpl implements ClaseServicio{
      * @return Retorna la clase correspondiente al código ingresado
      */
     @Override
-    public Clase obtenerClase(String codigo) throws Exception {
+    public Clase obtenerClase(String codigo) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONCLASE).whereEqualTo("id",codigo).get();
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()) {
-            throw new Exception("No existe una clase con ese código");
+            throw new InterruptedException("No existe una clase con ese código");
         }
         Clase clase = null;
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
@@ -83,7 +83,7 @@ public class ClaseServicioImpl implements ClaseServicio{
      * @return Retorna una lista de tipo TestClase la cual contiene los test activos de la clase}
      */
     @Override
-    public List<TestClase> obtenerTestsActivosClase(String codigoClase) throws Exception {
+    public List<TestClase> obtenerTestsActivosClase(String codigoClase) throws InterruptedException, ExecutionException{
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONTESTCLASE).whereEqualTo("clase.id",codigoClase).whereEqualTo("activo", true).get();
 
@@ -100,7 +100,7 @@ public class ClaseServicioImpl implements ClaseServicio{
      * @return Retorna una lista de tipo TestClase la cual contiene los test de la clase}
      */
     @Override
-    public List<TestClase> obtenerTestsProfesor(String codigoClase) throws Exception {
+    public List<TestClase> obtenerTestsProfesor(String codigoClase) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONTESTCLASE).whereEqualTo("clase.id",codigoClase).get();
 
@@ -118,7 +118,7 @@ public class ClaseServicioImpl implements ClaseServicio{
      * @return Retorna un arreglo con los objetos de tipo Clase
      */
     @Override
-    public List<Clase> obtenerClasesSeleccionadas(Profesor profesorSesion, String[] nombreClasesTest) throws Exception {
+    public List<Clase> obtenerClasesSeleccionadas(Profesor profesorSesion, String[] nombreClasesTest) throws InterruptedException, ExecutionException{
 
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONCLASE).whereEqualTo("profesor.id",profesorSesion.getId()).get();
@@ -127,6 +127,7 @@ public class ClaseServicioImpl implements ClaseServicio{
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
             for (String nombreClase: nombreClasesTest) {
                 Clase aux1 = aux.toObject(Clase.class);
+                assert aux1 != null;
                 if (nombreClase.equals(aux1.getNombre())){
                     clases.add(aux1);
                 }
@@ -143,7 +144,7 @@ public class ClaseServicioImpl implements ClaseServicio{
     public String getRandomString()
     {
         String theAlphaNumericS;
-        StringBuilder builder;
+        StringBuilder builder; 
 
         theAlphaNumericS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + "0123456789";
