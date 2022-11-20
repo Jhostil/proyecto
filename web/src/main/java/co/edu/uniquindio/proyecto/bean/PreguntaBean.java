@@ -115,9 +115,11 @@ public class PreguntaBean implements Serializable {
             }
 
 
-        } catch (Exception e) {
+        } catch (InterruptedException | ExecutionException e) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, e.getMessage());
             FacesContext.getCurrentInstance().addMessage(CONSTANTMSJBEAN, fm);
+            Thread.currentThread().interrupt();
+
         }
     }
 

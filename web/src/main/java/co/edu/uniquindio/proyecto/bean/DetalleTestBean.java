@@ -48,6 +48,8 @@ public class DetalleTestBean implements Serializable {
 
             detalleTestList = detalleTestServicio.obtenerDetallesTestPresentados(codigoTest, usuario.getId());
         } catch (InterruptedException | ExecutionException e) {
+            Thread.currentThread().interrupt();
+
             throw new RuntimeException(e);
         }
     }

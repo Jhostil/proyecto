@@ -81,6 +81,7 @@ public class UsuarioBean implements Serializable {
             usuarioClases = usuarioServicio.obtenerClases(u);
         }
         } catch (InterruptedException | ExecutionException e) {
+            Thread.currentThread().interrupt();
             throw new RuntimeException(e);
         }
 
@@ -99,9 +100,10 @@ public class UsuarioBean implements Serializable {
                 rol = "";
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, CONSTANTALERTA, "Registro exitoso");
                 FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLMSJBEAN, fm);
-            } catch (Exception e) {
+            } catch (InterruptedException | ExecutionException e) {
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, e.getMessage());
                 FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLMSJBEAN, fm);
+                Thread.currentThread().interrupt();
             }
         } else {
             try {
@@ -119,9 +121,10 @@ public class UsuarioBean implements Serializable {
                 rol = "";
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, CONSTANTALERTA, "Registro exitoso");
                 FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLMSJBEAN, fm);
-            } catch (Exception e) {
+            } catch (InterruptedException | ExecutionException e) {
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, e.getMessage());
                 FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLMSJBEAN, fm);
+                Thread.currentThread().interrupt();
             }
         }
     }
@@ -140,9 +143,10 @@ public class UsuarioBean implements Serializable {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Clase agregada con éxito");
             FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLCODCLASE, fm);
             return "/index?faces-redirect=true";
-        } catch (Exception e) {
+        } catch (InterruptedException | ExecutionException e) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, e.getMessage());
             FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLCODCLASE, fm);
+            Thread.currentThread().interrupt();
         }
         return "";
     }

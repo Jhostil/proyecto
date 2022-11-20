@@ -92,18 +92,21 @@ public class SeguridadBean implements Serializable {
                     autenticado=true;
                     profesor = true;
                     return CONSTANTREDIRECTINDEX;
-                } catch (Exception g) {
+                } catch (InterruptedException | ExecutionException g) {
                     try{
                     usuarioSesion = usuarioServicio.iniciarSesion(username, password);
 
                     autenticado=true;
                     profesor = false;
 
-                    return CONSTANTREDIRECTINDEX;
+                        Thread.currentThread().interrupt();
 
-                } catch (Exception e) {
+                        return CONSTANTREDIRECTINDEX;
+
+                } catch (InterruptedException | ExecutionException e) {
                     FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, e.getMessage());
                     FacesContext.getCurrentInstance().addMessage("login-bean", fm);
+                        Thread.currentThread().interrupt();
                 }
                 }
             }

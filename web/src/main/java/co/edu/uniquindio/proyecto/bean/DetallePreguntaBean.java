@@ -55,6 +55,8 @@ public class DetallePreguntaBean implements Serializable {
                 imagenes = new ArrayList<>();
                 mostrarImagenes();
             } catch (InterruptedException | ExecutionException e) {
+                Thread.currentThread().interrupt();
+
                 throw new RuntimeException(e);
             }
         }

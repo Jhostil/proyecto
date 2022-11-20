@@ -9,6 +9,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import java.io.Serializable;
+import java.util.concurrent.ExecutionException;
 
 @Component
 public class TipoConverter implements Converter<TipoPregunta>, Serializable {
@@ -20,11 +21,17 @@ public class TipoConverter implements Converter<TipoPregunta>, Serializable {
     public TipoPregunta getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {
 
         TipoPregunta tipoPregunta = null;
+
         try {
             tipoPregunta = tipoPreguntaServicio.obtenerTipoPregunta(Integer.parseInt(s));
-        } catch (Exception e){
-            System.out.println(e);
+        } catch (ExecutionException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(e);
         }
+
         return tipoPregunta;
     }
 

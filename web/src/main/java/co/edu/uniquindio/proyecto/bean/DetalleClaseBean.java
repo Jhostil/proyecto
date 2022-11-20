@@ -52,6 +52,8 @@ public class DetalleClaseBean implements Serializable {
                 clase = claseServicio.obtenerClase(codigoClase);
                 alumnosClase = usuarioClaseServicio.obtenerAlumnos(codigoClase);
             } catch (InterruptedException | ExecutionException e) {
+                Thread.currentThread().interrupt();
+
                 throw new RuntimeException(e);
             }
         }
