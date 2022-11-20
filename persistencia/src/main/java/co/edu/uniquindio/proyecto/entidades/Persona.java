@@ -26,7 +26,7 @@ public class Persona implements Serializable {
 
     //Atributo nombre de la persona
     @Column(nullable = false,length = 150)
-    @Length(min = 2, max = 150, message = "El nombre debe tener mínimo 2 caracteres y máximo 150")
+    @Length(min = 3, max = 150, message = "El nombre debe tener mínimo 3 caracteres y máximo 150")
     @NotBlank(message = "El campo está vacío, debe ingresar un nombre")
     private String nombre;
 
