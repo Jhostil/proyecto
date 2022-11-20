@@ -16,6 +16,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 @Component
 @ViewScoped
@@ -46,9 +47,10 @@ public class ClaseBean implements Serializable {
             Clase clase = claseServicio.crearClase(nombreClase, profesor);
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Clase creada con éxito. El código de acceso es: \n" + clase.getId());
             PrimeFaces.current().dialog().showMessageDynamic(message);
-        } catch (Exception e) {
+        } catch (InterruptedException | ExecutionException e) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
             FacesContext.getCurrentInstance().addMessage("nombre_clase", fm);
+            Thread.currentThread().interrupt();
         }
     }
 }

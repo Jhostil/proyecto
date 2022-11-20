@@ -144,7 +144,7 @@ public class ClaseServicioImpl implements ClaseServicio{
     public String getRandomString()
     {
         String theAlphaNumericS;
-        StringBuilder builder; 
+        StringBuilder builder;
 
         theAlphaNumericS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + "0123456789";
