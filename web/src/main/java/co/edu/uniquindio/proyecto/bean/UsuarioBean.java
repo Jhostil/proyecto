@@ -84,40 +84,49 @@ public class UsuarioBean implements Serializable {
     /**
      * Método controlador que permite inciar el proceso para registrar un nuevo usuario
      */
-    public void registrarUsuario ()
-    {
-        if (rol.equals("Estudiante")) {
-            try {
-                usuario.setFechaNacimiento(localDate.toString());
-                usuarioServicio.registrarUsuario(usuario);
-                usuario = new Usuario();
-                rol = "";
-                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Registro exitoso");
-                FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
-            } catch (Exception e) {
-                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
-                FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
-            }
-        } else {
-            try {
-                profesor.setPassword(usuario.getPassword());
-                profesor.setApellido(usuario.getApellido());
-                profesor.setUsername(usuario.getUsername());
-                profesor.setEmail(usuario.getEmail());
-                profesor.setFechaNacimiento(localDate.toString());
-                profesor.setId(usuario.getId());
-                profesor.setNombre(usuario.getNombre());
+    public void registrarUsuario () {
+        if (usuario.getPassword().length() >= 5) {
+            if (rol.equals("Estudiante")) {
+                try {
+                    usuario.setFechaNacimiento(localDate.toString());
+                    usuarioServicio.registrarUsuario(usuario);
+                    usuario = new Usuario();
+                    rol = "";
+                    FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Registro exitoso");
+                    FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
+                } catch (Exception e) {
+                    if (localDate == null) {
+                        FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe ingresar una fecha de nacimiento", e.getMessage());
+                        FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
+                    } else {
+                        FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
+                        FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
+                    }
+                }
+            } else {
+                try {
+                    profesor.setPassword(usuario.getPassword());
+                    profesor.setApellido(usuario.getApellido());
+                    profesor.setUsername(usuario.getUsername());
+                    profesor.setEmail(usuario.getEmail());
+                    profesor.setFechaNacimiento(localDate.toString());
+                    profesor.setId(usuario.getId());
+                    profesor.setNombre(usuario.getNombre());
 
-                profesorServicio.registrarProfesor(profesor);
-                usuario = new Usuario();
-                profesor = new Profesor();
-                rol = "";
-                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Registro exitoso");
-                FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
-            } catch (Exception e) {
-                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
-                FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
+                    profesorServicio.registrarProfesor(profesor);
+                    usuario = new Usuario();
+                    profesor = new Profesor();
+                    rol = "";
+                    FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Registro exitoso");
+                    FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
+                } catch (Exception e) {
+                    FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
+                    FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
+                }
             }
+        }else{
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", "La contraseña debe de tener un tamaño mínimo de 5 caracteres");
+            FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
         }
     }
 
