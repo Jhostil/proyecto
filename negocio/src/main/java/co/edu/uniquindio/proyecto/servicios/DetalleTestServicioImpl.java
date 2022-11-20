@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class DetalleTestServicioImpl implements DetalleTestServicio{
@@ -32,7 +33,7 @@ public class DetalleTestServicioImpl implements DetalleTestServicio{
      * Los detalletest representan las preguntas previamente configuradas al test.
      */
     @Override
-    public List<DetalleTest> obtenerDetallesTest(String codigoTest) throws Exception {
+    public List<DetalleTest> obtenerDetallesTest(String codigoTest) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONDETALLE).get();
         List<DetalleTest> list = new ArrayList<>();
@@ -51,7 +52,7 @@ public class DetalleTestServicioImpl implements DetalleTestServicio{
      * @param detalleTest detalleTest a guardar
      */
     @Override
-    public void guardarDetalle(DetalleTest detalleTest) throws Exception {
+    public void guardarDetalle(DetalleTest detalleTest) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         dbFirestore.collection(COLECCIONDETALLE).document(Integer.toString(detalleTest.getId())).set(detalleTest);
     }
@@ -63,7 +64,7 @@ public class DetalleTestServicioImpl implements DetalleTestServicio{
      * @return retorna una lista con los detallesTest pertenecientes al usuario y asociados código del test
      */
     @Override
-    public List<DetalleTest> obtenerDetallesTestPresentados(String codigoTest, String idUsuario) throws Exception {
+    public List<DetalleTest> obtenerDetallesTestPresentados(String codigoTest, String idUsuario) throws ExecutionException, InterruptedException{
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONDETALLE).get();
         List<DetalleTest> list = new ArrayList<>();

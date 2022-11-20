@@ -62,7 +62,6 @@ public class ProfesorBean implements Serializable {
         preguntas = preguntaServicio.listarPreguntas();
         this.test = new Test();
 
-        try {
             preguntas = preguntaServicio.listarPreguntas();
             tests = profesorServicio.obtenerProfesor(profesor.getId()).getTestsConfigurados();
             Profesor p = profesorServicio.obtenerProfesor(profesor.getId());
@@ -70,10 +69,7 @@ public class ProfesorBean implements Serializable {
             nombreClases = new ArrayList<>();
             obtenerNombreClases();
             this.test = new Test();
-        } catch (Exception e) {
-            Thread.currentThread().interrupt();
-            throw new RuntimeException(e);
-        }
+
     }
 
     /**

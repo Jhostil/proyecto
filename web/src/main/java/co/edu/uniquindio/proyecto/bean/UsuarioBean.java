@@ -21,6 +21,8 @@ import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 @Component
 @ViewScoped
 public class UsuarioBean implements Serializable {
@@ -78,7 +80,7 @@ public class UsuarioBean implements Serializable {
             u = usuarioServicio.obtenerUsuario(usuarioSesion.getId());
             usuarioClases = usuarioServicio.obtenerClases(u);
         }
-        } catch (Exception e) {
+        } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
 
@@ -134,7 +136,7 @@ public class UsuarioBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLCODCLASE, fm);
         }
         try {
-            UsuarioClase usuarioClase = usuarioClaseServicio.registrarClase(codigoClase, usuarioSesion);
+            usuarioClaseServicio.registrarClase(codigoClase, usuarioSesion);
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Clase agregada con éxito");
             FacesContext.getCurrentInstance().addMessage(CONSTANTGROWLCODCLASE, fm);
             return "/index?faces-redirect=true";

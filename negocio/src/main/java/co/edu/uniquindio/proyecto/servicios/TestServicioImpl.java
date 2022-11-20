@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class TestServicioImpl implements TestServicio {
@@ -35,7 +36,7 @@ public class TestServicioImpl implements TestServicio {
      * @return Retorna una cadena de tipo String indicando el resultado de la validación
      */
     @Override
-    public String validarCodigo(String codigo, String idUsuario) throws Exception {
+    public String validarCodigo(String codigo, String idUsuario){
 
         try {
             Test test = null;
@@ -68,9 +69,9 @@ public class TestServicioImpl implements TestServicio {
      * @return Retorna una lista con los DetalleTest asociados al usuario y al Test.
      */
     @Override
-    public List<DetalleTest> iniciarTest(String codigo, Usuario usuario) throws Exception {
+    public List<DetalleTest> iniciarTest(String codigo, Usuario usuario)throws ExecutionException, InterruptedException {
 
-        try {
+
             Test test = new Test();
             Firestore dbFirestore = FirestoreClient.getFirestore();
             ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Test").whereEqualTo("id",codigo).get();
@@ -100,10 +101,6 @@ public class TestServicioImpl implements TestServicio {
             }
 
             return nuevoTest;
-        }catch (Exception e)
-        {
-            Thread.currentThread().interrupt();
-            throw new Exception(e.getMessage());
-        }
+
     }
 }

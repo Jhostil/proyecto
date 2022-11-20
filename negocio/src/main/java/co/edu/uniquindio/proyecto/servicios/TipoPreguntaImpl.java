@@ -26,11 +26,11 @@ public class TipoPreguntaImpl implements TipoPreguntaServicio {
      * @return Retorna el objeto de tipo TipoPregunta asociado al id ingresado
      */
     @Override
-    public TipoPregunta obtenerTipoPregunta(Integer id) throws Exception {
+    public TipoPregunta obtenerTipoPregunta(Integer id) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Tipo").whereEqualTo("id",id).get();
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()) {
-            throw new Exception("El id no corresponde a ninguna categoría");
+            throw new InterruptedException("El id no corresponde a ninguna categoría");
         }
         TipoPregunta tipoPregunta = null;
         for (DocumentSnapshot aux : querySnapshotApiFuture.get().getDocuments()) {
@@ -45,11 +45,11 @@ public class TipoPreguntaImpl implements TipoPreguntaServicio {
      * @return Retorna un objeto de tipo TipoPregunta asociado al nombre ingresado
      */
     @Override
-    public TipoPregunta obtenerTipoPorNombre(String nombre) throws Exception {
+    public TipoPregunta obtenerTipoPorNombre(String nombre) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Tipo").whereEqualTo("descripcion",nombre).get();
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()) {
-            throw new Exception("El nombre no corresponde a ningun tipo de pregunta");
+            throw new InterruptedException("El nombre no corresponde a ningun tipo de pregunta");
         }
         TipoPregunta tipoPregunta = null;
         for (DocumentSnapshot aux : querySnapshotApiFuture.get().getDocuments()) {
@@ -75,7 +75,7 @@ public class TipoPreguntaImpl implements TipoPreguntaServicio {
             tipos.add(tipoPregunta);
         }
 
-        if (tipos == null || tipos.isEmpty()) {
+        if (tipos.isEmpty()) {
             resultado = false;
         }
         return resultado;
@@ -87,7 +87,7 @@ public class TipoPreguntaImpl implements TipoPreguntaServicio {
      * @return Retorna el objeto guardado
      */
     @Override
-    public TipoPregunta registrarTipo(TipoPregunta tipoPregunta) throws Exception {
+    public TipoPregunta registrarTipo(TipoPregunta tipoPregunta) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         dbFirestore.collection("Tipo").document(Integer.toString(tipoPregunta.getId())).set(tipoPregunta);
         return tipoPregunta;

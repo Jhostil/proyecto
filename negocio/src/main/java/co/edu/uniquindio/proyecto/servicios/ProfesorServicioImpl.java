@@ -40,12 +40,12 @@ public class ProfesorServicioImpl implements ProfesorServicio{
      * @return Retorna un objeto de tipo profesor.
      */
     @Override
-    public Profesor obtenerProfesor(String codigo) throws Exception {
+    public Profesor obtenerProfesor(String codigo) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONPROFESOR).whereEqualTo("id",codigo).get();
 
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()){
-            throw new Exception("El profesor no existe.");
+            throw new InterruptedException("El profesor no existe.");
         }
         Profesor buscado = new Profesor();
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
@@ -73,11 +73,11 @@ public class ProfesorServicioImpl implements ProfesorServicio{
      * @return Retorna un objeto de tipo Profesor.
      */
     @Override
-    public Profesor iniciarSesion(String username, String password) throws Exception {
+    public Profesor iniciarSesion(String username, String password) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONPROFESOR).whereEqualTo("username",username).get();
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()){
-            throw new Exception("Los datos de autenticación son incorrectos");
+            throw new InterruptedException("Los datos de autenticación son incorrectos");
         }
         Profesor profesor = new Profesor();
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
@@ -87,7 +87,7 @@ public class ProfesorServicioImpl implements ProfesorServicio{
         if (strongPasswordEncryptor.checkPassword(password, profesor.getPassword())){
             return profesor;
         } else {
-            throw new Exception("La contraseña es incorrecta");
+            throw new InterruptedException("La contraseña es incorrecta");
         }
     }
 
@@ -97,19 +97,19 @@ public class ProfesorServicioImpl implements ProfesorServicio{
      * @return Retorna el Profesor guardado.
      */
     @Override
-    public Profesor registrarProfesor(Profesor p) throws Exception {
+    public Profesor registrarProfesor(Profesor p) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONPROFESOR).whereEqualTo("id",p.getId()).get();
 
         if (!querySnapshotApiFuture.get().getDocuments().isEmpty()) {
-            throw new Exception("El id del profesor ya existe.");
+            throw new InterruptedException("El id del profesor ya existe.");
         }
 
         if (p.getEmail() != null) {
             querySnapshotApiFuture = dbFirestore.collection(COLECCIONPROFESOR).whereEqualTo("email",p.getEmail()).get();
 
             if (!querySnapshotApiFuture.get().getDocuments().isEmpty()) {
-                throw new Exception("El email del profesor ya existe.");
+                throw new InterruptedException("El email del profesor ya existe.");
             }
 
         }
@@ -117,7 +117,7 @@ public class ProfesorServicioImpl implements ProfesorServicio{
         querySnapshotApiFuture = dbFirestore.collection(COLECCIONPROFESOR).whereEqualTo("username",p.getUsername()).get();
 
         if (!querySnapshotApiFuture.get().getDocuments().isEmpty()) {
-            throw new Exception("El username del profesor ya existe.");
+            throw new InterruptedException("El username del profesor ya existe.");
         }
 
         StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
@@ -128,20 +128,16 @@ public class ProfesorServicioImpl implements ProfesorServicio{
 
         if (fechaAhora - fechaN < 18)
         {
-            throw new Exception("Debe tener más de 18 años de edad");
+            throw new InterruptedException("Debe tener más de 18 años de edad");
         }
 
-        try {
             dbFirestore.collection(COLECCIONPROFESOR).document(p.getId()).set(p);
-        } catch (Exception e)
-        {
-            System.out.println(e);
-        }
+
         return p;
     }
 
     @Override
-    public List<Clase> obtenerClases(Profesor p) throws Exception {
+    public List<Clase> obtenerClases(Profesor p) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Clase").whereEqualTo("profesor.id",p.getId()).get();
         List<Clase> clases = new ArrayList<>();

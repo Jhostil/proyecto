@@ -10,16 +10,12 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QuerySnapshot;
-import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -83,16 +79,13 @@ public class PreguntaServicioImpl implements PreguntaServicio{
      * @return Retorna la pregunta guardada.
      */
     @Override
-    public Pregunta guardarPregunta(Pregunta p) throws Exception {
-        try {
+    public Pregunta guardarPregunta(Pregunta p)  throws ExecutionException, InterruptedException{
+
             Firestore dbFirestore = FirestoreClient.getFirestore();
             p.setId(dbFirestore.collection(COLECCIONPREGUNTA).get().get().getDocuments().size()+1);
             dbFirestore.collection(COLECCIONPREGUNTA).document(Integer.toString(p.getId())).set(p);
             return p;
-        } catch (Exception e) {
-            Thread.currentThread().interrupt();
-            throw new Exception(e.getMessage());
-        }
+
     }
 
     /**
@@ -101,11 +94,11 @@ public class PreguntaServicioImpl implements PreguntaServicio{
      * @return Retorna la pregunta asociada al id.
      */
     @Override
-    public Pregunta obtenerPregunta(Integer codigo) throws Exception {
+    public Pregunta obtenerPregunta(Integer codigo) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONPREGUNTA).whereEqualTo("id",codigo).get();
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()) {
-            throw new Exception("El código de la pregunta no es válido");
+            throw new InterruptedException("El código de la pregunta no es válido");
         }
         Pregunta pregunta = null;
         for (DocumentSnapshot aux:querySnapshotApiFuture.get().getDocuments()) {
@@ -123,9 +116,9 @@ public class PreguntaServicioImpl implements PreguntaServicio{
      * @return Retorna el Test guardado
      */
     @Override
-    public Test generarTest(List<Clase> clases, Profesor profesor, ArrayList<PreguntaTest> preguntaTests) throws Exception{
+    public Test generarTest(List<Clase> clases, Profesor profesor, ArrayList<PreguntaTest> preguntaTests) throws ExecutionException, InterruptedException{
 
-        try {
+
             Test test = new Test();
             test.setProfesor(profesor);
 
@@ -164,10 +157,7 @@ public class PreguntaServicioImpl implements PreguntaServicio{
                 dbFirestore.collection("DetalleTest").document().set(dt);
             }
             return testGuardado;
-        }catch (Exception e){
-            Thread.currentThread().interrupt();
-            throw new Exception(e.getMessage());
-        }
+
     }
 
     /**

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 //Clase que comunica la capa web y la capa de negocio,
 // este bean nos ayuda a realizar la validación de si la respuesta seleccionada es la correcta
@@ -46,7 +47,7 @@ public class DetalleTestBean implements Serializable {
         try {
 
             detalleTestList = detalleTestServicio.obtenerDetallesTestPresentados(codigoTest, usuario.getId());
-        } catch (Exception e) {
+        } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
     }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class UsuarioClaseServicioImpl implements UsuarioClaseServicio{
@@ -27,12 +28,12 @@ public class UsuarioClaseServicioImpl implements UsuarioClaseServicio{
     }
 
     @Override
-    public UsuarioClase registrarClase(String codigoClase, Usuario usuario) throws Exception {
+    public UsuarioClase registrarClase(String codigoClase, Usuario usuario) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("Clase").whereEqualTo("id",codigoClase).get();
 
         if (querySnapshotApiFuture.get().getDocuments().isEmpty()) {
-            throw new Exception("No existe una clase con ese código");
+            throw new InterruptedException("No existe una clase con ese código");
         }
 
         UsuarioClase usuarioClase = new UsuarioClase();
@@ -42,7 +43,7 @@ public class UsuarioClaseServicioImpl implements UsuarioClaseServicio{
         querySnapshotApiFuture = dbFirestore.collection(COLECCIONUSUARIOCLASE).whereEqualTo("usuario.id",usuario.getId()).whereEqualTo("clase.id", codigoClase).get();
 
         if (!querySnapshotApiFuture.get().getDocuments().isEmpty()) {
-            throw new Exception("Ya está registrado en esa clase");
+            throw new InterruptedException("Ya está registrado en esa clase");
         }
         usuarioClase.setUsuario(usuario);
         usuarioClase.setId(dbFirestore.collection(COLECCIONUSUARIOCLASE).get().get().getDocuments().size()+1);
@@ -52,7 +53,7 @@ public class UsuarioClaseServicioImpl implements UsuarioClaseServicio{
     }
 
     @Override
-    public List<Usuario> obtenerAlumnos(String codigoClase) throws Exception {
+    public List<Usuario> obtenerAlumnos(String codigoClase) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONUSUARIOCLASE).whereEqualTo("clase.id",codigoClase).get();
 

@@ -23,6 +23,7 @@ import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Scope("session")
 @Component
@@ -68,6 +69,8 @@ public class SeguridadBean implements Serializable {
     private static final String CONSTANTALERTA = "Alerta";
     private static final String CONSTANTMSJBEAN = "msj-bean";
 
+    private static final String CONSTANTREDIRECTINDEX = "/index.xhtml?faces-redirect=true";
+
     @PostConstruct
     public void inicializar(){
 
@@ -88,7 +91,7 @@ public class SeguridadBean implements Serializable {
                     profesorSesion = profesorServicio.iniciarSesion(username,password);
                     autenticado=true;
                     profesor = true;
-                    return "/index.xhtml?faces-redirect=true";
+                    return CONSTANTREDIRECTINDEX;
                 } catch (Exception g) {
                     try{
                     usuarioSesion = usuarioServicio.iniciarSesion(username, password);
@@ -96,7 +99,7 @@ public class SeguridadBean implements Serializable {
                     autenticado=true;
                     profesor = false;
 
-                    return "/index.xhtml?faces-redirect=true";
+                    return CONSTANTREDIRECTINDEX;
 
                 } catch (Exception e) {
                     FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, e.getMessage());
@@ -118,7 +121,7 @@ public class SeguridadBean implements Serializable {
      */
     public String cerrarSesion(){
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "/index.xhtml?faces-redirect=true";
+        return CONSTANTREDIRECTINDEX;
     }
 
     /**
@@ -161,9 +164,10 @@ public class SeguridadBean implements Serializable {
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message", "El código de acceso al test es: \n" + test.getId());
                 PrimeFaces.current().dialog().showMessageDynamic(message);
 
-            } catch (Exception e) {
+            } catch (InterruptedException | ExecutionException e) {
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, e.getMessage());
                 FacesContext.getCurrentInstance().addMessage(CONSTANTMSJBEAN, fm);
+                Thread.currentThread().interrupt();
             }
         } else {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, CONSTANTALERTA, "El test debe tener 6 preguntas");

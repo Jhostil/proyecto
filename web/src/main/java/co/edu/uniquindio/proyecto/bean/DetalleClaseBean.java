@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Component
 @ViewScoped
@@ -50,17 +51,17 @@ public class DetalleClaseBean implements Serializable {
             try {
                 clase = claseServicio.obtenerClase(codigoClase);
                 alumnosClase = usuarioClaseServicio.obtenerAlumnos(codigoClase);
-            } catch (Exception e) {
+            } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    public List<TestClase> obtenerTestsActivosAlumno () throws Exception {
+    public List<TestClase> obtenerTestsActivosAlumno () throws ExecutionException, InterruptedException {
         return claseServicio.obtenerTestsActivosClase( codigoClase);
     }
 
-    public List<TestClase> obtenerTestsProfesor() throws Exception {
+    public List<TestClase> obtenerTestsProfesor() throws ExecutionException, InterruptedException {
         return claseServicio.obtenerTestsProfesor(codigoClase);
     }
 

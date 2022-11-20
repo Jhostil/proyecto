@@ -6,10 +6,10 @@ import java.util.concurrent.ExecutionException;
 
 public interface TipoPreguntaServicio {
 
-    TipoPregunta obtenerTipoPregunta(Integer id) throws Exception;
+    TipoPregunta obtenerTipoPregunta(Integer id) throws ExecutionException, InterruptedException ;
 
-    TipoPregunta obtenerTipoPorNombre(String nombre) throws Exception;
+    TipoPregunta obtenerTipoPorNombre(String nombre) throws ExecutionException, InterruptedException ;
     boolean existenTipos() throws ExecutionException, InterruptedException;
 
-    TipoPregunta registrarTipo (TipoPregunta tipoPregunta) throws Exception;
+    TipoPregunta registrarTipo (TipoPregunta tipoPregunta) ;
 }

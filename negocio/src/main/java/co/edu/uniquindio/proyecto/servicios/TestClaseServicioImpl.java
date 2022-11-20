@@ -7,13 +7,15 @@ import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.ExecutionException;
+
 @Service
 public class TestClaseServicioImpl implements TestClaseServicio{
 
 
     private static final String COLECCIONTESTCLASE = "TestClase";
     @Override
-    public void habilitarTest(TestClase testClase) throws Exception {
+    public void habilitarTest(TestClase testClase) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONTESTCLASE).whereEqualTo("id",testClase.getId()).get();
         dbFirestore.collection(COLECCIONTESTCLASE).document(querySnapshotApiFuture.get().getDocuments().get(0).getId()).update("activo", true);
@@ -21,7 +23,7 @@ public class TestClaseServicioImpl implements TestClaseServicio{
     }
 
     @Override
-    public void deshabilitarTest(TestClase testClase) throws Exception {
+    public void deshabilitarTest(TestClase testClase) throws ExecutionException, InterruptedException  {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection(COLECCIONTESTCLASE).whereEqualTo("id",testClase.getId()).get();
         dbFirestore.collection(COLECCIONTESTCLASE).document(querySnapshotApiFuture.get().getDocuments().get(0).getId()).update("activo", false);

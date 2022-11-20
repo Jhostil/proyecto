@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 //Clase encargada de la comunicación entre la capa web y capa de negocio,
 // esta clase se enmarca en las funcionalidades que implican
@@ -53,7 +54,7 @@ public class DetallePreguntaBean implements Serializable {
                 pregunta = preguntaServicio.obtenerPregunta(codigo);
                 imagenes = new ArrayList<>();
                 mostrarImagenes();
-            } catch (Exception e) {
+            } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }
         }

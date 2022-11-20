@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class SeguridadFilter implements Filter {
 
-    private final String PAGINAINICIO = "/index.xhtml";
+    private static final String PAGINAINICIO = "/index.xhtml";
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) {
