@@ -24,7 +24,7 @@
                     <div id="info-sesion1" jsf:rendered="#{seguridadBean.autenticado and seguridadBean.profesor}">
                         <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small" style="text-align: center">
                             <li>
-                                <a href="/" class="nav-link text-white">
+                                <a href="/" class="nav-link text-white" style="text-align: left; margin-left: 60px">
                                     <i class="pi pi-home d-block mx-auto mb-1 icon-menu"/>
                                     Inicio
                                 </a>
@@ -70,7 +70,7 @@
                     <p:inputText id="username_login" value="#{seguridadBean.username}" required="true" />
                     <p:message for="username_login" />
                     <p:outputLabel for="password_login" value="Password:" />
-                    <p:password id="password_login" value="#{seguridadBean.password}"  />
+                    <p:password id="password_login" value="#{seguridadBean.password}" required="true" />
                     <p:message for="password_login" />
                 </h:panelGrid>
                 <div style="text-align: center">

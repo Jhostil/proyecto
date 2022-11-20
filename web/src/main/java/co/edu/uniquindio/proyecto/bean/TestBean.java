@@ -138,7 +138,7 @@ public class TestBean implements Serializable {
      * @return Retorna una cadena con la redirección de página
      */
     public String validarCodigo(Usuario usuario) {
-
+        System.out.println("entre");
         if (testClaseSeleccionado != null) {
             codigo = testClaseSeleccionado.getTest().getId();
         }

@@ -141,6 +141,19 @@ public class SeguridadBean implements Serializable {
     }
 
     /**
+     * Método que valida si una pregunta ya fue agregada al a un posible test
+     * @param id id de la pregunta de tipo Integer
+     */
+    public boolean preguntaYaAgregada(Integer id){
+        for (int i = 0; i < preguntaTests.size(); i++) {
+            if (preguntaTests.get(i).getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Método que permite generar un nuevo test previamente configurado por el profesor
      * @param nombreClasesTest Arraylist de tipo String el cual contiene el nombre de las clases a las cuales se
      *                         les va a asociar el nuevo test.

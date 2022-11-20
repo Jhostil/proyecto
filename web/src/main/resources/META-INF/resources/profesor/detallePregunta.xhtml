@@ -17,18 +17,20 @@
                 <p:commandButton icon="pi pi-arrow-left" action="configurarTest?faces-redirect=true"/>
             </div>
             <p:galleria value="#{detallePreguntaBean.imagenes}" var="photo" numVisible="5" style="max-width: 640px">
-                <p:graphicImage url="../../uploads/#{photo}" style="width: 100%" />
+                <p:graphicImage url="../../uploads/#{photo}" style="width: 50%" />
             </p:galleria>
         </div>
         <div style="text-align: center">
-                <h:form class="mt-5">
-                    <p:commandButton value="Añadir al test" icon="pi pi-plus" update="@form" style="background: -moz-radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(253,146,45,1) 100%);"
-                                     action="#{seguridadBean.agregarAlTest(detallePreguntaBean.pregunta.id, detallePreguntaBean.pregunta.pregunta, detallePreguntaBean.pregunta.descripcion)}"/>
-                    <p:growl for="add-cart" showDetail="true"/>
-                </h:form>
+            <h:form class="mt-5">
+                <p:commandButton value="Añadir al test" icon="pi pi-plus" update="@form" style="background: -moz-radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(253,146,45,1) 100%);"
+                                 action="#{seguridadBean.agregarAlTest(detallePreguntaBean.pregunta.id, detallePreguntaBean.pregunta.pregunta, detallePreguntaBean.pregunta.descripcion)}"
+                                 disabled="#{seguridadBean.preguntaYaAgregada(detallePreguntaBean.pregunta.id)}"/>
+                <p:growl for="add-cart" showDetail="true"/>
+            </h:form>
             </div>
-
-        <h2> Tipo: <h:outputText value="#{detallePreguntaBean.pregunta.tipo.descripcion}" escape="false"/></h2>
+        <div >
+            <h2 style="text-align: left; margin-left: 20px"> Tipo: <h:outputText value="#{detallePreguntaBean.pregunta.tipo.descripcion}" escape="false"/></h2>
+        </div>
          <p:panel header="Descripción" styleClass="mt-3" style="color:black" >
             <h:outputText value="#{detallePreguntaBean.pregunta.descripcion}" escape="false" style="color:black!important"/>
         </p:panel>

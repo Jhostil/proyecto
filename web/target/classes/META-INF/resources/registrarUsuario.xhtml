@@ -15,12 +15,12 @@
             <h:form >
                 <h:panelGrid columns="6" cellpadding="5"  styleClass="registro_u"   >
 
-                    <p:outputLabel value="Identifiación:" for="codigo_u"/>
+                    <p:outputLabel value="Identificación:" for="codigo_u"/>
                     <p:inputText id="codigo_u" value="#{usuarioBean.usuario.id}" required="true"/>
                     <p:message for="codigo_u" />
 
                     <p:outputLabel for="fecha_nacimiento_u" value="Fecha de nacimiento:"/>
-                    <p:datePicker id="fecha_nacimiento_u" value="#{usuarioBean.localDate}" locale="es"  monthNavigator="true" yearNavigator="true" showWeek="true" yearRange="1900:2022"/>
+                    <p:datePicker id="fecha_nacimiento_u" value="#{usuarioBean.localDate}" required="true" locale="es"  monthNavigator="true" yearNavigator="true" showWeek="true" yearRange="1900:2022"/>
                     <p:message for="fecha_nacimiento_u" />
 
                     <p:outputLabel value="Nombre:" for="nombre_u"/>
@@ -31,11 +31,11 @@
                     <p:inputText id="apellido_u" value="#{usuarioBean.usuario.apellido}" required="true" validatorMessage="El apellido debe tener entre 2 y 150 caracteres"/>
                     <p:message for="apellido_u" />
 
-                    <p:outputLabel value="Username:" for="username_u"/>
+                    <p:outputLabel value="Usuario:" for="username_u"/>
                     <p:inputText id="username_u" value="#{usuarioBean.usuario.username}" required="true"/>
                     <p:message for="username_u" />
 
-                    <p:outputLabel value="Password:" for="pass_u"/>
+                    <p:outputLabel value="Contraseña:" for="pass_u"/>
                     <p:password id="pass_u" value="#{usuarioBean.usuario.password}" required="true"/>
                     <p:message for="pass_u" />
                 </h:panelGrid>

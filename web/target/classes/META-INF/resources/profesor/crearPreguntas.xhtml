@@ -14,7 +14,6 @@
     <ui:define name="content">
         <div id="test"  jsf:rendered="#{seguridadBean.autenticado}" style="text-align: center">
             <h:form style="text-align: -webkit-center">
-
                 <h:panelGrid columns="3" cellpadding="5" style="width:800px">
                 <p:outputLabel value="Descripción:" for="descripcion_p"/>
                 <p:textEditor id="descripcion_p" value="#{preguntaBean.pregunta.descripcion}" height="100" widht="100" secure="false"/>
