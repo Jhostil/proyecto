@@ -6,6 +6,8 @@ import co.edu.uniquindio.proyecto.entidades.TipoPregunta;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
 import co.edu.uniquindio.proyecto.servicios.PreguntaServicio;
 import co.edu.uniquindio.proyecto.servicios.TipoPreguntaServicio;
+import com.google.cloud.firestore.Firestore;
+import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import lombok.Getter;
@@ -28,6 +30,7 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -100,10 +103,10 @@ public class PreguntaBean implements Serializable {
                     pregunta.setTipo(tipoPregunta);
                     preguntaServicio.guardarPregunta(pregunta);
 
-                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Pregunta creado con éxito");
+                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Pregunta creada con éxito");
                     FacesContext.getCurrentInstance().addMessage("msj-bean", msg);
                 } else {
-                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Pregunta creado con éxito");
+                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Alerta", "Error al crear pregunta");
                     FacesContext.getCurrentInstance().addMessage("msj-bean", msg);
                 }
                 pregunta = new Pregunta();
@@ -172,5 +175,4 @@ public class PreguntaBean implements Serializable {
         }
         return null;
     }
-
 }
