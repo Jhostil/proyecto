@@ -24,6 +24,8 @@ public class Usuario extends Persona implements Serializable {
     @NotBlank(message = "El campo está vacío, debe ingresar un username")
     private String username;
 
+    private int nivel;
+
     //Relacion de uno a muchos con DetalleTest
     @OneToMany(mappedBy = "usuario")
     @JsonIgnore
@@ -41,5 +43,6 @@ public class Usuario extends Persona implements Serializable {
     {
         super(id, nombre, apellido, email, password, fechaNacimiento);
         this.username = username;
+        this.nivel = 0;
     }
 }

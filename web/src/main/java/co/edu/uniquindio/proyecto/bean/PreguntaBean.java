@@ -59,6 +59,10 @@ public class PreguntaBean implements Serializable {
 
     @Getter
     @Setter
+    private String dif;
+
+    @Getter
+    @Setter
     private String correcta;
 
     @Value("web/src/main/resources/META-INF/resources/uploads")
@@ -97,6 +101,7 @@ public class PreguntaBean implements Serializable {
                     {
                         tipoPregunta = tipoPreguntaServicio.obtenerTipoPorNombre("laberinto");
                     }
+                    pregunta.setDificultad(Integer.parseInt(dif));
                     pregunta.setPregunta(preguntaP);
                     pregunta.setCorrecta(correcta);
                     pregunta.setIncorrecta(incorrectas);

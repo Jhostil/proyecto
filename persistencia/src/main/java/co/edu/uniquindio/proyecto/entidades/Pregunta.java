@@ -24,6 +24,8 @@ public class Pregunta implements Serializable {
     @EqualsAndHashCode.Include
     private int id;
 
+    private int dificultad;
+
     //Atributo que representa la descripcion de la pregunta
     @Column(nullable = false)
     @Length(min = 2,  message = "La pregunta debe tener mínimo 2 caracteres")

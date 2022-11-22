@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class TestServicioImpl implements TestServicio {
@@ -118,6 +119,18 @@ public class TestServicioImpl implements TestServicio {
         {
             Thread.currentThread().interrupt();
             throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    public void eliminarRegistrosVacios() throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = dbFirestore.collection("DetalleTest").get();
+        for (DocumentSnapshot aux : querySnapshotApiFuture.get().getDocuments()) {
+            DetalleTest detalleTest = aux.toObject(DetalleTest.class);
+            if (detalleTest.getUsuario() != null && detalleTest.getRespuesta() == null) {
+
+            }
         }
     }
 }

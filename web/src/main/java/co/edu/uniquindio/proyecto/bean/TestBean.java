@@ -1,15 +1,13 @@
 package co.edu.uniquindio.proyecto.bean;
 
 import co.edu.uniquindio.proyecto.entidades.*;
-import co.edu.uniquindio.proyecto.servicios.DetalleTestServicio;
-import co.edu.uniquindio.proyecto.servicios.PreguntaServicio;
-import co.edu.uniquindio.proyecto.servicios.TestClaseServicio;
-import co.edu.uniquindio.proyecto.servicios.TestServicio;
+import co.edu.uniquindio.proyecto.servicios.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.DialogFrameworkOptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -24,10 +22,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Scope("session")
 @Component
@@ -38,6 +38,11 @@ public class TestBean implements Serializable {
 
     @Getter @Setter
     private List<DetalleTest> detalleTestList;
+
+    @Getter
+    @Setter
+    private List<Pregunta> preguntasContestadas;
+
     @Getter @Setter
     public boolean testenproceso;
 
@@ -46,6 +51,9 @@ public class TestBean implements Serializable {
 
     @Autowired
     private TestServicio testServicio;
+
+    @Autowired
+    private UsuarioServicio usuarioServicio;
 
     @Autowired
     private DetalleTestServicio detalleTestServicio;
@@ -89,12 +97,27 @@ public class TestBean implements Serializable {
     @Autowired
     private TestClaseServicio testClaseServicio;
 
+    @Getter
+    @Setter
+    @Value("#{seguridadBean.usuarioSesion}")
+    private Usuario usuario;
+
+    @Getter
+    @Setter
+    private double probabilidad;
+
+    @Getter
+    @Setter
+    private int dificultadPregunta;
+
     @PostConstruct
-    public void inicializar() {
+    public void inicializar() throws ExecutionException, InterruptedException {
+        preguntasContestadas = new ArrayList<>();
+        dificultadPregunta = 0;
+        probabilidad = 0.0;
         testenproceso = false;
         codigo = "";
         respSeleccionada = "";
-        indiceDetalleTestActual = 0;
         descripcionPregunta = "";
         enRevision = false;
         esCorrecta = false;
@@ -102,6 +125,26 @@ public class TestBean implements Serializable {
         calificacion = 0;
         calificacionFinal = "";
         pregFinal = false;
+    }
+
+    private int sacarPreguntaNivelMedio() {
+        for (int i = 0; i < detalleTestList.size(); i++) {
+            if (detalleTestList.get(i).getPregunta().getDificultad() == dificultadPregunta) {
+                System.out.println("pregunta:"+i);
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    public String dificultadText(){
+        Pregunta pregunta = detalleTestList.get(indiceDetalleTestActual).getPregunta();
+        if (pregunta.getDificultad() == -1) {
+            return "Bajo";
+        }else if (pregunta.getDificultad() == 0) {
+            return "Medio";
+        }
+        return "Alto";
     }
 
     /**
@@ -185,6 +228,7 @@ public class TestBean implements Serializable {
     public void iniciarTest(Usuario usuario) throws Exception {
 
         detalleTestList = testServicio.iniciarTest(codigo, usuario);
+        indiceDetalleTestActual = sacarPreguntaNivelMedio();
         obtenerRespuestas();
         this.testenproceso = true;
     }
@@ -230,20 +274,38 @@ public class TestBean implements Serializable {
                 detalleTestServicio.guardarDetalle(detalleTest);
                 esCorrecta = true;
                 calificacion++;
+                preguntasContestadas.add(pregunta);
+                probabilidad = 1/(1+(Math.pow(Math.E,-(usuario.getNivel()-pregunta.getDificultad()))));
+                if (probabilidad < 0.5) {
+                    if (usuario.getNivel() < 1) {
+                        usuario.setNivel(usuario.getNivel()+1);
+                        usuarioServicio.actualizarUsuario(usuario);
+                    }
+                }else if (probabilidad >= 0.5 && dificultadPregunta <1) {
+                    dificultadPregunta = dificultadPregunta+1;
+                }
                 if(calificacion == 1)
                 {
-                    calificacionFinal = "Sacaste " + calificacion + " pregunta buena de 6.";
+                    calificacionFinal = "Sacaste " + calificacion + " pregunta buena de 6.\n" + "Tu nivel es: " + sacarNivel(usuario.getNivel());
                 } else {
-                    calificacionFinal = "Sacaste " + calificacion + " preguntas buenas de 6";
+                    calificacionFinal = "Sacaste " + calificacion + " preguntas buenas de 6\n" + "Tu nivel es: " + sacarNivel(usuario.getNivel());
                 }
             } else {
+                preguntasContestadas.add(pregunta);
+                probabilidad = 1/(1+(Math.pow(Math.E,-(usuario.getNivel()-pregunta.getDificultad()))));
+                if (probabilidad > 0.5 && usuario.getNivel() > -1) {
+                    usuario.setNivel(usuario.getNivel()-1);
+                    usuarioServicio.actualizarUsuario(usuario);
+                }else if (probabilidad <= 0.5 && dificultadPregunta > -1) {
+                    dificultadPregunta--;
+                }
                 //De ser correcta la respuesta se califica con 0 y se guarda en el detalle del test
                 detalleTest.setCalificacion(0);
                 detalleTestServicio.guardarDetalle(detalleTest);
 
             }
             enRevision = true;
-            if(indiceDetalleTestActual == 5){
+            if(preguntasContestadas.size() == 5){
                 pregFinal = true;
             }
             //direcciona la usuario a la siguiente pregunta
@@ -256,18 +318,47 @@ public class TestBean implements Serializable {
         return "";
     }
 
+    private String sacarNivel(int nivel) {
+        if (nivel == 0) {
+            return "Medio";
+        } else if (nivel == 1) {
+            return "Alto";
+        }
+        return "Bajo";
+    }
+
     /**
      * Método que permite obtener la siguiente pregunta del test y redireccionar la página para que cargue la nueva pregunta
      * @return Retorna una cadena con la redirección de página
      */
     public String continuarTest() throws Exception{
+        Pregunta pregunta = detalleTestList.get(indiceDetalleTestActual).getPregunta();
+        boolean flag = true;
 
-        indiceDetalleTestActual++;
+        do {
+            SecureRandom secureRandom = new SecureRandom();
+            // generate numeric
+            int i
+                    = (int)(detalleTestList.size()
+                    * secureRandom.nextDouble());
+            if (detalleTestList.get(i).getPregunta().getDificultad() == dificultadPregunta) {
+                for (int j = 0; j < preguntasContestadas.size(); j++) {
+                    if (preguntasContestadas.get(j).getId() == detalleTestList.get(i).getPregunta().getId()) {
+                        break;
+                    }
+                }
+                if (flag) {
+                    indiceDetalleTestActual = i;
+                    flag = false;
+                }
+            }
+        }while (flag);
+
         esCorrecta = false;
         enRevision = false;
         respSeleccionada = "";
 
-        if (indiceDetalleTestActual == 6) {
+        if (preguntasContestadas.size() == 6) {
             return cerrarTest();
         }
         obtenerRespuestas();

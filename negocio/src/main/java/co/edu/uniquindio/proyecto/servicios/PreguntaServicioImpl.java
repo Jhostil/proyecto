@@ -86,7 +86,7 @@ public class PreguntaServicioImpl implements PreguntaServicio{
     public Pregunta guardarPregunta(Pregunta p) throws Exception {
         try {
             Firestore dbFirestore = FirestoreClient.getFirestore();
-            p.setId(dbFirestore.collection(COLECCIONPREGUNTA).get().get().getDocuments().size()+2);
+            p.setId(dbFirestore.collection(COLECCIONPREGUNTA).get().get().getDocuments().size()+1);
             dbFirestore.collection(COLECCIONPREGUNTA).document(Integer.toString(p.getId())).set(p);
             return p;
         } catch (Exception e) {

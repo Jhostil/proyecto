@@ -160,7 +160,7 @@ public class SeguridadBean implements Serializable {
      */
     public void generarTest(String[] nombreClasesTest){
 
-        if(profesorServicio != null && preguntaTests.size() == 6){
+        if(profesorServicio != null && preguntaTests.size() == 18){
             try {
                 List<Clase> clases = new ArrayList<>();
                 if (nombreClasesTest.length != 0 ){

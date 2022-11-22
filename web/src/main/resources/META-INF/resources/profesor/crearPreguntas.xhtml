@@ -34,6 +34,13 @@
                         <f:selectItem itemLabel="Laberinto" itemValue="laberinto"/>
                         <f:selectItem itemLabel="Cuestionario" itemValue="cuestionario"/>
                     </p:selectOneMenu>
+                    <p:selectOneMenu id="dif" value="#{preguntaBean.dif}"
+                                     hideNoSelectionOption="#{not empty selectOneMenuView.hideNoSelectOption}">
+                        <p:ajax update="@this" process="@this"/>
+                        <f:selectItem itemLabel="Alta" itemValue="1"/>
+                        <f:selectItem itemLabel="Media" itemValue="0"/>
+                        <f:selectItem itemLabel="Baja" itemValue="-1"/>
+                    </p:selectOneMenu>
                 </h:panelGrid>
                 <h:panelGrid columns="6" cellpadding="5">
                     <p:outputLabel value="Respuesta correcta:" for="img_correcta"/>
